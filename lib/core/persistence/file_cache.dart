@@ -3,11 +3,17 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
-final fileCacheProvider = Provider<FileCache>((ref) {
+final fileCacheProvider = Provider<StringCache>((ref) {
   return FileCache();
 });
 
-class FileCache {
+abstract class StringCache {
+  Future<String?> readString(String key);
+  Future<void> writeString(String key, String value);
+  Future<void> delete(String key);
+}
+
+class FileCache implements StringCache {
   FileCache({Directory? directory}) : _directory = directory;
 
   Directory? _directory;
@@ -48,5 +54,24 @@ class FileCache {
     } catch (_) {
       // ignore
     }
+  }
+}
+
+class MemoryCache implements StringCache {
+  final Map<String, String> _store = <String, String>{};
+
+  @override
+  Future<String?> readString(String key) async {
+    return _store[key];
+  }
+
+  @override
+  Future<void> writeString(String key, String value) async {
+    _store[key] = value;
+  }
+
+  @override
+  Future<void> delete(String key) async {
+    _store.remove(key);
   }
 }

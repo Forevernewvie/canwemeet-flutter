@@ -25,7 +25,7 @@ class ContentStore {
   static const _curatedCacheKey = 'curated_sentences_200_v1.json';
   static const _patternsCacheKey = 'patterns_v1.json';
 
-  final FileCache fileCache;
+  final StringCache fileCache;
   final ManifestClient manifestClient;
 
   List<Sentence>? _sentences;
