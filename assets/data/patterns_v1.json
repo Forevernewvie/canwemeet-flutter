@@ -1,0 +1,292 @@
+[
+  {
+    "id": "p0001",
+    "title": "Do you want to ...?",
+    "exampleEnglish": "Do you want to grab dinner?",
+    "exampleKorean": "저녁 먹으러 갈래?",
+    "tip": "가볍게 데이트를 제안할 때.",
+    "tags": ["date"],
+    "slotTemplate": "Do you want to {verb} {obj}?",
+    "slots": [
+      { "key": "verb", "hint": "grab/go/watch" },
+      { "key": "obj", "hint": "dinner/a walk/a movie" }
+    ]
+  },
+  {
+    "id": "p0002",
+    "title": "How about ... tonight?",
+    "exampleEnglish": "How about a walk tonight?",
+    "exampleKorean": "오늘 밤 산책 어때?",
+    "tip": "부담 없이 가벼운 데이트를 제안할 때.",
+    "tags": ["date"],
+    "slotTemplate": "How about {activity} tonight?",
+    "slots": [
+      { "key": "activity", "hint": "a walk/cafe hopping/ramen" }
+    ]
+  },
+  {
+    "id": "p0003",
+    "title": "Would you like to ... with me?",
+    "exampleEnglish": "Would you like to go to the new cafe with me?",
+    "exampleKorean": "나랑 새 카페 가볼래?",
+    "tip": "상대의 선택권을 존중하는 제안 표현.",
+    "tags": ["date"],
+    "slotTemplate": "Would you like to {verb} with me?",
+    "slots": [
+      { "key": "verb", "hint": "go to the new cafe/watch a movie/visit the park" }
+    ]
+  },
+  {
+    "id": "p0004",
+    "title": "Let's ... after work.",
+    "exampleEnglish": "Let's meet after work.",
+    "exampleKorean": "퇴근하고 만나자.",
+    "tip": "짧고 자연스러운 데이트 약속 잡기.",
+    "tags": ["date"],
+    "slotTemplate": "Let's {plan} after work.",
+    "slots": [
+      { "key": "plan", "hint": "meet/get dinner/take a walk" }
+    ]
+  },
+  {
+    "id": "p0005",
+    "title": "I felt ... when ...",
+    "exampleEnglish": "I felt hurt when you left without saying anything.",
+    "exampleKorean": "아무 말 없이 나갔을 때 속상했어.",
+    "tip": "비난 대신 감정 중심으로 갈등을 말할 때.",
+    "tags": ["conflict"],
+    "slotTemplate": "I felt {feeling} when {event}.",
+    "slots": [
+      { "key": "feeling", "hint": "hurt/upset/anxious" },
+      { "key": "event", "hint": "you canceled suddenly/you ignored my text" }
+    ]
+  },
+  {
+    "id": "p0006",
+    "title": "Can we talk about ... calmly?",
+    "exampleEnglish": "Can we talk about this calmly?",
+    "exampleKorean": "이 얘기 차분하게 해볼까?",
+    "tip": "감정이 올라올 때 톤을 낮추는 문장.",
+    "tags": ["conflict"],
+    "slotTemplate": "Can we talk about {topic} calmly?",
+    "slots": [
+      { "key": "topic", "hint": "this issue/what happened/our plan" }
+    ]
+  },
+  {
+    "id": "p0007",
+    "title": "I need a minute to ...",
+    "exampleEnglish": "I need a minute to think.",
+    "exampleKorean": "잠깐 생각할 시간이 필요해.",
+    "tip": "갈등 중 멈춤이 필요할 때.",
+    "tags": ["conflict"],
+    "slotTemplate": "I need a minute to {verb}.",
+    "slots": [
+      { "key": "verb", "hint": "think/calm down/process this" }
+    ]
+  },
+  {
+    "id": "p0008",
+    "title": "Let's focus on ... not ...",
+    "exampleEnglish": "Let's focus on the issue, not blaming each other.",
+    "exampleKorean": "서로 탓하지 말고 문제에 집중하자.",
+    "tip": "갈등을 해결 모드로 전환할 때.",
+    "tags": ["conflict"],
+    "slotTemplate": "Let's focus on {good}, not {bad}.",
+    "slots": [
+      { "key": "good", "hint": "the issue/solution/next step" },
+      { "key": "bad", "hint": "blaming each other/the past" }
+    ]
+  },
+  {
+    "id": "p0009",
+    "title": "I really appreciate ...",
+    "exampleEnglish": "I really appreciate how thoughtful you are.",
+    "exampleKorean": "네가 이렇게 배려해줘서 정말 고마워.",
+    "tip": "칭찬을 구체적으로 말하면 진정성이 올라감.",
+    "tags": ["compliment"],
+    "slotTemplate": "I really appreciate {quality}.",
+    "slots": [
+      { "key": "quality", "hint": "your kindness/your patience/your effort" }
+    ]
+  },
+  {
+    "id": "p0010",
+    "title": "I love how you ...",
+    "exampleEnglish": "I love how you always listen carefully.",
+    "exampleKorean": "네가 항상 잘 들어주는 게 너무 좋아.",
+    "tip": "행동 칭찬에 좋은 패턴.",
+    "tags": ["compliment"],
+    "slotTemplate": "I love how you {behavior}.",
+    "slots": [
+      { "key": "behavior", "hint": "listen carefully/stay calm/make me laugh" }
+    ]
+  },
+  {
+    "id": "p0011",
+    "title": "I'm proud of you for ...",
+    "exampleEnglish": "I'm proud of you for sticking with your plan.",
+    "exampleKorean": "계획을 끝까지 지킨 거 정말 대단해.",
+    "tip": "성과/노력 칭찬에 적합.",
+    "tags": ["compliment"],
+    "slotTemplate": "I'm proud of you for {achievement}.",
+    "slots": [
+      { "key": "achievement", "hint": "finishing that project/trying again" }
+    ]
+  },
+  {
+    "id": "p0012",
+    "title": "That was really ... of you.",
+    "exampleEnglish": "That was really thoughtful of you.",
+    "exampleKorean": "정말 센스 있었어.",
+    "tip": "짧게 칭찬할 때 자연스러운 표현.",
+    "tags": ["compliment"],
+    "slotTemplate": "That was really {adj} of you.",
+    "slots": [
+      { "key": "adj", "hint": "thoughtful/sweet/helpful" }
+    ]
+  },
+  {
+    "id": "p0013",
+    "title": "I'm sorry for ...",
+    "exampleEnglish": "I'm sorry for being late.",
+    "exampleKorean": "늦어서 미안해.",
+    "tip": "사과 + 이유를 간단히 말할 때.",
+    "tags": ["sorry"],
+    "slotTemplate": "I'm sorry for {reason}.",
+    "slots": [
+      { "key": "reason", "hint": "being late/not replying sooner" }
+    ]
+  },
+  {
+    "id": "p0014",
+    "title": "I should have ...",
+    "exampleEnglish": "I should have told you earlier.",
+    "exampleKorean": "더 일찍 말했어야 했어.",
+    "tip": "책임을 인정하는 사과에 유용.",
+    "tags": ["sorry"],
+    "slotTemplate": "I should have {pastAction}.",
+    "slots": [
+      { "key": "pastAction", "hint": "called you/told you earlier/checked first" }
+    ]
+  },
+  {
+    "id": "p0015",
+    "title": "Thanks for being patient with me.",
+    "exampleEnglish": "Thanks for being patient with me.",
+    "exampleKorean": "기다려줘서 고마워.",
+    "tip": "사과 뒤 관계를 부드럽게 회복할 때.",
+    "tags": ["sorry"],
+    "slotTemplate": "Thanks for being patient with me.",
+    "slots": []
+  },
+  {
+    "id": "p0016",
+    "title": "I didn't mean to ..., and I'm sorry.",
+    "exampleEnglish": "I didn't mean to hurt you, and I'm sorry.",
+    "exampleKorean": "상처 주려던 건 아니었어, 미안해.",
+    "tip": "의도는 아니었음을 설명할 때.",
+    "tags": ["sorry"],
+    "slotTemplate": "I didn't mean to {action}, and I'm sorry.",
+    "slots": [
+      { "key": "action", "hint": "hurt you/upset you/sound rude" }
+    ]
+  },
+  {
+    "id": "p0017",
+    "title": "Could you ... for me?",
+    "exampleEnglish": "Could you pick up some milk for me?",
+    "exampleKorean": "우유 좀 사다 줄래?",
+    "tip": "일상에서 정중한 부탁.",
+    "tags": ["daily"],
+    "slotTemplate": "Could you {task} for me?",
+    "slots": [
+      { "key": "task", "hint": "pick up milk/check the mail/wash the dishes" }
+    ]
+  },
+  {
+    "id": "p0018",
+    "title": "I'm going to ... first.",
+    "exampleEnglish": "I'm going to shower first.",
+    "exampleKorean": "나 먼저 샤워할게.",
+    "tip": "생활 루틴을 자연스럽게 말할 때.",
+    "tags": ["daily"],
+    "slotTemplate": "I'm going to {routine} first.",
+    "slots": [
+      { "key": "routine", "hint": "shower/cook/stretch" }
+    ]
+  },
+  {
+    "id": "p0019",
+    "title": "Do we have ... at home?",
+    "exampleEnglish": "Do we have eggs at home?",
+    "exampleKorean": "집에 계란 있어?",
+    "tip": "장보기 전 확인할 때.",
+    "tags": ["daily"],
+    "slotTemplate": "Do we have {item} at home?",
+    "slots": [
+      { "key": "item", "hint": "eggs/toilet paper/coffee" }
+    ]
+  },
+  {
+    "id": "p0020",
+    "title": "Can you help me with ...?",
+    "exampleEnglish": "Can you help me with laundry?",
+    "exampleKorean": "빨래 좀 도와줄래?",
+    "tip": "일상 협업 요청에 적합.",
+    "tags": ["daily"],
+    "slotTemplate": "Can you help me with {chore}?",
+    "slots": [
+      { "key": "chore", "hint": "laundry/dishes/organizing" }
+    ]
+  },
+  {
+    "id": "p0021",
+    "title": "What do you mean by ...?",
+    "exampleEnglish": "What do you mean by \"later\"?",
+    "exampleKorean": "\"나중에\"가 정확히 언제야?",
+    "tip": "모호한 표현을 구체화할 때.",
+    "tags": ["clarify"],
+    "slotTemplate": "What do you mean by '{word}'?",
+    "slots": [
+      { "key": "word", "hint": "later/soon/maybe" }
+    ]
+  },
+  {
+    "id": "p0022",
+    "title": "Just to make sure, do you mean ...?",
+    "exampleEnglish": "Just to make sure, do you mean 7 p.m.?",
+    "exampleKorean": "확인차 물어보는데, 7시라는 뜻이야?",
+    "tip": "일정을 재확인할 때 실수 예방.",
+    "tags": ["clarify"],
+    "slotTemplate": "Just to make sure, do you mean {detail}?",
+    "slots": [
+      { "key": "detail", "hint": "7 p.m./this Friday/at your place" }
+    ]
+  },
+  {
+    "id": "p0023",
+    "title": "When you say ..., are you saying ...?",
+    "exampleEnglish": "When you say \"busy\", are you saying you can't join?",
+    "exampleKorean": "\"바빠\"라고 한 건 못 온다는 뜻이야?",
+    "tip": "의도를 추측하지 않고 확인할 때.",
+    "tags": ["clarify"],
+    "slotTemplate": "When you say {word}, are you saying {interpretation}?",
+    "slots": [
+      { "key": "word", "hint": "busy/not sure" },
+      { "key": "interpretation", "hint": "you can't join/you need more time" }
+    ]
+  },
+  {
+    "id": "p0024",
+    "title": "Can I confirm one thing about ...?",
+    "exampleEnglish": "Can I confirm one thing about our plan tonight?",
+    "exampleKorean": "오늘 계획 하나만 확인해도 될까?",
+    "tip": "대화 흐름을 끊지 않고 확인할 때.",
+    "tags": ["clarify"],
+    "slotTemplate": "Can I confirm one thing about {topic}?",
+    "slots": [
+      { "key": "topic", "hint": "our plan/the time/the budget" }
+    ]
+  }
+]

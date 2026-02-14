@@ -1,0 +1,2202 @@
+[
+  {
+    "id": "c0001",
+    "english": "Do you want to grab coffee tonight?",
+    "korean": "오늘 저녁에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0002",
+    "english": "Do you want to grab coffee tomorrow evening?",
+    "korean": "내일 저녁에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0003",
+    "english": "Do you want to grab coffee this Friday evening?",
+    "korean": "이번 주 금요일 저녁에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0004",
+    "english": "Do you want to grab coffee this Saturday afternoon?",
+    "korean": "이번 주 토요일 오후에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0005",
+    "english": "Do you want to grab coffee this Sunday morning?",
+    "korean": "이번 주 일요일 오전에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0006",
+    "english": "Do you want to grab coffee after work?",
+    "korean": "퇴근 후에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0007",
+    "english": "Do you want to grab coffee after dinner?",
+    "korean": "저녁 먹고에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0008",
+    "english": "Do you want to grab coffee next week?",
+    "korean": "다음 주에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0009",
+    "english": "Do you want to grab coffee this weekend?",
+    "korean": "이번 주말에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0010",
+    "english": "Do you want to grab coffee on your day off?",
+    "korean": "쉬는 날에 같이 커피 마실래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0011",
+    "english": "Do you want to have dinner tonight?",
+    "korean": "오늘 저녁에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0012",
+    "english": "Do you want to have dinner tomorrow evening?",
+    "korean": "내일 저녁에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0013",
+    "english": "Do you want to have dinner this Friday evening?",
+    "korean": "이번 주 금요일 저녁에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0014",
+    "english": "Do you want to have dinner this Saturday afternoon?",
+    "korean": "이번 주 토요일 오후에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0015",
+    "english": "Do you want to have dinner this Sunday morning?",
+    "korean": "이번 주 일요일 오전에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0016",
+    "english": "Do you want to have dinner after work?",
+    "korean": "퇴근 후에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0017",
+    "english": "Do you want to have dinner after dinner?",
+    "korean": "저녁 먹고에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0018",
+    "english": "Do you want to have dinner next week?",
+    "korean": "다음 주에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0019",
+    "english": "Do you want to have dinner this weekend?",
+    "korean": "이번 주말에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0020",
+    "english": "Do you want to have dinner on your day off?",
+    "korean": "쉬는 날에 같이 저녁 먹을래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0021",
+    "english": "Do you want to take a walk tonight?",
+    "korean": "오늘 저녁에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0022",
+    "english": "Do you want to take a walk tomorrow evening?",
+    "korean": "내일 저녁에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0023",
+    "english": "Do you want to take a walk this Friday evening?",
+    "korean": "이번 주 금요일 저녁에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0024",
+    "english": "Do you want to take a walk this Saturday afternoon?",
+    "korean": "이번 주 토요일 오후에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0025",
+    "english": "Do you want to take a walk this Sunday morning?",
+    "korean": "이번 주 일요일 오전에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0026",
+    "english": "Do you want to take a walk after work?",
+    "korean": "퇴근 후에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0027",
+    "english": "Do you want to take a walk after dinner?",
+    "korean": "저녁 먹고에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0028",
+    "english": "Do you want to take a walk next week?",
+    "korean": "다음 주에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0029",
+    "english": "Do you want to take a walk this weekend?",
+    "korean": "이번 주말에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0030",
+    "english": "Do you want to take a walk on your day off?",
+    "korean": "쉬는 날에 같이 산책할래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0031",
+    "english": "Do you want to watch a movie tonight?",
+    "korean": "오늘 저녁에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0032",
+    "english": "Do you want to watch a movie tomorrow evening?",
+    "korean": "내일 저녁에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0033",
+    "english": "Do you want to watch a movie this Friday evening?",
+    "korean": "이번 주 금요일 저녁에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0034",
+    "english": "Do you want to watch a movie this Saturday afternoon?",
+    "korean": "이번 주 토요일 오후에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0035",
+    "english": "Do you want to watch a movie this Sunday morning?",
+    "korean": "이번 주 일요일 오전에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0036",
+    "english": "Do you want to watch a movie after work?",
+    "korean": "퇴근 후에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "sweet",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0037",
+    "english": "Do you want to watch a movie after dinner?",
+    "korean": "저녁 먹고에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "playful",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0038",
+    "english": "Do you want to watch a movie next week?",
+    "korean": "다음 주에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "gentle",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0039",
+    "english": "Do you want to watch a movie this weekend?",
+    "korean": "이번 주말에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "neutral",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0040",
+    "english": "Do you want to watch a movie on your day off?",
+    "korean": "쉬는 날에 같이 영화 볼래?",
+    "tags": [
+      "date"
+    ],
+    "tone": "serious",
+    "usageLabel": "데이트/약속",
+    "patternHint": null
+  },
+  {
+    "id": "c0041",
+    "english": "Did you eat on time today?",
+    "korean": "오늘 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0042",
+    "english": "Did you eat on time this morning?",
+    "korean": "오늘 아침 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0043",
+    "english": "Did you eat on time this afternoon?",
+    "korean": "오늘 오후 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0044",
+    "english": "Did you eat on time this evening?",
+    "korean": "오늘 저녁 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0045",
+    "english": "Did you eat on time at work?",
+    "korean": "회사에서 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0046",
+    "english": "Did you eat on time at home?",
+    "korean": "집에서 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0047",
+    "english": "Did you eat on time during your break?",
+    "korean": "쉬는 시간에 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0048",
+    "english": "Did you eat on time on your way home?",
+    "korean": "집에 가는 길에 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0049",
+    "english": "Did you eat on time before bed?",
+    "korean": "자기 전에 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0050",
+    "english": "Did you eat on time after lunch?",
+    "korean": "점심 먹고 제시간에 밥 먹었어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0051",
+    "english": "Did you drink enough water today?",
+    "korean": "오늘 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0052",
+    "english": "Did you drink enough water this morning?",
+    "korean": "오늘 아침 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0053",
+    "english": "Did you drink enough water this afternoon?",
+    "korean": "오늘 오후 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0054",
+    "english": "Did you drink enough water this evening?",
+    "korean": "오늘 저녁 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0055",
+    "english": "Did you drink enough water at work?",
+    "korean": "회사에서 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0056",
+    "english": "Did you drink enough water at home?",
+    "korean": "집에서 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0057",
+    "english": "Did you drink enough water during your break?",
+    "korean": "쉬는 시간에 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0058",
+    "english": "Did you drink enough water on your way home?",
+    "korean": "집에 가는 길에 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0059",
+    "english": "Did you drink enough water before bed?",
+    "korean": "자기 전에 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0060",
+    "english": "Did you drink enough water after lunch?",
+    "korean": "점심 먹고 물 충분히 마셨어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0061",
+    "english": "Did you take a short walk today?",
+    "korean": "오늘 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0062",
+    "english": "Did you take a short walk this morning?",
+    "korean": "오늘 아침 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0063",
+    "english": "Did you take a short walk this afternoon?",
+    "korean": "오늘 오후 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0064",
+    "english": "Did you take a short walk this evening?",
+    "korean": "오늘 저녁 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0065",
+    "english": "Did you take a short walk at work?",
+    "korean": "회사에서 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0066",
+    "english": "Did you take a short walk at home?",
+    "korean": "집에서 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0067",
+    "english": "Did you take a short walk during your break?",
+    "korean": "쉬는 시간에 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0068",
+    "english": "Did you take a short walk on your way home?",
+    "korean": "집에 가는 길에 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0069",
+    "english": "Did you take a short walk before bed?",
+    "korean": "자기 전에 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0070",
+    "english": "Did you take a short walk after lunch?",
+    "korean": "점심 먹고 짧게 산책했어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0071",
+    "english": "Did you finish your work early today?",
+    "korean": "오늘 일 일찍 끝냈어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "gentle",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0072",
+    "english": "Did you finish your work early this morning?",
+    "korean": "오늘 아침 일 일찍 끝냈어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "neutral",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0073",
+    "english": "Did you finish your work early this afternoon?",
+    "korean": "오늘 오후 일 일찍 끝냈어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "playful",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0074",
+    "english": "Did you finish your work early this evening?",
+    "korean": "오늘 저녁 일 일찍 끝냈어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "sweet",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0075",
+    "english": "Did you finish your work early at work?",
+    "korean": "회사에서 일 일찍 끝냈어?",
+    "tags": [
+      "daily"
+    ],
+    "tone": "serious",
+    "usageLabel": "일상",
+    "patternHint": null
+  },
+  {
+    "id": "c0076",
+    "english": "Thank you for listening to me carefully, even on busy days.",
+    "korean": "바쁜 날에도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0077",
+    "english": "Thank you for listening to me carefully, when things get hard.",
+    "korean": "힘든 상황에서도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0078",
+    "english": "Thank you for listening to me carefully, in small moments.",
+    "korean": "사소한 순간에도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0079",
+    "english": "Thank you for listening to me carefully, around your friends.",
+    "korean": "친구들 앞에서도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0080",
+    "english": "Thank you for listening to me carefully, with your family.",
+    "korean": "가족과 있을 때도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0081",
+    "english": "Thank you for listening to me carefully, at work.",
+    "korean": "회사에서도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0082",
+    "english": "Thank you for listening to me carefully, during difficult conversations.",
+    "korean": "어려운 대화 중에도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0083",
+    "english": "Thank you for listening to me carefully, when we disagree.",
+    "korean": "우리가 의견이 다를 때도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0084",
+    "english": "Thank you for listening to me carefully, in everyday life.",
+    "korean": "일상에서도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0085",
+    "english": "Thank you for listening to me carefully, without trying too hard.",
+    "korean": "억지로 꾸미지 않아도 내 얘기 잘 들어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0086",
+    "english": "Thank you for staying with me when I am stressed, even on busy days.",
+    "korean": "바쁜 날에도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0087",
+    "english": "Thank you for staying with me when I am stressed, when things get hard.",
+    "korean": "힘든 상황에서도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0088",
+    "english": "Thank you for staying with me when I am stressed, in small moments.",
+    "korean": "사소한 순간에도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0089",
+    "english": "Thank you for staying with me when I am stressed, around your friends.",
+    "korean": "친구들 앞에서도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0090",
+    "english": "Thank you for staying with me when I am stressed, with your family.",
+    "korean": "가족과 있을 때도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0091",
+    "english": "Thank you for staying with me when I am stressed, at work.",
+    "korean": "회사에서도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0092",
+    "english": "Thank you for staying with me when I am stressed, during difficult conversations.",
+    "korean": "어려운 대화 중에도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0093",
+    "english": "Thank you for staying with me when I am stressed, when we disagree.",
+    "korean": "우리가 의견이 다를 때도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0094",
+    "english": "Thank you for staying with me when I am stressed, in everyday life.",
+    "korean": "일상에서도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0095",
+    "english": "Thank you for staying with me when I am stressed, without trying too hard.",
+    "korean": "억지로 꾸미지 않아도 내가 힘들 때 곁에 있어줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0096",
+    "english": "Thank you for encouraging me, even on busy days.",
+    "korean": "바쁜 날에도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0097",
+    "english": "Thank you for encouraging me, when things get hard.",
+    "korean": "힘든 상황에서도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0098",
+    "english": "Thank you for encouraging me, in small moments.",
+    "korean": "사소한 순간에도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0099",
+    "english": "Thank you for encouraging me, around your friends.",
+    "korean": "친구들 앞에서도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0100",
+    "english": "Thank you for encouraging me, with your family.",
+    "korean": "가족과 있을 때도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0101",
+    "english": "Thank you for encouraging me, at work.",
+    "korean": "회사에서도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0102",
+    "english": "Thank you for encouraging me, during difficult conversations.",
+    "korean": "어려운 대화 중에도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0103",
+    "english": "Thank you for encouraging me, when we disagree.",
+    "korean": "우리가 의견이 다를 때도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0104",
+    "english": "Thank you for encouraging me, in everyday life.",
+    "korean": "일상에서도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0105",
+    "english": "Thank you for encouraging me, without trying too hard.",
+    "korean": "억지로 꾸미지 않아도 나를 응원해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0106",
+    "english": "Thank you for making me laugh, even on busy days.",
+    "korean": "바쁜 날에도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0107",
+    "english": "Thank you for making me laugh, when things get hard.",
+    "korean": "힘든 상황에서도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0108",
+    "english": "Thank you for making me laugh, in small moments.",
+    "korean": "사소한 순간에도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0109",
+    "english": "Thank you for making me laugh, around your friends.",
+    "korean": "친구들 앞에서도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0110",
+    "english": "Thank you for making me laugh, with your family.",
+    "korean": "가족과 있을 때도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0111",
+    "english": "Thank you for making me laugh, at work.",
+    "korean": "회사에서도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "gentle",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0112",
+    "english": "Thank you for making me laugh, during difficult conversations.",
+    "korean": "어려운 대화 중에도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "sweet",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0113",
+    "english": "Thank you for making me laugh, when we disagree.",
+    "korean": "우리가 의견이 다를 때도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "playful",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0114",
+    "english": "Thank you for making me laugh, in everyday life.",
+    "korean": "일상에서도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "neutral",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0115",
+    "english": "Thank you for making me laugh, without trying too hard.",
+    "korean": "억지로 꾸미지 않아도 나를 웃게 해줘서 고마워.",
+    "tags": [
+      "compliment"
+    ],
+    "tone": "serious",
+    "usageLabel": "칭찬/애정",
+    "patternHint": null
+  },
+  {
+    "id": "c0116",
+    "english": "I am sorry for being late.",
+    "korean": "늦어서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "serious",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0117",
+    "english": "I am sorry for not replying sooner.",
+    "korean": "답장이 늦어서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "gentle",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0118",
+    "english": "I am sorry for missing your call.",
+    "korean": "네 전화를 못 받아서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "neutral",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0119",
+    "english": "I am sorry for speaking too harshly.",
+    "korean": "말을 너무 세게 해서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "sweet",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0120",
+    "english": "I am sorry for forgetting our plan.",
+    "korean": "우리 약속을 깜빡해서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "playful",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0121",
+    "english": "I am sorry for making you wait.",
+    "korean": "기다리게 해서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "serious",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0122",
+    "english": "I am sorry for not listening carefully.",
+    "korean": "제대로 듣지 못해서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "gentle",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0123",
+    "english": "I am sorry for overreacting.",
+    "korean": "과하게 반응해서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "neutral",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0124",
+    "english": "I am sorry for assuming too quickly.",
+    "korean": "성급하게 단정해서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "sweet",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0125",
+    "english": "I am sorry for bringing up the past.",
+    "korean": "지난 일을 꺼내서 미안해.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "playful",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0126",
+    "english": "I am sorry for being late. I will be more careful next time.",
+    "korean": "늦어서 미안해. 다음에는 더 조심할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "serious",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0127",
+    "english": "I am sorry for being late. I will communicate earlier.",
+    "korean": "늦어서 미안해. 앞으로는 더 일찍 말할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "gentle",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0128",
+    "english": "I am sorry for being late. I will listen first.",
+    "korean": "늦어서 미안해. 먼저 잘 들을게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "neutral",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0129",
+    "english": "I am sorry for being late. I will keep my promise.",
+    "korean": "늦어서 미안해. 약속 꼭 지킬게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "sweet",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0130",
+    "english": "I am sorry for being late. I will fix this properly.",
+    "korean": "늦어서 미안해. 이번에는 제대로 바로잡을게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "playful",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0131",
+    "english": "I am sorry for being late. I will not repeat this.",
+    "korean": "늦어서 미안해. 같은 실수 반복하지 않을게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "serious",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0132",
+    "english": "I am sorry for being late. I will explain clearly.",
+    "korean": "늦어서 미안해. 분명하게 설명할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "gentle",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0133",
+    "english": "I am sorry for being late. I will make time for us.",
+    "korean": "늦어서 미안해. 우리 시간을 꼭 만들게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "neutral",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0134",
+    "english": "I am sorry for being late. I will slow down before reacting.",
+    "korean": "늦어서 미안해. 반응하기 전에 한 번 더 생각할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "sweet",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0135",
+    "english": "I am sorry for being late. I will check in with you first.",
+    "korean": "늦어서 미안해. 먼저 네 입장을 확인할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "playful",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0136",
+    "english": "I am sorry for not replying sooner. I will be more careful next time.",
+    "korean": "답장이 늦어서 미안해. 다음에는 더 조심할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "serious",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0137",
+    "english": "I am sorry for not replying sooner. I will communicate earlier.",
+    "korean": "답장이 늦어서 미안해. 앞으로는 더 일찍 말할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "gentle",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0138",
+    "english": "I am sorry for not replying sooner. I will listen first.",
+    "korean": "답장이 늦어서 미안해. 먼저 잘 들을게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "neutral",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0139",
+    "english": "I am sorry for not replying sooner. I will keep my promise.",
+    "korean": "답장이 늦어서 미안해. 약속 꼭 지킬게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "sweet",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0140",
+    "english": "I am sorry for not replying sooner. I will fix this properly.",
+    "korean": "답장이 늦어서 미안해. 이번에는 제대로 바로잡을게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "playful",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0141",
+    "english": "I am sorry for not replying sooner. I will not repeat this.",
+    "korean": "답장이 늦어서 미안해. 같은 실수 반복하지 않을게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "serious",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0142",
+    "english": "I am sorry for not replying sooner. I will explain clearly.",
+    "korean": "답장이 늦어서 미안해. 분명하게 설명할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "gentle",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0143",
+    "english": "I am sorry for not replying sooner. I will make time for us.",
+    "korean": "답장이 늦어서 미안해. 우리 시간을 꼭 만들게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "neutral",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0144",
+    "english": "I am sorry for not replying sooner. I will slow down before reacting.",
+    "korean": "답장이 늦어서 미안해. 반응하기 전에 한 번 더 생각할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "sweet",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0145",
+    "english": "I am sorry for not replying sooner. I will check in with you first.",
+    "korean": "답장이 늦어서 미안해. 먼저 네 입장을 확인할게.",
+    "tags": [
+      "sorry"
+    ],
+    "tone": "playful",
+    "usageLabel": "사과/화해",
+    "patternHint": null
+  },
+  {
+    "id": "c0146",
+    "english": "I feel hurt when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 속상해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "serious",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0147",
+    "english": "I feel anxious when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 불안해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "neutral",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0148",
+    "english": "I feel confused when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 혼란스러워.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "gentle",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0149",
+    "english": "I feel ignored when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 무시당한 느낌이야.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "playful",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0150",
+    "english": "I feel drained when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 지쳐.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "sweet",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0151",
+    "english": "I feel tense when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 긴장돼.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "serious",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0152",
+    "english": "I feel disappointed when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 실망스러워.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "neutral",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0153",
+    "english": "I feel defensive when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 방어적으로 변해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "gentle",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0154",
+    "english": "I feel overwhelmed when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 벅차.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "playful",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0155",
+    "english": "I feel sad when you raise your voice.",
+    "korean": "네가 큰소리를 낼 때 나는 슬퍼.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "sweet",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0156",
+    "english": "I feel hurt when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 속상해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "serious",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0157",
+    "english": "I feel anxious when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 불안해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "neutral",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0158",
+    "english": "I feel confused when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 혼란스러워.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "gentle",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0159",
+    "english": "I feel ignored when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 무시당한 느낌이야.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "playful",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0160",
+    "english": "I feel drained when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 지쳐.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "sweet",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0161",
+    "english": "I feel tense when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 긴장돼.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "serious",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0162",
+    "english": "I feel disappointed when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 실망스러워.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "neutral",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0163",
+    "english": "I feel defensive when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 방어적으로 변해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "gentle",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0164",
+    "english": "I feel overwhelmed when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 벅차.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "playful",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0165",
+    "english": "I feel sad when you interrupt me.",
+    "korean": "네가 내 말을 끊을 때 나는 슬퍼.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "sweet",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0166",
+    "english": "I feel hurt when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 속상해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "serious",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0167",
+    "english": "I feel anxious when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 불안해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "neutral",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0168",
+    "english": "I feel confused when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 혼란스러워.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "gentle",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0169",
+    "english": "I feel ignored when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 무시당한 느낌이야.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "playful",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0170",
+    "english": "I feel drained when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 지쳐.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "sweet",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0171",
+    "english": "I feel tense when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 긴장돼.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "serious",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0172",
+    "english": "I feel disappointed when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 실망스러워.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "neutral",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0173",
+    "english": "I feel defensive when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 방어적으로 변해.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "gentle",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0174",
+    "english": "I feel overwhelmed when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 벅차.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "playful",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0175",
+    "english": "I feel sad when you ignore my messages.",
+    "korean": "네가 내 메시지를 무시할 때 나는 슬퍼.",
+    "tags": [
+      "conflict"
+    ],
+    "tone": "sweet",
+    "usageLabel": "갈등/조율",
+    "patternHint": null
+  },
+  {
+    "id": "c0176",
+    "english": "When you said 'later', were you talking about the meeting time?",
+    "korean": "네가 '나중에'라고 했을 때, 만나는 시간 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "neutral",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0177",
+    "english": "When you said 'later', were you talking about the location?",
+    "korean": "네가 '나중에'라고 했을 때, 장소 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "gentle",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0178",
+    "english": "When you said 'later', were you talking about the budget?",
+    "korean": "네가 '나중에'라고 했을 때, 예산 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "serious",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0179",
+    "english": "When you said 'later', were you talking about the plan for tonight?",
+    "korean": "네가 '나중에'라고 했을 때, 오늘 저녁 계획 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "playful",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0180",
+    "english": "When you said 'later', were you talking about the weekend schedule?",
+    "korean": "네가 '나중에'라고 했을 때, 주말 일정 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "sweet",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0181",
+    "english": "When you said 'later', were you talking about who is joining us?",
+    "korean": "네가 '나중에'라고 했을 때, 누가 함께하는지 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "neutral",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0182",
+    "english": "When you said 'later', were you talking about the deadline?",
+    "korean": "네가 '나중에'라고 했을 때, 마감일 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "gentle",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0183",
+    "english": "When you said 'later', were you talking about our next step?",
+    "korean": "네가 '나중에'라고 했을 때, 다음 단계 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "serious",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0184",
+    "english": "When you said 'later', were you talking about what you expect from me?",
+    "korean": "네가 '나중에'라고 했을 때, 네가 내게 기대하는 것 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "playful",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0185",
+    "english": "When you said 'later', were you talking about what we already agreed on?",
+    "korean": "네가 '나중에'라고 했을 때, 이미 합의한 내용 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "sweet",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0186",
+    "english": "When you said 'soon', were you talking about the meeting time?",
+    "korean": "네가 '곧'라고 했을 때, 만나는 시간 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "neutral",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0187",
+    "english": "When you said 'soon', were you talking about the location?",
+    "korean": "네가 '곧'라고 했을 때, 장소 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "gentle",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0188",
+    "english": "When you said 'soon', were you talking about the budget?",
+    "korean": "네가 '곧'라고 했을 때, 예산 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "serious",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0189",
+    "english": "When you said 'soon', were you talking about the plan for tonight?",
+    "korean": "네가 '곧'라고 했을 때, 오늘 저녁 계획 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "playful",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0190",
+    "english": "When you said 'soon', were you talking about the weekend schedule?",
+    "korean": "네가 '곧'라고 했을 때, 주말 일정 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "sweet",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0191",
+    "english": "When you said 'soon', were you talking about who is joining us?",
+    "korean": "네가 '곧'라고 했을 때, 누가 함께하는지 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "neutral",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0192",
+    "english": "When you said 'soon', were you talking about the deadline?",
+    "korean": "네가 '곧'라고 했을 때, 마감일 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "gentle",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0193",
+    "english": "When you said 'soon', were you talking about our next step?",
+    "korean": "네가 '곧'라고 했을 때, 다음 단계 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "serious",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0194",
+    "english": "When you said 'soon', were you talking about what you expect from me?",
+    "korean": "네가 '곧'라고 했을 때, 네가 내게 기대하는 것 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "playful",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0195",
+    "english": "When you said 'soon', were you talking about what we already agreed on?",
+    "korean": "네가 '곧'라고 했을 때, 이미 합의한 내용 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "sweet",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0196",
+    "english": "When you said 'maybe', were you talking about the meeting time?",
+    "korean": "네가 '아마'라고 했을 때, 만나는 시간 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "neutral",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0197",
+    "english": "When you said 'maybe', were you talking about the location?",
+    "korean": "네가 '아마'라고 했을 때, 장소 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "gentle",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0198",
+    "english": "When you said 'maybe', were you talking about the budget?",
+    "korean": "네가 '아마'라고 했을 때, 예산 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "serious",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0199",
+    "english": "When you said 'maybe', were you talking about the plan for tonight?",
+    "korean": "네가 '아마'라고 했을 때, 오늘 저녁 계획 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "playful",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  },
+  {
+    "id": "c0200",
+    "english": "When you said 'maybe', were you talking about the weekend schedule?",
+    "korean": "네가 '아마'라고 했을 때, 주말 일정 말한 거야?",
+    "tags": [
+      "clarify"
+    ],
+    "tone": "sweet",
+    "usageLabel": "확인/오해줄이기",
+    "patternHint": null
+  }
+]
