@@ -22,7 +22,9 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/today',
+    // Start at onboarding so first-launch doesn't create a back-stack
+    // (e.g. /today -> redirect -> /onboarding) that shows an unwanted back button.
+    initialLocation: '/onboarding',
     refreshListenable: Listenable.merge([prefs, entitlements]),
     redirect: (context, state) {
       final onboardingCompleted = prefs.onboardingCompleted;
