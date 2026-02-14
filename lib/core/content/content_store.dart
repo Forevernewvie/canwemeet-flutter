@@ -118,7 +118,9 @@ class ContentStore {
     if (raw == null || raw.isEmpty) return null;
     try {
       final list = (jsonDecode(raw) as List<dynamic>);
-      return list.map((e) => Sentence.fromJson(e as Map<String, dynamic>)).toList(growable: false);
+      return list
+          .map((e) => Sentence.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false);
     } catch (_) {
       return null;
     }
@@ -128,7 +130,9 @@ class ContentStore {
     if (raw == null || raw.isEmpty) return null;
     try {
       final list = (jsonDecode(raw) as List<dynamic>);
-      return list.map((e) => Pattern.fromJson(e as Map<String, dynamic>)).toList(growable: false);
+      return list
+          .map((e) => Pattern.fromJson(e as Map<String, dynamic>))
+          .toList(growable: false);
     } catch (_) {
       return null;
     }

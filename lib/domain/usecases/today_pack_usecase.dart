@@ -18,9 +18,9 @@ class TodayPackUseCase {
     required ContentRepository repo,
     required PreferencesStore prefs,
     required EntitlementManager entitlements,
-  })  : _repo = repo,
-        _prefs = prefs,
-        _entitlements = entitlements;
+  }) : _repo = repo,
+       _prefs = prefs,
+       _entitlements = entitlements;
 
   final ContentRepository _repo;
   final PreferencesStore _prefs;
@@ -28,11 +28,17 @@ class TodayPackUseCase {
 
   static const int curatedTrialDays = 7;
 
-  Future<TodayPack> getTodayPack({required DateTime date, required String scenarioTag}) async {
+  Future<TodayPack> getTodayPack({
+    required DateTime date,
+    required String scenarioTag,
+  }) async {
     final snapshot = await _repo.loadAll();
 
     final dayIndex = _prefs.dayIndexFor(date);
-    final trialDaysRemaining = (curatedTrialDays - dayIndex).clamp(0, curatedTrialDays);
+    final trialDaysRemaining = (curatedTrialDays - dayIndex).clamp(
+      0,
+      curatedTrialDays,
+    );
 
     final isPremium = _entitlements.isPremium;
     final curatedUnlocked = isPremium || dayIndex < curatedTrialDays;
@@ -41,19 +47,39 @@ class TodayPackUseCase {
 
     Sentence? curated;
     if (curatedUnlocked) {
-      final curatedPool = _repo.filterSentencesByTag(snapshot.curated, scenarioTag);
-      curated = _repo.pickOneDeterministic(curatedPool, '$dateIso|$scenarioTag|curated');
+      final curatedPool = _repo.filterSentencesByTag(
+        snapshot.curated,
+        scenarioTag,
+      );
+      curated = _repo.pickOneDeterministic(
+        curatedPool,
+        '$dateIso|$scenarioTag|curated',
+      );
     }
 
-    final fullPool = _repo.filterSentencesByTag(snapshot.sentences, scenarioTag);
+    final fullPool = _repo.filterSentencesByTag(
+      snapshot.sentences,
+      scenarioTag,
+    );
     final extrasPool = curated == null
         ? fullPool
         : fullPool.where((s) => s.id != curated!.id).toList(growable: false);
 
-    final extras = _repo.pickManyDeterministic(extrasPool, 2, '$dateIso|$scenarioTag|extras');
+    final extras = _repo.pickManyDeterministic(
+      extrasPool,
+      2,
+      '$dateIso|$scenarioTag|extras',
+    );
 
-    final patternsPool = _repo.filterPatternsByTag(snapshot.patterns, scenarioTag);
-    final patterns = _repo.pickManyDeterministic(patternsPool, 3, '$dateIso|$scenarioTag|patterns');
+    final patternsPool = _repo.filterPatternsByTag(
+      snapshot.patterns,
+      scenarioTag,
+    );
+    final patterns = _repo.pickManyDeterministic(
+      patternsPool,
+      3,
+      '$dateIso|$scenarioTag|patterns',
+    );
 
     return TodayPack(
       scenarioTag: scenarioTag,

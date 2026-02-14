@@ -43,7 +43,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const OnboardingView(),
       ),
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) => RootShell(navigationShell: navigationShell),
+        builder: (context, state, navigationShell) =>
+            RootShell(navigationShell: navigationShell),
         branches: <StatefulShellBranch>[
           StatefulShellBranch(
             routes: <RouteBase>[

@@ -4,13 +4,16 @@ import 'package:flutter_riverpod/legacy.dart' as legacy;
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError('sharedPreferencesProvider must be overridden in main().');
+  throw UnimplementedError(
+    'sharedPreferencesProvider must be overridden in main().',
+  );
 });
 
-final preferencesStoreProvider = legacy.ChangeNotifierProvider<PreferencesStore>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return PreferencesStore(prefs);
-});
+final preferencesStoreProvider =
+    legacy.ChangeNotifierProvider<PreferencesStore>((ref) {
+      final prefs = ref.watch(sharedPreferencesProvider);
+      return PreferencesStore(prefs);
+    });
 
 class PreferencesStore extends ChangeNotifier {
   PreferencesStore(this._prefs) {
@@ -46,7 +49,11 @@ class PreferencesStore extends ChangeNotifier {
 
 extension PreferencesStoreDayIndex on PreferencesStore {
   int dayIndexFor(DateTime date) {
-    final startInstall = DateTime(installDate.year, installDate.month, installDate.day);
+    final startInstall = DateTime(
+      installDate.year,
+      installDate.month,
+      installDate.day,
+    );
     final startDate = DateTime(date.year, date.month, date.day);
     return startDate.difference(startInstall).inDays;
   }

@@ -29,6 +29,7 @@ class FileCache implements StringCache {
     return File('${dir.path}/$key');
   }
 
+  @override
   Future<String?> readString(String key) async {
     try {
       final file = await _fileForKey(key);
@@ -39,12 +40,14 @@ class FileCache implements StringCache {
     }
   }
 
+  @override
   Future<void> writeString(String key, String value) async {
     final file = await _fileForKey(key);
     await file.parent.create(recursive: true);
     await file.writeAsString(value, flush: true);
   }
 
+  @override
   Future<void> delete(String key) async {
     try {
       final file = await _fileForKey(key);

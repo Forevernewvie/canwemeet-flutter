@@ -15,18 +15,21 @@ class SentenceDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Sentence ID: $sentenceId', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Sentence ID: $sentenceId',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 16),
             FilledButton.tonal(
               onPressed: () {
                 // TODO: Hook TTS.
               },
-              child: const Text('발음 듣기 (TTS)')
+              child: const Text('발음 듣기 (TTS)'),
             ),
             const SizedBox(height: 8),
             FilledButton(
               onPressed: () => context.push('/ai'),
-              child: const Text('AI 대화 (Premium)')
+              child: const Text('AI 대화 (Premium)'),
             ),
           ],
         ),

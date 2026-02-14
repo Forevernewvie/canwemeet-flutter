@@ -3,10 +3,11 @@ import 'package:flutter_riverpod/legacy.dart' as legacy;
 
 import 'iap_service.dart';
 
-final entitlementManagerProvider = legacy.ChangeNotifierProvider<EntitlementManager>((ref) {
-  final iap = ref.watch(iapServiceProvider);
-  return EntitlementManager(iap);
-});
+final entitlementManagerProvider =
+    legacy.ChangeNotifierProvider<EntitlementManager>((ref) {
+      final iap = ref.watch(iapServiceProvider);
+      return EntitlementManager(iap);
+    });
 
 class EntitlementManager extends ChangeNotifier {
   EntitlementManager(this._iap);

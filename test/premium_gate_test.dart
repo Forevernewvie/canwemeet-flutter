@@ -6,7 +6,9 @@ import 'package:ourmatchwell_flutter/core/premium/entitlement_manager.dart';
 import 'package:ourmatchwell_flutter/features/ai_conversation/ai_conversation_view.dart';
 
 void main() {
-  testWidgets('AIConversation shows paywall content when not premium', (tester) async {
+  testWidgets('AIConversation shows paywall content when not premium', (
+    tester,
+  ) async {
     final container = ProviderContainer();
     addTearDown(container.dispose);
 
@@ -23,11 +25,13 @@ void main() {
     expect(find.text('프리미엄 기능'), findsOneWidget);
   });
 
-  testWidgets('AIConversation shows chat placeholder when premium', (tester) async {
+  testWidgets('AIConversation shows chat placeholder when premium', (
+    tester,
+  ) async {
     final container = ProviderContainer();
     addTearDown(container.dispose);
 
-    final entitlements = container.read(entitlementManagerProvider)..setPremiumForDebug(true);
+    container.read(entitlementManagerProvider).setPremiumForDebug(true);
 
     await tester.pumpWidget(
       UncontrolledProviderScope(

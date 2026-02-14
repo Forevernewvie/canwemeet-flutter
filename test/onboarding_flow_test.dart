@@ -7,12 +7,12 @@ import 'package:ourmatchwell_flutter/core/persistence/file_cache.dart';
 import 'package:ourmatchwell_flutter/core/persistence/preferences_store.dart';
 
 void main() {
-  testWidgets('Onboarding skip completes onboarding and routes to Today', (tester) async {
+  testWidgets('Onboarding skip completes onboarding and routes to Today', (
+    tester,
+  ) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    SharedPreferences.setMockInitialValues({
-      'onboarding_completed': false,
-    });
+    SharedPreferences.setMockInitialValues({'onboarding_completed': false});
     final prefs = await SharedPreferences.getInstance();
     final cache = MemoryCache();
 
@@ -29,7 +29,9 @@ void main() {
     // Avoid pumpAndSettle: TodayView shows an indeterminate progress indicator.
     for (var i = 0; i < 30; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find.text('건너뛰기').evaluate().isNotEmpty) break;
+      if (find.text('건너뛰기').evaluate().isNotEmpty) {
+        break;
+      }
     }
 
     expect(find.text('건너뛰기'), findsOneWidget);
@@ -37,7 +39,12 @@ void main() {
     await tester.tap(find.text('건너뛰기'));
     for (var i = 0; i < 50; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find.textContaining('오늘 바로 써먹는 문장과 패턴으로').evaluate().isNotEmpty) break;
+      if (find
+          .textContaining('오늘 바로 써먹는 문장과 패턴으로')
+          .evaluate()
+          .isNotEmpty) {
+        break;
+      }
     }
 
     expect(prefs.getBool('onboarding_completed'), true);

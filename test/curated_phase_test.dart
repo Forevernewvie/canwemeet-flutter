@@ -15,39 +15,55 @@ void main() {
     TestWidgetsFlutterBinding.ensureInitialized();
   });
 
-  test('Curated is unlocked for first 7 days, then locks unless premium', () async {
-    final install = DateTime(2026, 1, 1);
-    final day6 = DateTime(2026, 1, 7);
-    final day7 = DateTime(2026, 1, 8);
+  test(
+    'Curated is unlocked for first 7 days, then locks unless premium',
+    () async {
+      final install = DateTime(2026, 1, 1);
+      final day6 = DateTime(2026, 1, 7);
+      final day7 = DateTime(2026, 1, 8);
 
-    SharedPreferences.setMockInitialValues({
-      'install_date_iso': install.toIso8601String(),
-      'onboarding_completed': true,
-    });
-    final prefs = await SharedPreferences.getInstance();
+      SharedPreferences.setMockInitialValues({
+        'install_date_iso': install.toIso8601String(),
+        'onboarding_completed': true,
+      });
+      final prefs = await SharedPreferences.getInstance();
 
-    final store = ContentStore(
-      fileCache: MemoryCache(),
-      manifestClient: const ManifestClient(),
-    );
-    final repo = ContentRepository(store);
+      final store = ContentStore(
+        fileCache: MemoryCache(),
+        manifestClient: const ManifestClient(),
+      );
+      final repo = ContentRepository(store);
 
-    final prefsStore = PreferencesStore(prefs);
-    final entitlements = EntitlementManager(const IapService());
+      final prefsStore = PreferencesStore(prefs);
+      final entitlements = EntitlementManager(const IapService());
 
-    final usecase = TodayPackUseCase(repo: repo, prefs: prefsStore, entitlements: entitlements);
+      final usecase = TodayPackUseCase(
+        repo: repo,
+        prefs: prefsStore,
+        entitlements: entitlements,
+      );
 
-    final inTrial = await usecase.getTodayPack(date: day6, scenarioTag: 'date');
-    expect(inTrial.isCuratedLocked, isFalse);
-    expect(inTrial.curatedSentence, isNotNull);
+      final inTrial = await usecase.getTodayPack(
+        date: day6,
+        scenarioTag: 'date',
+      );
+      expect(inTrial.isCuratedLocked, isFalse);
+      expect(inTrial.curatedSentence, isNotNull);
 
-    final afterTrial = await usecase.getTodayPack(date: day7, scenarioTag: 'date');
-    expect(afterTrial.isCuratedLocked, isTrue);
-    expect(afterTrial.curatedSentence, isNull);
+      final afterTrial = await usecase.getTodayPack(
+        date: day7,
+        scenarioTag: 'date',
+      );
+      expect(afterTrial.isCuratedLocked, isTrue);
+      expect(afterTrial.curatedSentence, isNull);
 
-    entitlements.setPremiumForDebug(true);
-    final premiumAfterTrial = await usecase.getTodayPack(date: day7, scenarioTag: 'date');
-    expect(premiumAfterTrial.isCuratedLocked, isFalse);
-    expect(premiumAfterTrial.curatedSentence, isNotNull);
-  });
+      entitlements.setPremiumForDebug(true);
+      final premiumAfterTrial = await usecase.getTodayPack(
+        date: day7,
+        scenarioTag: 'date',
+      );
+      expect(premiumAfterTrial.isCuratedLocked, isFalse);
+      expect(premiumAfterTrial.curatedSentence, isNotNull);
+    },
+  );
 }

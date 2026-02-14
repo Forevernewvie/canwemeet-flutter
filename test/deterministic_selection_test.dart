@@ -32,13 +32,23 @@ void main() {
     final prefsStore = PreferencesStore(prefs);
     final entitlements = EntitlementManager(const IapService());
 
-    final usecase = TodayPackUseCase(repo: repo, prefs: prefsStore, entitlements: entitlements);
+    final usecase = TodayPackUseCase(
+      repo: repo,
+      prefs: prefsStore,
+      entitlements: entitlements,
+    );
 
     final a = await usecase.getTodayPack(date: install, scenarioTag: 'date');
     final b = await usecase.getTodayPack(date: install, scenarioTag: 'date');
 
     expect(a.curatedSentence?.id, b.curatedSentence?.id);
-    expect(a.extraSentences.map((e) => e.id).toList(), b.extraSentences.map((e) => e.id).toList());
-    expect(a.patterns.map((e) => e.id).toList(), b.patterns.map((e) => e.id).toList());
+    expect(
+      a.extraSentences.map((e) => e.id).toList(),
+      b.extraSentences.map((e) => e.id).toList(),
+    );
+    expect(
+      a.patterns.map((e) => e.id).toList(),
+      b.patterns.map((e) => e.id).toList(),
+    );
   });
 }

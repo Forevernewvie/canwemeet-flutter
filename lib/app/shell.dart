@@ -13,11 +13,20 @@ class RootShell extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: (index) {
-          navigationShell.goBranch(index, initialLocation: index == navigationShell.currentIndex);
+          navigationShell.goBranch(
+            index,
+            initialLocation: index == navigationShell.currentIndex,
+          );
         },
         destinations: const [
-          NavigationDestination(icon: Icon(Icons.wb_sunny_outlined), label: 'Today'),
-          NavigationDestination(icon: Icon(Icons.search_outlined), label: 'Explore'),
+          NavigationDestination(
+            icon: Icon(Icons.wb_sunny_outlined),
+            label: 'Today',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.search_outlined),
+            label: 'Explore',
+          ),
           NavigationDestination(icon: Icon(Icons.person_outline), label: 'My'),
         ],
       ),

@@ -22,16 +22,24 @@ class ContentRepository {
     final sentences = await _store.getSentences();
     final curated = await _store.getCuratedSentences();
     final patterns = await _store.getPatterns();
-    return ContentSnapshot(sentences: sentences, curated: curated, patterns: patterns);
+    return ContentSnapshot(
+      sentences: sentences,
+      curated: curated,
+      patterns: patterns,
+    );
   }
 
   List<Sentence> filterSentencesByTag(List<Sentence> list, String tag) {
-    final filtered = list.where((s) => s.tags.contains(tag)).toList(growable: false);
+    final filtered = list
+        .where((s) => s.tags.contains(tag))
+        .toList(growable: false);
     return filtered.isEmpty ? list : filtered;
   }
 
   List<Pattern> filterPatternsByTag(List<Pattern> list, String tag) {
-    final filtered = list.where((p) => p.tags.contains(tag)).toList(growable: false);
+    final filtered = list
+        .where((p) => p.tags.contains(tag))
+        .toList(growable: false);
     return filtered.isEmpty ? list : filtered;
   }
 
@@ -58,7 +66,8 @@ class ContentRepository {
 
   int _seed32(String input) {
     final digest = sha256.convert(utf8.encode(input)).bytes;
-    final v = (digest[0] << 24) | (digest[1] << 16) | (digest[2] << 8) | digest[3];
+    final v =
+        (digest[0] << 24) | (digest[1] << 16) | (digest[2] << 8) | digest[3];
     return v & 0x7fffffff;
   }
 }

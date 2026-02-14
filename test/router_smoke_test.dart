@@ -12,9 +12,7 @@ void main() {
   testWidgets('Deep-link to sentence detail works', (tester) async {
     TestWidgetsFlutterBinding.ensureInitialized();
 
-    SharedPreferences.setMockInitialValues({
-      'onboarding_completed': true,
-    });
+    SharedPreferences.setMockInitialValues({'onboarding_completed': true});
     final prefs = await SharedPreferences.getInstance();
     final cache = MemoryCache();
 
@@ -31,7 +29,9 @@ void main() {
     // Avoid pumpAndSettle: TodayView shows an indeterminate progress indicator.
     for (var i = 0; i < 30; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find.byType(Scaffold).evaluate().isNotEmpty) break;
+      if (find.byType(Scaffold).evaluate().isNotEmpty) {
+        break;
+      }
     }
 
     // Navigate using GoRouter from an element inside the app tree.
@@ -40,7 +40,9 @@ void main() {
 
     for (var i = 0; i < 30; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find.textContaining('Sentence ID: s0001').evaluate().isNotEmpty) break;
+      if (find.textContaining('Sentence ID: s0001').evaluate().isNotEmpty) {
+        break;
+      }
     }
 
     expect(find.textContaining('Sentence ID: s0001'), findsOneWidget);

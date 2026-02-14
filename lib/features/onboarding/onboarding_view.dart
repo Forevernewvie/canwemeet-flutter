@@ -47,12 +47,7 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed: _complete,
-            child: const Text('건너뛰기'),
-          ),
-        ],
+        actions: [TextButton(onPressed: _complete, child: const Text('건너뛰기'))],
       ),
       body: SafeArea(
         child: Column(
@@ -119,15 +114,17 @@ class _OnboardingPage extends StatelessWidget {
           Text(
             page.title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 12),
           Text(
             page.subtitle,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
           ),
         ],
       ),

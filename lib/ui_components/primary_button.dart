@@ -15,10 +15,7 @@ class PrimaryButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 48,
-      child: FilledButton(
-        onPressed: onPressed,
-        child: Text(label),
-      ),
+      child: FilledButton(onPressed: onPressed, child: Text(label)),
     );
   }
 }

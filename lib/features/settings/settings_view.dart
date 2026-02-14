@@ -17,7 +17,9 @@ class SettingsView extends ConsumerWidget {
         children: [
           ListTile(
             title: const Text('프리미엄 상태'),
-            subtitle: Text(entitlements.isPremium ? 'Premium 활성화됨' : 'Premium 비활성화'),
+            subtitle: Text(
+              entitlements.isPremium ? 'Premium 활성화됨' : 'Premium 비활성화',
+            ),
           ),
           const SizedBox(height: 8),
           FilledButton(

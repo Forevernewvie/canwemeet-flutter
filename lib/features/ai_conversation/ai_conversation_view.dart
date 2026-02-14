@@ -21,7 +21,9 @@ class AIConversationView extends ConsumerWidget {
                 children: [
                   Text(
                     '프리미엄 기능',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   const Text('추천 문장으로 말했을 때 상대의 답변 + 후속 질문을 시뮬레이션해요.'),
