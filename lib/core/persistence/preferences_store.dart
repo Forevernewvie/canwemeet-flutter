@@ -43,3 +43,11 @@ class PreferencesStore extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+extension PreferencesStoreDayIndex on PreferencesStore {
+  int dayIndexFor(DateTime date) {
+    final startInstall = DateTime(installDate.year, installDate.month, installDate.day);
+    final startDate = DateTime(date.year, date.month, date.day);
+    return startDate.difference(startInstall).inDays;
+  }
+}
