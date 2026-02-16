@@ -39,10 +39,7 @@ void main() {
     await tester.tap(find.text('건너뛰기'));
     for (var i = 0; i < 50; i++) {
       await tester.pump(const Duration(milliseconds: 100));
-      if (find
-          .textContaining('오늘 바로 써먹는 문장과 패턴으로')
-          .evaluate()
-          .isNotEmpty) {
+      if (find.textContaining('오늘 바로 써먹는 문장과 패턴으로').evaluate().isNotEmpty) {
         break;
       }
     }

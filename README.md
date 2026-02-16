@@ -6,9 +6,10 @@
 
 - Onboarding: 캐러셀(PageView) + `건너뛰기`
 - Root: 3 탭 (Today / Explore / My)
-- Today: 포커스(상황) 선택 + (큐레이토 1개 + 추가 추천 2개) + 패턴 3개
+- Today: 포커스(상황) 선택 + (큐레이션 1개 + 추가 추천 2개) + 패턴 3개
 - Sentence Detail: 라우팅/뼈대(상세 로딩/즐겨찾기/발음 연동은 확장 예정)
-- AI Conversation: Premium gate 포함(결제 로직은 stub)
+- 광고: AdMob 배너 + UMP 동의 플로우
+- AI 기능: 서버 연동 전 준비 중 안내
 
 ## 기술 스택
 
@@ -18,7 +19,7 @@
 - Storage: `shared_preferences` (온보딩 완료/설치일)
 - Cache: `path_provider` + 파일 캐시 (런타임), 테스트는 `MemoryCache`
 - TTS: `flutter_tts` (연동 예정)
-- IAP: `in_app_purchase` (stub)
+- Ads: `google_mobile_ads` (배너만 사용)
 - Deterministic selection: `crypto` + `Random(seed)`
 
 ## 프로젝트 구조
@@ -29,7 +30,6 @@ lib/
   core/
     content/           # ContentStore(bundle->cache) + selection helpers
     persistence/       # preferences, cache abstraction
-    premium/           # entitlement manager + iap stub
     tts/               # tts service (placeholder)
   domain/
     models/            # Sentence/Pattern models
@@ -74,6 +74,14 @@ flutter analyze
 flutter test -j 1
 ```
 
+## 출시 기준 값 (Google Play)
+
+- 패키지명(`applicationId`): `com.ourmatchwell.ourmatchwell_flutter`
+- AdMob App ID(Android): `ca-app-pub-9780094598585299~9220627585`
+- AdMob Banner Unit ID(Android): `ca-app-pub-9780094598585299/6706144880`
+- 고객지원 이메일: `dlfjs351@gmail.com`
+- 개인정보처리방침: `https://github.com/Forevernewvie/canwemeet-flutter/blob/main/docs/PRIVACY_POLICY_KO.md`
+
 ## Git Worktree 병렬 작업 (추천)
 
 원리: **하나의 git 레포**에서 **브랜치별로 작업 디렉토리를 분리**해 동시에 작업/빌드/테스트를 수행합니다.
@@ -94,7 +102,7 @@ mkdir -p "$WT_ROOT"
 
 git worktree add -b codex/core-content  "$WT_ROOT/core-content"  origin/main
 git worktree add -b codex/ui-shell      "$WT_ROOT/ui-shell"      origin/main
-git worktree add -b codex/iap-premium   "$WT_ROOT/iap-premium"   origin/main
+git worktree add -b codex/release-hardening "$WT_ROOT/release-hardening" origin/main
 
 git worktree list
 ```
@@ -108,6 +116,5 @@ git branch -d codex/core-content
 
 ## Stub/미구현 항목
 
-- 실제 결제(StoreKit/Play) 연동 및 서버 기반 entitlement 검증
-- AI 대화 서버 API (현재는 premium gate UI만)
+- AI 대화 서버 API (현재는 준비 중 안내)
 - 원격 업데이트(manifest) 네트워크 구현 (현재 manifest client는 stub)

@@ -2,29 +2,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/content/content_repository.dart';
 import '../../core/persistence/preferences_store.dart';
-import '../../core/premium/entitlement_manager.dart';
 import '../models/pattern.dart';
 import '../models/sentence.dart';
 
 final todayPackUseCaseProvider = Provider<TodayPackUseCase>((ref) {
   final repo = ref.watch(contentRepositoryProvider);
   final prefs = ref.watch(preferencesStoreProvider);
-  final entitlements = ref.watch(entitlementManagerProvider);
-  return TodayPackUseCase(repo: repo, prefs: prefs, entitlements: entitlements);
+  return TodayPackUseCase(repo: repo, prefs: prefs);
 });
 
 class TodayPackUseCase {
   TodayPackUseCase({
     required ContentRepository repo,
     required PreferencesStore prefs,
-    required EntitlementManager entitlements,
   }) : _repo = repo,
-       _prefs = prefs,
-       _entitlements = entitlements;
+       _prefs = prefs;
 
   final ContentRepository _repo;
   final PreferencesStore _prefs;
-  final EntitlementManager _entitlements;
 
   static const int curatedTrialDays = 7;
 
@@ -40,8 +35,7 @@ class TodayPackUseCase {
       curatedTrialDays,
     );
 
-    final isPremium = _entitlements.isPremium;
-    final curatedUnlocked = isPremium || dayIndex < curatedTrialDays;
+    final curatedUnlocked = dayIndex < curatedTrialDays;
 
     final dateIso = _isoDate(date);
 
@@ -86,7 +80,6 @@ class TodayPackUseCase {
       date: DateTime(date.year, date.month, date.day),
       dayIndex: dayIndex,
       curatedTrialDaysRemaining: trialDaysRemaining,
-      isPremium: isPremium,
       curatedSentence: curated,
       extraSentences: extras,
       patterns: patterns,
@@ -108,7 +101,6 @@ class TodayPack {
     required this.date,
     required this.dayIndex,
     required this.curatedTrialDaysRemaining,
-    required this.isPremium,
     required this.curatedSentence,
     required this.extraSentences,
     required this.patterns,
@@ -119,7 +111,6 @@ class TodayPack {
   final DateTime date;
   final int dayIndex;
   final int curatedTrialDaysRemaining;
-  final bool isPremium;
   final Sentence? curatedSentence;
   final List<Sentence> extraSentences;
   final List<Pattern> patterns;

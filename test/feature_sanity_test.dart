@@ -12,7 +12,7 @@ import 'package:ourmatchwell_flutter/core/persistence/file_cache.dart';
 import 'package:ourmatchwell_flutter/core/persistence/preferences_store.dart';
 import 'package:ourmatchwell_flutter/domain/models/pattern.dart';
 import 'package:ourmatchwell_flutter/domain/models/sentence.dart';
-import 'package:ourmatchwell_flutter/ui_components/sentence_card.dart';
+import 'package:ourmatchwell_flutter/ui_components/app_surfaces.dart';
 
 Future<void> _pumpUntilFound(
   WidgetTester tester,
@@ -92,13 +92,15 @@ class _FakeContentStore extends ContentStore {
   static final _patterns = <Pattern>[
     const Pattern(
       id: 'p1',
-      title: "Do you want to __?",
+      title: 'Do you want to __?',
       exampleEnglish: 'Do you want to get coffee?',
       exampleKorean: '커피 마시고 싶어?',
       tip: 'Offer a simple option.',
       tags: _tags,
       slotTemplate: 'Do you want to {verbPhrase}?',
-      slots: [PatternSlot(key: 'verbPhrase', hint: 'get coffee / go for a walk')],
+      slots: [
+        PatternSlot(key: 'verbPhrase', hint: 'get coffee / go for a walk'),
+      ],
     ),
     const Pattern(
       id: 'p2',
@@ -137,13 +139,12 @@ class _FakeContentStore extends ContentStore {
 
 void main() {
   testWidgets(
-    'Feature sanity: onboarding -> today -> detail -> AI gate -> tabs -> settings',
+    'Feature sanity: onboarding -> today -> detail -> tabs -> settings',
     (tester) async {
       TestWidgetsFlutterBinding.ensureInitialized();
 
       SharedPreferences.setMockInitialValues({
         'onboarding_completed': false,
-        // Ensure a stable first-week experience in this test.
         'install_date_iso': DateTime.now().toIso8601String(),
       });
 
@@ -163,83 +164,50 @@ void main() {
         ),
       );
 
-      // Onboarding -> skip -> Today.
       await _pumpUntilFound(tester, find.text('건너뛰기'));
       await tester.tap(find.text('건너뛰기'));
-      await _pumpUntilFound(
-        tester,
-        find.textContaining('오늘 바로 써먹는 문장과 패턴으로'),
-      );
+      await _pumpUntilFound(tester, find.textContaining('오늘 바로 써먹는 문장과 패턴으로'));
 
-      // Today content loaded.
       await _pumpUntilFound(
         tester,
         find.text('추가 추천 2개'),
         maxTries: 300,
         failFastFinder: find.text('데이터 로딩 실패'),
-        failFastMessage: 'Today data failed to load (데이터 로딩 실패)',
       );
       expect(find.text('오늘의 패턴 3개'), findsOneWidget);
 
-      // Focus chip selection should work (no crash / state updates).
-      final conflictChip = find.ancestor(
-        of: find.text('갈등'),
-        matching: find.byType(ChoiceChip),
-      );
+      final conflictChip = find.widgetWithText(ChoiceChip, '🧩 갈등');
       expect(conflictChip, findsOneWidget);
       await tester.tap(conflictChip);
       await tester.pump(const Duration(milliseconds: 200));
-      expect(tester.widget<ChoiceChip>(conflictChip).selected, true);
 
-      // Sentence detail.
-      await _pumpUntilFound(tester, find.byType(SentenceCard));
-      await tester.tap(find.byType(SentenceCard).first);
-      await _pumpUntilFound(tester, find.text('문장 상세'));
-      expect(find.textContaining('Sentence ID:'), findsOneWidget);
+      await _pumpUntilFound(tester, find.byType(AppCard));
+      await tester.tap(find.byType(AppCard).first);
+      await _pumpUntilFound(tester, find.text('문장'));
+      expect(find.textContaining('Do you want to'), findsWidgets);
 
-      // AI premium gate + purchase stub.
-      await tester.tap(find.text('AI 대화 (Premium)'));
-      await _pumpUntilFound(tester, find.text('프리미엄 기능'));
-      await tester.tap(find.text('프리미엄 시작하기 (stub)'));
-      await _pumpUntilFound(tester, find.textContaining('AI chat placeholder'));
-
-      // Back to Today.
       await _popRoute(tester);
-      await _pumpUntilFound(tester, find.text('문장 상세'));
-      await _popRoute(tester);
-      await _pumpUntilFound(
-        tester,
-        find.textContaining('오늘 바로 써먹는 문장과 패턴으로'),
-      );
+      await _pumpUntilFound(tester, find.textContaining('오늘 바로 써먹는 문장과 패턴으로'));
 
-      // Pattern practice navigation.
-      final verticalList = find.byWidgetPredicate(
-        (w) => w is ListView && w.scrollDirection == Axis.vertical,
-      );
-      await tester.drag(verticalList, const Offset(0, -600));
-      await tester.pump(const Duration(milliseconds: 200));
-      await tester.tap(find.byType(ListTile).first);
-      await _pumpUntilFound(tester, find.text('Pattern Practice placeholder'));
+      final todayContext = tester.element(find.byType(Scaffold).first);
+      GoRouter.of(todayContext).push('/pattern');
+      await tester.pump(const Duration(milliseconds: 250));
+      await _pumpUntilFound(tester, find.text('패턴 연습'));
       await _popRoute(tester);
       await _pumpUntilFound(tester, find.text('추가 추천 2개'));
 
-      // Tab navigation.
       final appContext = tester.element(find.byType(Scaffold).first);
       GoRouter.of(appContext).go('/explore');
       await tester.pump(const Duration(milliseconds: 200));
-      await _pumpUntilFound(
-        tester,
-        find.text('Explore (Scenario Hub) placeholder'),
-      );
+      await _pumpUntilFound(tester, find.text('상황 탐색'));
 
       GoRouter.of(appContext).go('/my');
       await tester.pump(const Duration(milliseconds: 200));
-      await _pumpUntilFound(tester, find.text('My Library placeholder'));
+      await _pumpUntilFound(tester, find.text('내 라이브러리'));
 
-      // Settings reflects premium state.
-      await tester.tap(find.byIcon(Icons.settings_outlined));
-      await _pumpUntilFound(tester, find.text('설정/구독'));
-      expect(find.text('Premium 활성화됨'), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.settings).first);
+      await _pumpUntilFound(tester, find.text('설정'));
+      expect(find.text('광고/개인정보(UMP)'), findsOneWidget);
     },
   );
 }

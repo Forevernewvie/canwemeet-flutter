@@ -1,0 +1,7 @@
+storePassword=CHANGE_ME_STORE_PASSWORD
+keyPassword=CHANGE_ME_KEY_PASSWORD
+keyAlias=upload
+# Release build fails without this file.
+# `storeFile` is resolved from `android/app` module directory.
+# If keystore is located at `android/upload-keystore.jks`, use:
+storeFile=../upload-keystore.jks

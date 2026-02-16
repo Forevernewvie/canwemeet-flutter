@@ -6,8 +6,6 @@ import 'package:ourmatchwell_flutter/core/content/content_store.dart';
 import 'package:ourmatchwell_flutter/core/content/manifest_client.dart';
 import 'package:ourmatchwell_flutter/core/persistence/file_cache.dart';
 import 'package:ourmatchwell_flutter/core/persistence/preferences_store.dart';
-import 'package:ourmatchwell_flutter/core/premium/entitlement_manager.dart';
-import 'package:ourmatchwell_flutter/core/premium/iap_service.dart';
 import 'package:ourmatchwell_flutter/domain/usecases/today_pack_usecase.dart';
 
 void main() {
@@ -30,13 +28,7 @@ void main() {
     final repo = ContentRepository(store);
 
     final prefsStore = PreferencesStore(prefs);
-    final entitlements = EntitlementManager(const IapService());
-
-    final usecase = TodayPackUseCase(
-      repo: repo,
-      prefs: prefsStore,
-      entitlements: entitlements,
-    );
+    final usecase = TodayPackUseCase(repo: repo, prefs: prefsStore);
 
     final a = await usecase.getTodayPack(date: install, scenarioTag: 'date');
     final b = await usecase.getTodayPack(date: install, scenarioTag: 'date');

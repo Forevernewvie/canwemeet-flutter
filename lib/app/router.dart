@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/persistence/preferences_store.dart';
-import '../core/premium/entitlement_manager.dart';
-import '../features/ai_conversation/ai_conversation_view.dart';
 import '../features/explore/explore_view.dart';
 import '../features/my_library/my_library_view.dart';
 import '../features/onboarding/onboarding_view.dart';
@@ -18,14 +16,13 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
   final prefs = ref.read(preferencesStoreProvider);
-  final entitlements = ref.read(entitlementManagerProvider);
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
     // Start at onboarding so first-launch doesn't create a back-stack
     // (e.g. /today -> redirect -> /onboarding) that shows an unwanted back button.
     initialLocation: '/onboarding',
-    refreshListenable: Listenable.merge([prefs, entitlements]),
+    refreshListenable: prefs,
     redirect: (context, state) {
       final onboardingCompleted = prefs.onboardingCompleted;
       final isOnboarding = state.matchedLocation == '/onboarding';
@@ -92,16 +89,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         path: '/pattern',
         builder: (context, state) => const PatternPracticeView(),
-      ),
-      GoRoute(
-        parentNavigatorKey: _rootNavigatorKey,
-        path: '/ai',
-        pageBuilder: (context, state) {
-          return const MaterialPage<void>(
-            fullscreenDialog: true,
-            child: AIConversationView(),
-          );
-        },
       ),
     ],
   );

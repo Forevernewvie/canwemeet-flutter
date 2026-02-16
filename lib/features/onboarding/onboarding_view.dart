@@ -39,8 +39,8 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
         icon: Icons.calendar_today_outlined,
       ),
       const _OnboardingPageData(
-        title: '프리미엄: AI 대화',
-        subtitle: '추천 문장으로 말했을 때\n상대의 답변과 후속 질문을 시뮬레이션.',
+        title: 'AI 기능 준비 중',
+        subtitle: '현재는 문장/패턴 학습 기능에 집중하고 있어요.\nAI 대화 기능은 추후 제공 예정입니다.',
         icon: Icons.auto_awesome_outlined,
       ),
     ];

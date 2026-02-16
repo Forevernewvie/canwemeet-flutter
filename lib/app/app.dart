@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'ads_bootstrapper.dart';
 import 'router.dart';
 import 'theme.dart';
 
@@ -15,6 +16,9 @@ class App extends ConsumerWidget {
       title: '우리 제법 잘 어울려',
       theme: buildAppTheme(),
       routerConfig: router,
+      builder: (context, child) {
+        return AdsBootstrapper(child: child ?? const SizedBox.shrink());
+      },
     );
   }
 }
