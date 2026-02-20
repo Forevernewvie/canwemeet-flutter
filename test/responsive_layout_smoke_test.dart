@@ -125,11 +125,14 @@ class _FakeContentStore extends ContentStore {
 Future<void> _runScenario({
   required WidgetTester tester,
   required Size logicalSize,
+  required double textScale,
 }) async {
   tester.view.devicePixelRatio = 3.0;
   tester.view.physicalSize = logicalSize * 3.0;
+  tester.platformDispatcher.textScaleFactorTestValue = textScale;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
+  addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
   SharedPreferences.setMockInitialValues({
     'onboarding_completed': true,
@@ -179,11 +182,37 @@ Future<void> _runScenario({
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  testWidgets('responsive smoke on galaxy-like sizes', (tester) async {
-    await _runScenario(tester: tester, logicalSize: const Size(412, 915));
+  testWidgets('responsive smoke on galaxy-like sizes + larger text scales', (
+    tester,
+  ) async {
+    await _runScenario(
+      tester: tester,
+      logicalSize: const Size(412, 915),
+      textScale: 1.0,
+    );
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 100));
 
-    await _runScenario(tester: tester, logicalSize: const Size(360, 800));
+    await _runScenario(
+      tester: tester,
+      logicalSize: const Size(412, 915),
+      textScale: 1.3,
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 100));
+
+    await _runScenario(
+      tester: tester,
+      logicalSize: const Size(360, 800),
+      textScale: 1.0,
+    );
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump(const Duration(milliseconds: 100));
+
+    await _runScenario(
+      tester: tester,
+      logicalSize: const Size(360, 800),
+      textScale: 1.4,
+    );
   });
 }
