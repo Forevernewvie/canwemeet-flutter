@@ -1,20 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../app/theme.dart';
 import '../../core/content/content_providers.dart';
+import '../../core/constants/feature_texts.dart';
 import '../../core/persistence/preferences_store.dart';
+import '../../domain/usecases/sentence_send_mode_usecase.dart';
 import '../../ui_components/app_surfaces.dart';
 
-class SentenceDetailView extends ConsumerWidget {
+/// Shows sentence details with practical send-mode actions.
+class SentenceDetailView extends ConsumerStatefulWidget {
   const SentenceDetailView({required this.sentenceId, super.key});
 
   final String sentenceId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final sentenceAsync = ref.watch(sentenceByIdProvider(sentenceId));
+  ConsumerState<SentenceDetailView> createState() => _SentenceDetailViewState();
+}
+
+class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
+  SentenceToneVariant _selectedTone = SentenceToneVariant.natural;
+
+  @override
+  /// Builds sentence details, tone variants, and send actions.
+  Widget build(BuildContext context) {
+    final sentenceAsync = ref.watch(sentenceByIdProvider(widget.sentenceId));
     final prefs = ref.watch(preferencesStoreProvider);
+    final sendMode = ref.watch(sentenceSendModeUseCaseProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('문장')),
@@ -27,6 +41,7 @@ class SentenceDetailView extends ConsumerWidget {
           }
 
           final isFavorite = prefs.isFavorite(sentence.id);
+          final sendText = sendMode.textFor(sentence.english, _selectedTone);
 
           return ListView(
             padding: const EdgeInsets.all(16),
@@ -58,6 +73,53 @@ class SentenceDetailView extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 12),
+              Text(
+                FeatureTexts.sendModeSectionTitle,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: SentenceToneVariant.values
+                    .map((variant) {
+                      return ChoiceChip(
+                        selected: _selectedTone == variant,
+                        label: Text(variant.label),
+                        onSelected: (_) {
+                          setState(() => _selectedTone = variant);
+                        },
+                      );
+                    })
+                    .toList(growable: false),
+              ),
+              const SizedBox(height: 10),
+              AppCard(
+                title: FeatureTexts.sendModePreviewTitle,
+                subtitle: sendText,
+                badges: [_selectedTone.label],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => _copyText(context, sendText),
+                      icon: const Icon(Icons.copy_rounded),
+                      label: const Text(FeatureTexts.sendModeCopyButton),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: () => _shareText(context, sendText),
+                      icon: const Icon(Icons.share_rounded),
+                      label: const Text(FeatureTexts.sendModeShareButton),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
               DecoratedBox(
                 decoration: BoxDecoration(
                   color: AppColors.accentSoft,
@@ -79,5 +141,19 @@ class SentenceDetailView extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  /// Copies transformed text to clipboard and displays completion feedback.
+  Future<void> _copyText(BuildContext context, String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text(FeatureTexts.sendModeCopiedSnackbar)),
+    );
+  }
+
+  /// Opens system share sheet with transformed text content.
+  Future<void> _shareText(BuildContext context, String text) async {
+    await SharePlus.instance.share(ShareParams(text: text));
   }
 }

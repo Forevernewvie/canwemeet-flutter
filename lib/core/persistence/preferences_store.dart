@@ -7,14 +7,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart' as legacy;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/review_reminder_config.dart';
 import 'isar/isar_persistence_engine.dart';
 
+/// SharedPreferences dependency provider overridden during bootstrap/tests.
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError(
     'sharedPreferencesProvider must be overridden in main().',
   );
 });
 
+/// App-wide preferences store provider backed by SharedPreferences + Isar.
 final preferencesStoreProvider =
     legacy.ChangeNotifierProvider<PreferencesStore>((ref) {
       final prefs = ref.watch(sharedPreferencesProvider);
@@ -23,6 +26,7 @@ final preferencesStoreProvider =
     });
 
 class PreferencesStore extends ChangeNotifier {
+  /// Loads persisted user preferences and hydrates optional Isar snapshot.
   PreferencesStore(this._prefs, {IsarPersistenceEngine? isarEngine})
     : _isarEngine = isarEngine ?? defaultIsarPersistenceEngine {
     _onboardingCompleted = _prefs.getBool(_kOnboardingCompleted) ?? false;
@@ -35,6 +39,15 @@ class PreferencesStore extends ChangeNotifier {
     _studiedDayKeys =
         (_prefs.getStringList(_kStudiedDayKeys) ?? const <String>[]).toSet();
     _reviewMap = _decodeReviewMap(_prefs.getString(_kReviewStateJson));
+    _reviewReminderEnabled = _prefs.getBool(_kReviewReminderEnabled) ?? false;
+    _reviewReminderHour =
+        (_prefs.getInt(_kReviewReminderHour) ?? reviewReminderDefaultHour)
+            .clamp(0, 23)
+            .toInt();
+    _reviewReminderMinute =
+        (_prefs.getInt(_kReviewReminderMinute) ?? reviewReminderDefaultMinute)
+            .clamp(0, 59)
+            .toInt();
 
     unawaited(_hydrateFromIsar());
     _persistMeta();
@@ -45,6 +58,9 @@ class PreferencesStore extends ChangeNotifier {
   static const _kFavoriteIds = 'favorite_ids';
   static const _kStudiedDayKeys = 'studied_day_keys';
   static const _kReviewStateJson = 'review_state_json';
+  static const _kReviewReminderEnabled = 'review_reminder_enabled';
+  static const _kReviewReminderHour = 'review_reminder_hour';
+  static const _kReviewReminderMinute = 'review_reminder_minute';
 
   final SharedPreferences _prefs;
   final IsarPersistenceEngine _isarEngine;
@@ -54,18 +70,29 @@ class PreferencesStore extends ChangeNotifier {
   Set<String> _favoriteIds = <String>{};
   Set<String> _studiedDayKeys = <String>{};
   Map<String, ReviewState> _reviewMap = <String, ReviewState>{};
+  bool _reviewReminderEnabled = false;
+  int _reviewReminderHour = reviewReminderDefaultHour;
+  int _reviewReminderMinute = reviewReminderDefaultMinute;
 
   bool get onboardingCompleted => _onboardingCompleted;
 
   UnmodifiableSetView<String> get favoriteIds =>
       UnmodifiableSetView(_favoriteIds);
 
+  bool get reviewReminderEnabled => _reviewReminderEnabled;
+
+  int get reviewReminderHour => _reviewReminderHour;
+
+  int get reviewReminderMinute => _reviewReminderMinute;
+
+  /// Returns install date used for trial and day-index calculations.
   DateTime get installDate {
     final raw = _installDateIso;
     if (raw == null) return DateTime.now();
     return DateTime.tryParse(raw) ?? DateTime.now();
   }
 
+  /// Marks onboarding as complete and persists the completion flag.
   void completeOnboarding() {
     if (_onboardingCompleted) return;
     _onboardingCompleted = true;
@@ -74,8 +101,33 @@ class PreferencesStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Enables or disables daily review reminder preference.
+  void setReviewReminderEnabled(bool enabled) {
+    if (_reviewReminderEnabled == enabled) return;
+    _reviewReminderEnabled = enabled;
+    _prefs.setBool(_kReviewReminderEnabled, enabled);
+    notifyListeners();
+  }
+
+  /// Updates reminder time with bounded hour/minute values.
+  void setReviewReminderTime({required int hour, required int minute}) {
+    final nextHour = hour.clamp(0, 23).toInt();
+    final nextMinute = minute.clamp(0, 59).toInt();
+    if (_reviewReminderHour == nextHour &&
+        _reviewReminderMinute == nextMinute) {
+      return;
+    }
+    _reviewReminderHour = nextHour;
+    _reviewReminderMinute = nextMinute;
+    _prefs.setInt(_kReviewReminderHour, _reviewReminderHour);
+    _prefs.setInt(_kReviewReminderMinute, _reviewReminderMinute);
+    notifyListeners();
+  }
+
+  /// Returns whether a sentence is currently marked as favorite.
   bool isFavorite(String sentenceId) => _favoriteIds.contains(sentenceId);
 
+  /// Toggles favorite state and synchronizes dependent review queue entries.
   void toggleFavorite(String sentenceId, {DateTime? now}) {
     final timestamp = now ?? DateTime.now();
     if (_favoriteIds.contains(sentenceId)) {
@@ -97,6 +149,7 @@ class PreferencesStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Records a study event so streak and calendar state can be updated.
   void recordStudyEvent({DateTime? now}) {
     _recordStudiedDay(now ?? DateTime.now());
     _persistStudiedDays();
@@ -104,11 +157,13 @@ class PreferencesStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Returns whether there is at least one study event for the given day.
   bool hasStudiedToday({DateTime? today}) {
     final current = today ?? DateTime.now();
     return _studiedDayKeys.contains(_dayKey(current));
   }
 
+  /// Counts studied days in the current month for stats widgets.
   int studiedDayCountInMonth({DateTime? date}) {
     final current = date ?? DateTime.now();
     final monthPrefix =
@@ -118,6 +173,7 @@ class PreferencesStore extends ChangeNotifier {
         .length;
   }
 
+  /// Computes contiguous streak length ending at the provided date.
   int currentStreak({DateTime? asOf}) {
     final today = asOf ?? DateTime.now();
     var cursor = DateTime(today.year, today.month, today.day);
@@ -129,6 +185,7 @@ class PreferencesStore extends ChangeNotifier {
     return streak;
   }
 
+  /// Lists sentence IDs whose review due time is now or earlier.
   List<String> dueReviewSentenceIds({DateTime? now}) {
     final timestamp = (now ?? DateTime.now()).millisecondsSinceEpoch;
     return _reviewMap.entries
@@ -137,9 +194,11 @@ class PreferencesStore extends ChangeNotifier {
         .toList(growable: false);
   }
 
+  /// Returns count of currently due review items.
   int reviewQueueCount({DateTime? now}) =>
       dueReviewSentenceIds(now: now).length;
 
+  /// Applies review grading result and schedules the next due timestamp.
   void submitReviewResult(
     String sentenceId,
     ReviewResult result, {
@@ -180,6 +239,7 @@ class PreferencesStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Forces a specific review item to become immediately due.
   void refreshReviewNow(String sentenceId, {DateTime? now}) {
     final current = now ?? DateTime.now();
     _reviewMap[sentenceId] = ReviewState(
@@ -191,10 +251,12 @@ class PreferencesStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Adds a yyyy-MM-dd key for the supplied study date.
   void _recordStudiedDay(DateTime date) {
     _studiedDayKeys.add(_dayKey(date));
   }
 
+  /// Persists favorite IDs to shared preferences and Isar when enabled.
   void _persistFavorites() {
     _prefs.setStringList(_kFavoriteIds, _favoriteIds.toList(growable: false));
     if (_isarEngine.isEnabled) {
@@ -202,6 +264,7 @@ class PreferencesStore extends ChangeNotifier {
     }
   }
 
+  /// Persists studied day keys to shared preferences and Isar when enabled.
   void _persistStudiedDays() {
     _prefs.setStringList(
       _kStudiedDayKeys,
@@ -212,6 +275,7 @@ class PreferencesStore extends ChangeNotifier {
     }
   }
 
+  /// Persists review map json to shared preferences and Isar when enabled.
   void _persistReviewState() {
     final json = jsonEncode(
       _reviewMap.map((key, value) => MapEntry(key, value.toJson())),
@@ -224,6 +288,7 @@ class PreferencesStore extends ChangeNotifier {
     }
   }
 
+  /// Persists onboarding/install metadata to Isar when available.
   void _persistMeta() {
     if (!_isarEngine.isEnabled) return;
     final installDateIso = _installDateIso ?? DateTime.now().toIso8601String();
@@ -235,6 +300,7 @@ class PreferencesStore extends ChangeNotifier {
     );
   }
 
+  /// Hydrates in-memory state from Isar to keep stores consistent.
   Future<void> _hydrateFromIsar() async {
     if (!_isarEngine.isEnabled) return;
     final snapshot = await _isarEngine.loadStateSnapshot();
@@ -266,6 +332,7 @@ class PreferencesStore extends ChangeNotifier {
     }
   }
 
+  /// Converts legacy review map shape to Isar persisted shape.
   Map<String, PersistedReviewState> _toPersistedReviewMap(
     Map<String, ReviewState> source,
   ) {
@@ -278,6 +345,7 @@ class PreferencesStore extends ChangeNotifier {
     };
   }
 
+  /// Converts Isar review map shape back to in-memory legacy shape.
   Map<String, ReviewState> _fromPersistedReviewMap(
     Map<String, PersistedReviewState> source,
   ) {
@@ -290,6 +358,7 @@ class PreferencesStore extends ChangeNotifier {
     };
   }
 
+  /// Decodes review-state JSON payload with malformed-data tolerance.
   Map<String, ReviewState> _decodeReviewMap(String? raw) {
     if (raw == null || raw.isEmpty) return <String, ReviewState>{};
 
@@ -308,11 +377,13 @@ class PreferencesStore extends ChangeNotifier {
     }
   }
 
+  /// Compares sets by cardinality and membership.
   bool _setEquals(Set<String> a, Set<String> b) {
     if (a.length != b.length) return false;
     return a.containsAll(b);
   }
 
+  /// Compares legacy and persisted review-map content for equality.
   bool _reviewMapEquals(
     Map<String, ReviewState> legacy,
     Map<String, PersistedReviewState> persisted,
@@ -327,6 +398,7 @@ class PreferencesStore extends ChangeNotifier {
     return true;
   }
 
+  /// Builds canonical day key in yyyy-MM-dd format.
   String _dayKey(DateTime date) {
     final y = date.year.toString().padLeft(4, '0');
     final m = date.month.toString().padLeft(2, '0');
@@ -336,6 +408,7 @@ class PreferencesStore extends ChangeNotifier {
 }
 
 extension PreferencesStoreDayIndex on PreferencesStore {
+  /// Returns day offset from install date for deterministic pack selection.
   int dayIndexFor(DateTime date) {
     final startInstall = DateTime(
       installDate.year,
@@ -351,11 +424,13 @@ enum ReviewResult { again, hard, easy }
 
 @immutable
 class ReviewState {
+  /// Holds due timestamp and interval for one review sentence.
   const ReviewState({required this.dueAtEpochMs, required this.intervalDays});
 
   final int dueAtEpochMs;
   final int intervalDays;
 
+  /// Creates ReviewState from decoded JSON map.
   factory ReviewState.fromJson(Map<String, dynamic> json) {
     return ReviewState(
       dueAtEpochMs: json['dueAtEpochMs'] is int
@@ -367,6 +442,7 @@ class ReviewState {
     );
   }
 
+  /// Serializes ReviewState into JSON-friendly map.
   Map<String, dynamic> toJson() => <String, dynamic>{
     'dueAtEpochMs': dueAtEpochMs,
     'intervalDays': intervalDays,

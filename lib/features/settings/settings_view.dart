@@ -5,14 +5,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme.dart';
 import '../../core/ads/consent/consent_controller.dart';
+import '../../core/constants/feature_texts.dart';
+import '../../core/notifications/review_reminder_controller.dart';
+import '../../core/persistence/preferences_store.dart';
 import '../../ui_components/app_surfaces.dart';
 
+/// Renders user settings including reminder controls and consent tools.
 class SettingsView extends ConsumerWidget {
   const SettingsView({super.key});
 
   @override
+  /// Builds all settings sections and interaction handlers.
   Widget build(BuildContext context, WidgetRef ref) {
     final consent = ref.watch(consentControllerProvider);
+    final prefs = ref.watch(preferencesStoreProvider);
+    final reminder = ref.read(reviewReminderControllerProvider);
+    final reminderTime = TimeOfDay(
+      hour: prefs.reviewReminderHour,
+      minute: prefs.reviewReminderMinute,
+    );
 
     return Scaffold(
       appBar: AppBar(title: const Text('설정')),
@@ -23,6 +34,61 @@ class SettingsView extends ConsumerWidget {
             title: 'AI 기능',
             subtitle: '현재 준비 중입니다. 서버 연동 후 업데이트로 제공될 예정이에요.',
             badges: const ['결제 없음'],
+          ),
+          const SizedBox(height: 22),
+          AppCard(
+            title: FeatureTexts.reminderCardTitle,
+            subtitle: FeatureTexts.reminderCardSubtitle(
+              _formatTime(context, reminderTime),
+            ),
+            badges: const [FeatureTexts.reminderCardBadge],
+          ),
+          const SizedBox(height: 8),
+          SwitchListTile.adaptive(
+            value: prefs.reviewReminderEnabled,
+            onChanged: (enabled) async {
+              final result = await reminder.updateEnabled(enabled);
+              if (!context.mounted) return;
+              final message = switch (result) {
+                ReminderToggleResult.enabled =>
+                  FeatureTexts.reminderToggleOnMessage,
+                ReminderToggleResult.disabled =>
+                  FeatureTexts.reminderToggleOffMessage,
+                ReminderToggleResult.permissionDenied =>
+                  FeatureTexts.reminderPermissionDeniedMessage,
+              };
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(message)));
+            },
+            title: const Text(FeatureTexts.reminderToggleTitle),
+            subtitle: const Text(FeatureTexts.reminderToggleSubtitle),
+          ),
+          ListTile(
+            leading: const Icon(Icons.schedule_outlined),
+            title: const Text(FeatureTexts.reminderTimeTitle),
+            subtitle: Text(_formatTime(context, reminderTime)),
+            onTap: () async {
+              final picked = await showTimePicker(
+                context: context,
+                initialTime: reminderTime,
+              );
+              if (picked == null) return;
+              await reminder.updateTime(
+                hour: picked.hour,
+                minute: picked.minute,
+              );
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    FeatureTexts.reminderTimeUpdatedMessage(
+                      _formatTime(context, picked),
+                    ),
+                  ),
+                ),
+              );
+            },
           ),
           const SizedBox(height: 22),
           AppCard(
@@ -121,5 +187,12 @@ class SettingsView extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  /// Formats reminder time according to locale-specific conventions.
+  String _formatTime(BuildContext context, TimeOfDay value) {
+    return MaterialLocalizations.of(
+      context,
+    ).formatTimeOfDay(value, alwaysUse24HourFormat: false);
   }
 }
