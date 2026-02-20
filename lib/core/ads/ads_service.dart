@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../support/app_logger.dart';
 import 'consent/consent_controller.dart';
 
 final adsServiceProvider = Provider<AdsService>((ref) => AdsService(ref));
@@ -32,21 +33,39 @@ class AdsService {
   }
 
   Future<void> _doInit() async {
-    // 1) Gather consent first (required for policy compliance).
-    await _ref.read(consentControllerProvider.notifier).gatherConsent();
-    final consent = _ref.read(consentControllerProvider);
-    if (!consent.canRequestAds) {
-      if (kDebugMode) {
-        debugPrint(
-          '[ads] Consent not granted or not ready. Skip MobileAds init.',
-        );
+    final logger = _ref.read(appLoggerProvider);
+    try {
+      // 1) Gather consent first (required for policy compliance).
+      await _ref.read(consentControllerProvider.notifier).gatherConsent();
+      final consent = _ref.read(consentControllerProvider);
+      if (!consent.canRequestAds) {
+        if (kDebugMode) {
+          logger.info(
+            AppLogCategory.ads,
+            'Consent is not ready for ad requests. MobileAds init skipped.',
+          );
+        }
+        return;
       }
-      return;
+
+      // 2) Initialize Mobile Ads SDK after consent is granted / not required.
+      await MobileAds.instance.initialize();
+      _sdkInitialized = true;
+      logger.info(AppLogCategory.ads, 'MobileAds SDK initialized.');
+    } catch (error, stackTrace) {
+      logger.error(
+        AppLogCategory.ads,
+        'Failed to initialize MobileAds SDK.',
+        error: error,
+        stackTrace: stackTrace,
+      );
     }
 
-    // 2) Initialize Mobile Ads SDK after consent is granted / not required.
-    await MobileAds.instance.initialize();
-
-    _sdkInitialized = true;
+    if (!_sdkInitialized && kDebugMode) {
+      logger.warning(
+        AppLogCategory.ads,
+        'MobileAds SDK remains uninitialized after ensureInitialized.',
+      );
+    }
   }
 }

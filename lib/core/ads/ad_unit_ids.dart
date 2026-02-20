@@ -1,58 +1,113 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'ad_env.dart';
+import '../support/app_logger.dart';
+import '../support/runtime_config.dart';
 
-class AdUnitIds {
-  const AdUnitIds._();
+/// Supported ad-serving platforms.
+enum AppAdPlatform { android, ios, unsupported }
 
-  // Official Google-provided test ad units.
+/// Abstraction for platform detection to keep resolver unit-testable.
+abstract interface class AppPlatformDetector {
+  /// Returns the currently running platform.
+  AppAdPlatform current();
+}
+
+/// Default platform detector backed by `dart:io` platform flags.
+final class IoAppPlatformDetector implements AppPlatformDetector {
+  const IoAppPlatformDetector();
+
+  @override
+  AppAdPlatform current() {
+    if (Platform.isAndroid) return AppAdPlatform.android;
+    if (Platform.isIOS) return AppAdPlatform.ios;
+    return AppAdPlatform.unsupported;
+  }
+}
+
+/// Ad unit ID resolver contract.
+abstract interface class AdUnitIdResolver {
+  /// Resolves a banner ad unit ID for the current platform.
+  String banner();
+}
+
+/// Production resolver combining runtime config, platform, and safety checks.
+final class DefaultAdUnitIdResolver implements AdUnitIdResolver {
+  const DefaultAdUnitIdResolver({
+    required RuntimeConfigValues config,
+    required AppPlatformDetector platformDetector,
+    required AppLogger logger,
+  }) : _config = config,
+       _platformDetector = platformDetector,
+       _logger = logger;
+
   static const String _testBannerAndroid =
       'ca-app-pub-3940256099942544/6300978111';
-
   static const String _testBannerIos = 'ca-app-pub-3940256099942544/2934735716';
 
-  // Production ad unit IDs are not secrets. Keeping them as defaults prevents
-  // accidental "no-ads" releases when dart-define is missing.
-  static const String _prodBannerAndroid =
-      'ca-app-pub-9780094598585299/6706144880';
+  final RuntimeConfigValues _config;
+  final AppPlatformDetector _platformDetector;
+  final AppLogger _logger;
 
-  static String banner() => Platform.isAndroid ? bannerAndroid() : bannerIos();
-
-  static String bannerAndroid() => _resolve(
-    prodKey: 'ADMOB_BANNER_ID_ANDROID',
-    testId: _testBannerAndroid,
-    defaultProd: _prodBannerAndroid,
-  );
-
-  static String bannerIos() => _resolve(
-    prodKey: 'ADMOB_BANNER_ID_IOS',
-    testId: _testBannerIos,
-    defaultProd: '',
-  );
-
-  static String _resolve({
-    required String prodKey,
-    required String testId,
-    required String defaultProd,
-  }) {
-    if (AdEnv.useTestAds) return testId;
-
-    final prod = String.fromEnvironment(
-      prodKey,
-      defaultValue: defaultProd,
-    ).trim();
-    if (prod.isNotEmpty) return prod;
-
-    // Fail-safe: do not show ads if prod IDs are missing. (Better than shipping
-    // test ads or crashing on load in release builds.)
-    if (kDebugMode) {
-      debugPrint(
-        '[ads] Missing $prodKey. Provide it via --dart-define or enable test ads '
-        '(--dart-define=ADMOB_USE_TEST_ADS=true).',
-      );
+  @override
+  String banner() {
+    final platform = _platformDetector.current();
+    if (_config.adMobUseTestAds) {
+      return switch (platform) {
+        AppAdPlatform.android => _testBannerAndroid,
+        AppAdPlatform.ios => _testBannerIos,
+        AppAdPlatform.unsupported => '',
+      };
     }
+
+    return switch (platform) {
+      AppAdPlatform.android => _resolveProduction(
+        configured: _config.adMobBannerIdAndroid,
+        fallback: '',
+        platformName: 'android',
+      ),
+      AppAdPlatform.ios => _resolveProduction(
+        configured: _config.adMobBannerIdIos,
+        fallback: '',
+        platformName: 'ios',
+      ),
+      AppAdPlatform.unsupported => '',
+    };
+  }
+
+  /// Resolves production ad unit safely; empty string disables ad loading.
+  String _resolveProduction({
+    required String configured,
+    required String fallback,
+    required String platformName,
+  }) {
+    final value = configured.trim().isNotEmpty ? configured.trim() : fallback;
+    if (value.isNotEmpty) {
+      return value;
+    }
+
+    _logger.warning(
+      AppLogCategory.ads,
+      'Missing production banner ID for $platformName; banner ad is disabled.',
+    );
     return '';
   }
 }
+
+/// Provider for the application platform detector.
+final appPlatformDetectorProvider = Provider<AppPlatformDetector>((ref) {
+  return const IoAppPlatformDetector();
+});
+
+/// Provider for banner ad unit resolution.
+final adUnitIdResolverProvider = Provider<AdUnitIdResolver>((ref) {
+  final config = ref.watch(runtimeConfigValuesProvider);
+  final platformDetector = ref.watch(appPlatformDetectorProvider);
+  final logger = ref.watch(appLoggerProvider);
+  return DefaultAdUnitIdResolver(
+    config: config,
+    platformDetector: platformDetector,
+    logger: logger,
+  );
+});

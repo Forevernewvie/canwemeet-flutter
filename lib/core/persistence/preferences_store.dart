@@ -1,10 +1,13 @@
 import 'dart:collection';
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart' as legacy;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'isar/isar_persistence_engine.dart';
 
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
   throw UnimplementedError(
@@ -15,11 +18,13 @@ final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
 final preferencesStoreProvider =
     legacy.ChangeNotifierProvider<PreferencesStore>((ref) {
       final prefs = ref.watch(sharedPreferencesProvider);
-      return PreferencesStore(prefs);
+      final isarEngine = ref.watch(isarPersistenceEngineProvider);
+      return PreferencesStore(prefs, isarEngine: isarEngine);
     });
 
 class PreferencesStore extends ChangeNotifier {
-  PreferencesStore(this._prefs) {
+  PreferencesStore(this._prefs, {IsarPersistenceEngine? isarEngine})
+    : _isarEngine = isarEngine ?? defaultIsarPersistenceEngine {
     _onboardingCompleted = _prefs.getBool(_kOnboardingCompleted) ?? false;
     _installDateIso = _prefs.getString(_kInstallDateIso);
     _installDateIso ??= DateTime.now().toIso8601String();
@@ -30,6 +35,9 @@ class PreferencesStore extends ChangeNotifier {
     _studiedDayKeys =
         (_prefs.getStringList(_kStudiedDayKeys) ?? const <String>[]).toSet();
     _reviewMap = _decodeReviewMap(_prefs.getString(_kReviewStateJson));
+
+    unawaited(_hydrateFromIsar());
+    _persistMeta();
   }
 
   static const _kOnboardingCompleted = 'onboarding_completed';
@@ -39,6 +47,7 @@ class PreferencesStore extends ChangeNotifier {
   static const _kReviewStateJson = 'review_state_json';
 
   final SharedPreferences _prefs;
+  final IsarPersistenceEngine _isarEngine;
 
   bool _onboardingCompleted = false;
   String? _installDateIso;
@@ -61,6 +70,7 @@ class PreferencesStore extends ChangeNotifier {
     if (_onboardingCompleted) return;
     _onboardingCompleted = true;
     _prefs.setBool(_kOnboardingCompleted, true);
+    _persistMeta();
     notifyListeners();
   }
 
@@ -83,12 +93,14 @@ class PreferencesStore extends ChangeNotifier {
     _persistFavorites();
     _persistReviewState();
     _persistStudiedDays();
+    _persistMeta();
     notifyListeners();
   }
 
   void recordStudyEvent({DateTime? now}) {
     _recordStudiedDay(now ?? DateTime.now());
     _persistStudiedDays();
+    _persistMeta();
     notifyListeners();
   }
 
@@ -164,6 +176,7 @@ class PreferencesStore extends ChangeNotifier {
     _recordStudiedDay(current);
     _persistReviewState();
     _persistStudiedDays();
+    _persistMeta();
     notifyListeners();
   }
 
@@ -174,6 +187,7 @@ class PreferencesStore extends ChangeNotifier {
       intervalDays: 0,
     );
     _persistReviewState();
+    _persistMeta();
     notifyListeners();
   }
 
@@ -183,6 +197,9 @@ class PreferencesStore extends ChangeNotifier {
 
   void _persistFavorites() {
     _prefs.setStringList(_kFavoriteIds, _favoriteIds.toList(growable: false));
+    if (_isarEngine.isEnabled) {
+      unawaited(_isarEngine.replaceFavorites(_favoriteIds));
+    }
   }
 
   void _persistStudiedDays() {
@@ -190,6 +207,9 @@ class PreferencesStore extends ChangeNotifier {
       _kStudiedDayKeys,
       _studiedDayKeys.toList(growable: false),
     );
+    if (_isarEngine.isEnabled) {
+      unawaited(_isarEngine.replaceStudiedDays(_studiedDayKeys));
+    }
   }
 
   void _persistReviewState() {
@@ -197,6 +217,77 @@ class PreferencesStore extends ChangeNotifier {
       _reviewMap.map((key, value) => MapEntry(key, value.toJson())),
     );
     _prefs.setString(_kReviewStateJson, json);
+    if (_isarEngine.isEnabled) {
+      unawaited(
+        _isarEngine.replaceReviewMap(_toPersistedReviewMap(_reviewMap)),
+      );
+    }
+  }
+
+  void _persistMeta() {
+    if (!_isarEngine.isEnabled) return;
+    final installDateIso = _installDateIso ?? DateTime.now().toIso8601String();
+    unawaited(
+      _isarEngine.persistMeta(
+        onboardingCompleted: _onboardingCompleted,
+        installDateIso: installDateIso,
+      ),
+    );
+  }
+
+  Future<void> _hydrateFromIsar() async {
+    if (!_isarEngine.isEnabled) return;
+    final snapshot = await _isarEngine.loadStateSnapshot();
+    if (snapshot == null) {
+      // Isar missing/empty: keep legacy values and let startup migration handle
+      // initial copy. Writes continue to dual targets for rollback safety.
+      return;
+    }
+
+    final isarInstallDateIso = snapshot.meta.installDateIso.isEmpty
+        ? (_installDateIso ?? DateTime.now().toIso8601String())
+        : snapshot.meta.installDateIso;
+
+    final shouldNotify =
+        _onboardingCompleted != snapshot.meta.onboardingCompleted ||
+        _installDateIso != isarInstallDateIso ||
+        !_setEquals(_favoriteIds, snapshot.favoriteIds) ||
+        !_setEquals(_studiedDayKeys, snapshot.studiedDayKeys) ||
+        !_reviewMapEquals(_reviewMap, snapshot.reviewMap);
+
+    _onboardingCompleted = snapshot.meta.onboardingCompleted;
+    _installDateIso = isarInstallDateIso;
+    _favoriteIds = snapshot.favoriteIds;
+    _studiedDayKeys = snapshot.studiedDayKeys;
+    _reviewMap = _fromPersistedReviewMap(snapshot.reviewMap);
+
+    if (shouldNotify) {
+      notifyListeners();
+    }
+  }
+
+  Map<String, PersistedReviewState> _toPersistedReviewMap(
+    Map<String, ReviewState> source,
+  ) {
+    return <String, PersistedReviewState>{
+      for (final entry in source.entries)
+        entry.key: PersistedReviewState(
+          dueAtEpochMs: entry.value.dueAtEpochMs,
+          intervalDays: entry.value.intervalDays,
+        ),
+    };
+  }
+
+  Map<String, ReviewState> _fromPersistedReviewMap(
+    Map<String, PersistedReviewState> source,
+  ) {
+    return <String, ReviewState>{
+      for (final entry in source.entries)
+        entry.key: ReviewState(
+          dueAtEpochMs: entry.value.dueAtEpochMs,
+          intervalDays: entry.value.intervalDays,
+        ),
+    };
   }
 
   Map<String, ReviewState> _decodeReviewMap(String? raw) {
@@ -215,6 +306,25 @@ class PreferencesStore extends ChangeNotifier {
     } catch (_) {
       return <String, ReviewState>{};
     }
+  }
+
+  bool _setEquals(Set<String> a, Set<String> b) {
+    if (a.length != b.length) return false;
+    return a.containsAll(b);
+  }
+
+  bool _reviewMapEquals(
+    Map<String, ReviewState> legacy,
+    Map<String, PersistedReviewState> persisted,
+  ) {
+    if (legacy.length != persisted.length) return false;
+    for (final entry in legacy.entries) {
+      final other = persisted[entry.key];
+      if (other == null) return false;
+      if (other.dueAtEpochMs != entry.value.dueAtEpochMs) return false;
+      if (other.intervalDays != entry.value.intervalDays) return false;
+    }
+    return true;
   }
 
   String _dayKey(DateTime date) {

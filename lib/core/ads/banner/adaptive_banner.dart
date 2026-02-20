@@ -4,6 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../ad_unit_ids.dart';
 import '../ads_service.dart';
+import '../../support/app_logger.dart';
 
 class AdaptiveBannerAd extends ConsumerStatefulWidget {
   const AdaptiveBannerAd({super.key});
@@ -34,10 +35,11 @@ class _AdaptiveBannerAdState extends ConsumerState<AdaptiveBannerAd> {
     if (_isLoading) return;
     if (_ad != null) return;
 
-    final adUnitId = AdUnitIds.banner();
+    final adUnitId = ref.read(adUnitIdResolverProvider).banner();
     if (adUnitId.isEmpty) return;
 
     _isLoading = true;
+    final logger = ref.read(appLoggerProvider);
 
     await ref.read(adsServiceProvider).ensureInitialized();
     if (!mounted) return;
@@ -49,6 +51,10 @@ class _AdaptiveBannerAdState extends ConsumerState<AdaptiveBannerAd> {
     if (!mounted) return;
     if (size == null) {
       _isLoading = false;
+      logger.warning(
+        AppLogCategory.ads,
+        'Adaptive banner size is unavailable for current orientation.',
+      );
       return;
     }
 
@@ -70,6 +76,10 @@ class _AdaptiveBannerAdState extends ConsumerState<AdaptiveBannerAd> {
         },
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
+          logger.error(
+            AppLogCategory.ads,
+            'Banner load failed (${error.code}): ${error.message}',
+          );
           if (!mounted) return;
           setState(() {
             _ad = null;

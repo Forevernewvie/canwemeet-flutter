@@ -1,10 +1,14 @@
 import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'isar/isar_persistence_engine.dart';
+
 final fileCacheProvider = Provider<StringCache>((ref) {
-  return FileCache();
+  final engine = ref.watch(isarPersistenceEngineProvider);
+  return IsarBackedStringCache(engine: engine, legacy: FileCache());
 });
 
 abstract class StringCache {
@@ -57,6 +61,51 @@ class FileCache implements StringCache {
     } catch (_) {
       // ignore
     }
+  }
+}
+
+class IsarBackedStringCache implements StringCache {
+  IsarBackedStringCache({
+    required IsarPersistenceEngine engine,
+    required StringCache legacy,
+  }) : _engine = engine,
+       _legacy = legacy;
+
+  final IsarPersistenceEngine _engine;
+  final StringCache _legacy;
+
+  @override
+  Future<String?> readString(String key) async {
+    if (!_engine.isEnabled) {
+      return _legacy.readString(key);
+    }
+
+    final fromIsar = await _engine.readCache(key);
+    if (fromIsar != null) {
+      return fromIsar;
+    }
+
+    final fromLegacy = await _legacy.readString(key);
+    if (fromLegacy != null) {
+      unawaited(_engine.writeCache(key, fromLegacy));
+    }
+    return fromLegacy;
+  }
+
+  @override
+  Future<void> writeString(String key, String value) async {
+    if (_engine.isEnabled) {
+      await _engine.writeCache(key, value);
+    }
+    await _legacy.writeString(key, value);
+  }
+
+  @override
+  Future<void> delete(String key) async {
+    if (_engine.isEnabled) {
+      await _engine.deleteCache(key);
+    }
+    await _legacy.delete(key);
   }
 }
 

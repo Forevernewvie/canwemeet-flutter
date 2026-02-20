@@ -22,7 +22,10 @@ class TodayPackUseCase {
   final PreferencesStore _prefs;
 
   static const int curatedTrialDays = 7;
+  static const int _extraSentenceCount = 2;
+  static const int _patternCount = 3;
 
+  /// Builds the deterministic sentence/pattern set for the requested date.
   Future<TodayPack> getTodayPack({
     required DateTime date,
     required String scenarioTag,
@@ -47,7 +50,7 @@ class TodayPackUseCase {
       );
       curated = _repo.pickOneDeterministic(
         curatedPool,
-        '$dateIso|$scenarioTag|curated',
+        _seed(dateIso, scenarioTag, 'curated'),
       );
     }
 
@@ -61,8 +64,8 @@ class TodayPackUseCase {
 
     final extras = _repo.pickManyDeterministic(
       extrasPool,
-      2,
-      '$dateIso|$scenarioTag|extras',
+      _extraSentenceCount,
+      _seed(dateIso, scenarioTag, 'extras'),
     );
 
     final patternsPool = _repo.filterPatternsByTag(
@@ -71,8 +74,8 @@ class TodayPackUseCase {
     );
     final patterns = _repo.pickManyDeterministic(
       patternsPool,
-      3,
-      '$dateIso|$scenarioTag|patterns',
+      _patternCount,
+      _seed(dateIso, scenarioTag, 'patterns'),
     );
 
     return TodayPack(
@@ -92,6 +95,11 @@ class TodayPackUseCase {
     final m = date.month.toString().padLeft(2, '0');
     final d = date.day.toString().padLeft(2, '0');
     return '$y-$m-$d';
+  }
+
+  /// Creates a stable seed key so daily selection remains deterministic.
+  String _seed(String dateIso, String scenarioTag, String bucket) {
+    return '$dateIso|$scenarioTag|$bucket';
   }
 }
 

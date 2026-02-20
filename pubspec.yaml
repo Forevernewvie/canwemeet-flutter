@@ -40,6 +40,8 @@ dependencies:
   path_provider: ^2.1.5
   crypto: ^3.0.7
   google_mobile_ads: ^7.0.0
+  isar_community: ^3.3.0
+  isar_community_flutter_libs: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -52,6 +54,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.4
+  isar_community_generator: ^3.3.0
+  build_runner: ^2.4.15
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

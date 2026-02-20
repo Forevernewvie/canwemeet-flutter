@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../support/app_logger.dart';
 import 'ump_consent_channel.dart';
 
 @immutable
@@ -67,6 +68,8 @@ final consentControllerProvider =
     NotifierProvider<ConsentController, ConsentState>(ConsentController.new);
 
 class ConsentController extends Notifier<ConsentState> {
+  AppLogger get _logger => ref.read(appLoggerProvider);
+
   @override
   ConsentState build() {
     Future<void>.microtask(refreshDebugState);
@@ -76,44 +79,101 @@ class ConsentController extends Notifier<ConsentState> {
   Future<void> gatherConsent({bool force = false}) async {
     if (!force && state.isReady) return;
 
-    final res = await UmpConsentChannel.gatherConsent();
-    final debug = await UmpConsentChannel.getDebugState();
+    try {
+      final res = await UmpConsentChannel.gatherConsent();
+      final debug = await UmpConsentChannel.getDebugState();
 
-    state = state.copyWith(
-      isReady: true,
-      canRequestAds: res.canRequestAds,
-      isPrivacyOptionsRequired: res.isPrivacyOptionsRequired,
-      consentStatus: res.consentStatus,
-      lastError: res.error,
-      debugForceEea: debug.forceEea,
-      debugDeviceHash: debug.deviceHash,
-    );
+      state = state.copyWith(
+        isReady: true,
+        canRequestAds: res.canRequestAds,
+        isPrivacyOptionsRequired: res.isPrivacyOptionsRequired,
+        consentStatus: res.consentStatus,
+        lastError: res.error,
+        debugForceEea: debug.forceEea,
+        debugDeviceHash: debug.deviceHash,
+      );
+    } catch (error, stackTrace) {
+      _logger.error(
+        AppLogCategory.consent,
+        'Failed to gather UMP consent state.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(
+        isReady: true,
+        canRequestAds: false,
+        lastError: error.toString(),
+      );
+    }
   }
 
   Future<bool> showPrivacyOptionsForm() async {
-    final ok = await UmpConsentChannel.showPrivacyOptionsForm();
-    await gatherConsent(force: true);
-    return ok;
+    try {
+      final ok = await UmpConsentChannel.showPrivacyOptionsForm();
+      await gatherConsent(force: true);
+      return ok;
+    } catch (error, stackTrace) {
+      _logger.error(
+        AppLogCategory.consent,
+        'Failed to open Privacy Options form.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(lastError: error.toString());
+      return false;
+    }
   }
 
   Future<void> refreshDebugState() async {
-    final debug = await UmpConsentChannel.getDebugState();
-    state = state.copyWith(
-      debugForceEea: debug.forceEea,
-      debugDeviceHash: debug.deviceHash,
-      lastError: state.lastError,
-    );
+    try {
+      final debug = await UmpConsentChannel.getDebugState();
+      state = state.copyWith(
+        debugForceEea: debug.forceEea,
+        debugDeviceHash: debug.deviceHash,
+        lastError: state.lastError,
+      );
+    } catch (error, stackTrace) {
+      _logger.error(
+        AppLogCategory.consent,
+        'Failed to read UMP debug state.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(lastError: error.toString());
+    }
   }
 
   Future<bool> setDebugForceEea(bool enabled) async {
-    final ok = await UmpConsentChannel.setDebugForceEea(enabled);
-    await gatherConsent(force: true);
-    return ok;
+    try {
+      final ok = await UmpConsentChannel.setDebugForceEea(enabled);
+      await gatherConsent(force: true);
+      return ok;
+    } catch (error, stackTrace) {
+      _logger.error(
+        AppLogCategory.consent,
+        'Failed to update UMP debug geography flag.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(lastError: error.toString());
+      return false;
+    }
   }
 
   Future<bool> resetConsent() async {
-    final ok = await UmpConsentChannel.resetConsent();
-    await gatherConsent(force: true);
-    return ok;
+    try {
+      final ok = await UmpConsentChannel.resetConsent();
+      await gatherConsent(force: true);
+      return ok;
+    } catch (error, stackTrace) {
+      _logger.error(
+        AppLogCategory.consent,
+        'Failed to reset UMP consent state.',
+        error: error,
+        stackTrace: stackTrace,
+      );
+      state = state.copyWith(lastError: error.toString());
+      return false;
+    }
   }
 }
