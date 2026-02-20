@@ -75,6 +75,8 @@ class _TodayViewState extends ConsumerState<TodayView> {
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(16, 6, 16, 18),
                 children: [
+                  const _TopBarCard(title: 'Today'),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       const Spacer(),
@@ -133,6 +135,37 @@ class _TodayViewState extends ConsumerState<TodayView> {
   }
 }
 
+class _TopBarCard extends StatelessWidget {
+  const _TopBarCard({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.borderSoft),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            const Spacer(),
+            const CircleAvatar(
+              radius: 17,
+              backgroundColor: AppColors.surfaceMuted,
+              child: Icon(Icons.notifications_none_rounded, size: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _ErrorState extends StatelessWidget {
   const _ErrorState({required this.error, required this.onRetry});
 
@@ -171,35 +204,26 @@ class _TodayContent extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          pack.curatedSentence == null ? '오늘의 큐레이션 (잠김)' : '오늘의 큐레이션 1개',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
+        Text('오늘의 큐레이션 1개', style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 10),
-        if (pack.isCuratedLocked)
-          AppCard(
-            title: '초기 7일 추천 모드',
-            subtitle: '큐레이션 문장은 초기 7일 체험 이후 잠겨요.',
-            badges: const ['잠김'],
-            trailing: const Icon(Icons.lock_outline_rounded),
-          )
-        else if (pack.curatedSentence != null)
+        if (pack.curatedSentence != null)
           _SentenceCardBlock(
             sentence: pack.curatedSentence!,
             badges: [
               '큐레이션',
-              if (pack.curatedTrialDaysRemaining > 0)
-                '무료 체험 ${pack.curatedTrialDaysRemaining}일 남음',
               if (pack.curatedSentence!.usageLabel.isNotEmpty)
                 pack.curatedSentence!.usageLabel,
               '톤: ${pack.curatedSentence!.tone}',
             ],
+          )
+        else
+          const AppCard(
+            title: '큐레이션 문장을 준비 중이에요.',
+            subtitle: '지금은 추가 추천 문장으로 학습을 이어갈 수 있어요.',
           ),
         const SizedBox(height: 18),
         Text(
-          pack.curatedSentence == null
-              ? '오늘의 문장 ${pack.extraSentences.length}개'
-              : '추가 추천 ${pack.extraSentences.length}개',
+          '추가 추천 ${pack.extraSentences.length}개',
           style: Theme.of(context).textTheme.titleSmall,
         ),
         const SizedBox(height: 10),
@@ -223,9 +247,20 @@ class _TodayContent extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
         ],
+        const SizedBox(height: 8),
+        Text('빠른 실행', style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: const [
+            _QuickChip(label: '🔊 발음 듣기'),
+            _QuickChip(label: '⭐ 오늘팩 저장'),
+          ],
+        ),
         if (prefs.hasStudiedToday())
           Padding(
-            padding: const EdgeInsets.only(top: 4),
+            padding: const EdgeInsets.only(top: 8),
             child: Text(
               '오늘 학습이 기록되었어요.',
               style: Theme.of(
@@ -234,6 +269,26 @@ class _TodayContent extends ConsumerWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+class _QuickChip extends StatelessWidget {
+  const _QuickChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.chip,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Text(label, style: Theme.of(context).textTheme.labelMedium),
+      ),
     );
   }
 }
@@ -299,8 +354,8 @@ class _FocusChips extends StatelessWidget {
             label: Text('${tag.emoji} ${tag.titleKr}'),
             labelStyle: TextStyle(
               color: isSelected ? AppColors.onAccent : AppColors.chipText,
-              fontWeight: FontWeight.w700,
-              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
             backgroundColor: AppColors.chip,
             selectedColor: AppColors.accent,
@@ -309,7 +364,6 @@ class _FocusChips extends StatelessWidget {
               borderRadius: BorderRadius.circular(999),
             ),
             showCheckmark: false,
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           );
         },
         separatorBuilder: (context, _) => const SizedBox(width: 8),

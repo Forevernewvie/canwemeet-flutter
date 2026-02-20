@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme.dart';
 import '../../core/persistence/preferences_store.dart';
 import '../../ui_components/primary_button.dart';
 
@@ -29,29 +30,50 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
   Widget build(BuildContext context) {
     final pages = <_OnboardingPageData>[
       const _OnboardingPageData(
+        emoji: '💬',
         title: '우리 제법 잘 어울려',
-        subtitle: '영어권 연인과 대화가 막힐 때,\n오늘 바로 쓰는 문장 3개 + 패턴 3개',
-        icon: Icons.chat_bubble_outline,
+        subtitle: '연인과의 영어 대화를\n매일 3문장 + 3패턴으로\n자연스럽게 이어가요.',
+        bullets: [
+          '• 오늘 바로 쓰는 문장 추천',
+          '• 발음/저장/복습 루프',
+          '• 스트릭으로 습관 만들기',
+        ],
       ),
       const _OnboardingPageData(
+        emoji: '🗓️',
         title: '매일 3문장 + 3패턴',
-        subtitle: '상황을 고르면 그 대화에\n가까운 문장을 추천해요.',
-        icon: Icons.calendar_today_outlined,
+        subtitle: '상황 포커스를 고르면\n대화 맥락에 맞는 추천을\n빠르게 확인할 수 있어요.',
+        bullets: [
+          '• Today에서 바로 추천 확인',
+          '• Explore에서 태그+검색 탐색',
+          '• My Library에서 복습 이어가기',
+        ],
       ),
       const _OnboardingPageData(
-        title: 'AI 기능 준비 중',
-        subtitle: '현재는 문장/패턴 학습 기능에 집중하고 있어요.\nAI 대화 기능은 추후 제공 예정입니다.',
-        icon: Icons.auto_awesome_outlined,
+        emoji: '🤝',
+        title: '실전 전송 모드 지원',
+        subtitle: '문장 상세에서 톤을 바꾸고\n복사/공유로 바로 전송해\n실전 대화를 이어가요.',
+        bullets: [
+          '• Natural / Softer / More direct',
+          '• 복사 / 공유 원탭 동작',
+          '• 리마인더로 학습 루틴 유지',
+        ],
       ),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [TextButton(onPressed: _complete, child: const Text('건너뛰기'))],
-      ),
       body: SafeArea(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+              child: Row(
+                children: [
+                  const Spacer(),
+                  TextButton(onPressed: _complete, child: const Text('건너뛰기')),
+                ],
+              ),
+            ),
             Expanded(
               child: PageView.builder(
                 controller: _controller,
@@ -61,9 +83,9 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
               ),
             ),
             _Dots(count: pages.length, index: _index),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: PrimaryButton(
                 label: _index == pages.length - 1 ? '시작하기' : '다음',
                 onPressed: () {
@@ -78,6 +100,15 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+              child: Text(
+                '시작 후에도 설정에서 알림 시간을 바꿀 수 있어요.',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.textTertiary,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -87,14 +118,16 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
 class _OnboardingPageData {
   const _OnboardingPageData({
+    required this.emoji,
     required this.title,
     required this.subtitle,
-    required this.icon,
+    required this.bullets,
   });
 
+  final String emoji;
   final String title;
   final String subtitle;
-  final IconData icon;
+  final List<String> bullets;
 }
 
 class _OnboardingPage extends StatelessWidget {
@@ -104,30 +137,68 @@ class _OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(page.icon, size: 72),
-          const SizedBox(height: 24),
-          Text(
-            page.title,
-            textAlign: TextAlign.center,
-            style: Theme.of(
-              context,
-            ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
-          ),
-          const SizedBox(height: 12),
-          Text(
-            page.subtitle,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.elevatedSurface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 170,
+                    child: Center(
+                      child: Text(page.emoji, style: const TextStyle(fontSize: 48)),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(page.title, style: Theme.of(context).textTheme.headlineLarge),
+                const SizedBox(height: 8),
+                Text(
+                  page.subtitle,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyLarge?.copyWith(color: AppColors.chipText),
+                ),
+                const SizedBox(height: 12),
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.card,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: AppColors.borderSoft),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final bullet in page.bullets)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            child: Text(
+                              bullet,
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppColors.chipText,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -141,7 +212,6 @@ class _Dots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final on = Theme.of(context).colorScheme.primary;
-    final off = Theme.of(context).colorScheme.outlineVariant;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -149,11 +219,11 @@ class _Dots extends StatelessWidget {
         count,
         (i) => AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: i == index ? 18 : 6,
-          height: 6,
+          margin: const EdgeInsets.symmetric(horizontal: 3),
+          width: i == index ? 20 : 8,
+          height: 8,
           decoration: BoxDecoration(
-            color: i == index ? on : off,
+            color: i == index ? on : const Color(0xFFD6C8B3),
             borderRadius: BorderRadius.circular(99),
           ),
         ),

@@ -3,22 +3,56 @@ import 'package:flutter/material.dart';
 class AppColors {
   const AppColors._();
 
-  static const Color bg = Color(0xFFF8FAFC);
-  static const Color card = Color(0xFFFFFFFF);
-  static const Color elevatedSurface = Color(0xFFF1F5F9);
+  // Pencil MCP MVP palette
+  static const Color bg = Color(0xFFF4F0E9);
+  static const Color card = Color(0xFFFFFDF9);
+  static const Color elevatedSurface = Color(0xFFEEE7DC);
   static const Color onAccent = Color(0xFFFFFFFF);
-  static const Color chip = Color(0xFFEEF2FF);
-  static const Color chipText = Color(0xFF334155);
+  static const Color chip = Color(0xFFE7E0D2);
+  static const Color chipText = Color(0xFF6D6C6A);
   static const Color surfaceMuted = elevatedSurface;
-  static const Color text = Color(0xFF0F172A);
-  static const Color subText = Color(0xFF475569);
-  static const Color textTertiary = Color(0xFF64748B);
-  static const Color divider = Color(0xFFE2E8F0);
-  static const Color borderSoft = Color(0xFFE2E8F0);
-  static const Color accent = Color(0xFF334155);
-  static const Color accentSoft = Color(0xFFE2E8F0);
-  static const Color badgeAccentBg = Color(0xFFF1F5F9);
-  static const Color badgeAccentText = Color(0xFF334155);
+  static const Color text = Color(0xFF1A1918);
+  static const Color subText = Color(0xFF6D6C6A);
+  static const Color textTertiary = Color(0xFF8A857D);
+  static const Color divider = Color(0xFFE6DDCE);
+  static const Color borderSoft = divider;
+  static const Color accent = Color(0xFF2F8E63);
+  static const Color accentWarm = Color(0xFFD88B66);
+  static const Color accentSoft = Color(0xFFE3F0EC);
+  static const Color badgeAccentBg = chip;
+  static const Color badgeAccentText = chipText;
+}
+
+class AppSpacing {
+  const AppSpacing._();
+
+  static const double xxs = 4;
+  static const double xs = 8;
+  static const double sm = 12;
+  static const double md = 16;
+  static const double lg = 24;
+  static const double xl = 32;
+}
+
+class AppRadius {
+  const AppRadius._();
+
+  static const double sm = 8;
+  static const double md = 12;
+  static const double lg = 16;
+  static const double xl = 24;
+}
+
+class AppShadows {
+  const AppShadows._();
+
+  static const List<BoxShadow> l0 = <BoxShadow>[];
+  static const List<BoxShadow> l1 = <BoxShadow>[
+    BoxShadow(color: Color(0x1A191714), offset: Offset(0, 1), blurRadius: 4),
+  ];
+  static const List<BoxShadow> l2 = <BoxShadow>[
+    BoxShadow(color: Color(0x24191714), offset: Offset(0, 4), blurRadius: 12),
+  ];
 }
 
 ThemeData buildAppTheme() {
@@ -27,7 +61,7 @@ ThemeData buildAppTheme() {
     colorScheme: const ColorScheme.light(
       primary: AppColors.accent,
       onPrimary: AppColors.onAccent,
-      secondary: AppColors.chip,
+      secondary: AppColors.accentWarm,
       surface: AppColors.card,
       onSurface: AppColors.text,
       onSurfaceVariant: AppColors.subText,
@@ -50,7 +84,7 @@ ThemeData buildAppTheme() {
       color: AppColors.card,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(AppRadius.lg),
         side: const BorderSide(color: AppColors.borderSoft),
       ),
       margin: EdgeInsets.zero,
@@ -62,14 +96,19 @@ ThemeData buildAppTheme() {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
       labelStyle: const TextStyle(
         color: AppColors.chipText,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
       ),
       secondaryLabelStyle: const TextStyle(
         color: AppColors.onAccent,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
       ),
       showCheckmark: false,
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.xs,
+        vertical: 4,
+      ),
     ),
     dividerTheme: const DividerThemeData(
       color: AppColors.divider,
@@ -88,7 +127,7 @@ ThemeData buildAppTheme() {
         final selected = states.contains(WidgetState.selected);
         return TextStyle(
           color: selected ? AppColors.accent : AppColors.subText,
-          fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+          fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
           fontSize: 12,
         );
       }),
@@ -106,90 +145,94 @@ ThemeData buildAppTheme() {
     textTheme: base.textTheme.copyWith(
       displaySmall: const TextStyle(
         fontSize: 34,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: AppColors.text,
       ),
       headlineLarge: const TextStyle(
-        fontSize: 30,
-        fontWeight: FontWeight.w800,
+        fontSize: 26,
+        fontWeight: FontWeight.w600,
         height: 1.2,
         color: AppColors.text,
       ),
       headlineMedium: const TextStyle(
-        fontSize: 22,
-        fontWeight: FontWeight.w800,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
         height: 1.25,
         color: AppColors.text,
       ),
       titleLarge: const TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
         height: 1.25,
         color: AppColors.text,
       ),
       titleMedium: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
         height: 1.25,
         color: AppColors.text,
       ),
       titleSmall: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        fontWeight: FontWeight.w600,
         height: 1.25,
         color: AppColors.text,
       ),
       bodyLarge: const TextStyle(
-        fontSize: 15.5,
+        fontSize: 14,
         height: 1.4,
         color: AppColors.text,
       ),
       bodyMedium: const TextStyle(
-        fontSize: 15,
+        fontSize: 14,
         height: 1.4,
         color: AppColors.text,
       ),
       bodySmall: const TextStyle(
-        fontSize: 13.5,
+        fontSize: 12,
         height: 1.35,
         color: AppColors.subText,
       ),
-      labelLarge: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
-      labelMedium: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+      labelLarge: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+      labelMedium: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
         backgroundColor: AppColors.accent,
         foregroundColor: AppColors.onAccent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.text,
         side: const BorderSide(color: AppColors.divider),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-        textStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+        ),
+        textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      hintStyle: const TextStyle(color: AppColors.subText, fontSize: 15),
+      hintStyle: const TextStyle(color: AppColors.subText, fontSize: 14),
       filled: true,
       fillColor: AppColors.surfaceMuted,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppRadius.md),
         borderSide: BorderSide.none,
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppRadius.md),
         borderSide: BorderSide.none,
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.circular(AppRadius.md),
         borderSide: const BorderSide(color: AppColors.accent, width: 1.2),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     ),
   );
 }

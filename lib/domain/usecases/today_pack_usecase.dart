@@ -21,7 +21,7 @@ class TodayPackUseCase {
   final ContentRepository _repo;
   final PreferencesStore _prefs;
 
-  static const int curatedTrialDays = 7;
+  // Keep existing pack structure but no lock behavior in MVP.
   static const int _extraSentenceCount = 2;
   static const int _patternCount = 3;
 
@@ -33,26 +33,18 @@ class TodayPackUseCase {
     final snapshot = await _repo.loadAll();
 
     final dayIndex = _prefs.dayIndexFor(date);
-    final trialDaysRemaining = (curatedTrialDays - dayIndex).clamp(
-      0,
-      curatedTrialDays,
-    );
-
-    final curatedUnlocked = dayIndex < curatedTrialDays;
-
     final dateIso = _isoDate(date);
 
-    Sentence? curated;
-    if (curatedUnlocked) {
-      final curatedPool = _repo.filterSentencesByTag(
-        snapshot.curated,
-        scenarioTag,
-      );
-      curated = _repo.pickOneDeterministic(
-        curatedPool,
-        _seed(dateIso, scenarioTag, 'curated'),
-      );
-    }
+    final curatedPool = _repo.filterSentencesByTag(
+      snapshot.curated,
+      scenarioTag,
+    );
+    final Sentence? curated = curatedPool.isEmpty
+        ? null
+        : _repo.pickOneDeterministic(
+            curatedPool,
+            _seed(dateIso, scenarioTag, 'curated'),
+          );
 
     final fullPool = _repo.filterSentencesByTag(
       snapshot.sentences,
@@ -60,7 +52,7 @@ class TodayPackUseCase {
     );
     final extrasPool = curated == null
         ? fullPool
-        : fullPool.where((s) => s.id != curated!.id).toList(growable: false);
+        : fullPool.where((s) => s.id != curated.id).toList(growable: false);
 
     final extras = _repo.pickManyDeterministic(
       extrasPool,
@@ -82,11 +74,11 @@ class TodayPackUseCase {
       scenarioTag: scenarioTag,
       date: DateTime(date.year, date.month, date.day),
       dayIndex: dayIndex,
-      curatedTrialDaysRemaining: trialDaysRemaining,
+      curatedTrialDaysRemaining: 0,
       curatedSentence: curated,
       extraSentences: extras,
       patterns: patterns,
-      isCuratedLocked: !curatedUnlocked,
+      isCuratedLocked: false,
     );
   }
 
@@ -118,6 +110,8 @@ class TodayPack {
   final String scenarioTag;
   final DateTime date;
   final int dayIndex;
+
+  // Retained for compatibility with existing UI/tests.
   final int curatedTrialDaysRemaining;
   final Sentence? curatedSentence;
   final List<Sentence> extraSentences;

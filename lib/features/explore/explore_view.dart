@@ -7,6 +7,7 @@ import '../../core/content/content_providers.dart';
 import '../../domain/models/pattern.dart';
 import '../../domain/models/scenario_tag.dart';
 import '../../domain/models/sentence.dart';
+import '../../ui_components/app_surfaces.dart';
 
 class ExploreView extends ConsumerStatefulWidget {
   const ExploreView({super.key});
@@ -38,38 +39,48 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
             final sentences = _filterSentences(snapshot.sentences);
             final patterns = _filterPatterns(snapshot.patterns);
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
               children: [
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    '상황 탐색',
-                    style: Theme.of(context).textTheme.headlineLarge,
+                _TopBarCard(title: 'Explore'),
+                const SizedBox(height: 12),
+                Text('상황 탐색', style: Theme.of(context).textTheme.headlineLarge),
+                const SizedBox(height: 6),
+                Text(
+                  '상황별 문장을 빠르게 찾으세요',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(fontSize: 16),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _queryController,
+                  onChanged: (_) => setState(() {}),
+                  decoration: const InputDecoration(
+                    hintText: '검색 (영문/한글)',
+                    prefixIcon: Icon(Icons.search),
                   ),
                 ),
                 const SizedBox(height: 12),
+                Text('상황 필터', style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 8),
                 SizedBox(
-                  height: 44,
+                  height: 40,
                   child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       final tag = ScenarioTag.values[index];
                       final selected = _selectedTag == tag;
                       return ChoiceChip(
                         selected: selected,
-                        onSelected: (_) {
-                          setState(() => _selectedTag = tag);
-                        },
+                        onSelected: (_) => setState(() => _selectedTag = tag),
                         label: Text('${tag.emoji} ${tag.titleKr}'),
                         labelStyle: TextStyle(
                           color: selected
                               ? AppColors.onAccent
                               : AppColors.chipText,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
                         ),
                         backgroundColor: AppColors.chip,
                         selectedColor: AppColors.accent,
@@ -78,44 +89,47 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(999),
                         ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
                       );
                     },
                     separatorBuilder: (context, _) => const SizedBox(width: 8),
                     itemCount: ScenarioTag.values.length,
                   ),
                 ),
-                const SizedBox(height: 14),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: _queryController,
-                    onChanged: (_) => setState(() {}),
-                    decoration: const InputDecoration(hintText: '검색 (영문/한글)'),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    '문장',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ),
                 const SizedBox(height: 12),
-                Expanded(
-                  child: ListView(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    children: [
-                      _SentenceListCard(sentences: sentences),
-                      const SizedBox(height: 16),
-                      _PatternListCard(patterns: patterns),
-                    ],
-                  ),
-                ),
+                Text('추천 문장', style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 10),
+                if (sentences.isEmpty)
+                  const AppCard(
+                    title: '해당 상황의 문장을 찾지 못했어요.',
+                    subtitle: '태그나 검색어를 바꿔 다시 확인해 보세요.',
+                  )
+                else
+                  for (final sentence in sentences.take(8)) ...[
+                    AppCard(
+                      title: sentence.english,
+                      subtitle: sentence.korean,
+                      badges: [sentence.usageLabel, '톤: ${sentence.tone}'],
+                      onTap: () => context.push('/sentence/${sentence.id}'),
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                const SizedBox(height: 6),
+                Text('추천 패턴', style: Theme.of(context).textTheme.titleSmall),
+                const SizedBox(height: 10),
+                if (patterns.isEmpty)
+                  const AppCard(
+                    title: '해당 상황의 패턴을 찾지 못했어요.',
+                    subtitle: '다른 상황 태그를 선택해 보세요.',
+                  )
+                else
+                  for (final pattern in patterns.take(4)) ...[
+                    AppCard(
+                      title: pattern.title,
+                      subtitle:
+                          '${pattern.exampleEnglish}\n${pattern.exampleKorean}\n\nTip: ${pattern.tip}',
+                    ),
+                    const SizedBox(height: 10),
+                  ],
               ],
             );
           },
@@ -151,134 +165,32 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
   }
 }
 
-class _SentenceListCard extends StatelessWidget {
-  const _SentenceListCard({required this.sentences});
+class _TopBarCard extends StatelessWidget {
+  const _TopBarCard({required this.title});
 
-  final List<Sentence> sentences;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    if (sentences.isEmpty) {
-      return DecoratedBox(
-        decoration: BoxDecoration(
-          color: AppColors.card,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.borderSoft),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Text(
-            '해당 상황의 문장을 찾지 못했어요.',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: AppColors.subText),
-          ),
-        ),
-      );
-    }
-
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.borderSoft),
       ),
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: sentences.length,
-        separatorBuilder: (context, _) => const Divider(height: 1),
-        itemBuilder: (context, index) {
-          final sentence = sentences[index];
-          return InkWell(
-            onTap: () => context.push('/sentence/${sentence.id}'),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          sentence.english,
-                          style: Theme.of(context).textTheme.titleSmall
-                              ?.copyWith(fontSize: 19, height: 1.28),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          sentence.korean,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(color: AppColors.subText),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Icon(
-                    Icons.chevron_right_rounded,
-                    color: AppColors.textTertiary,
-                    size: 30,
-                  ),
-                ],
-              ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            const Spacer(),
+            const CircleAvatar(
+              radius: 17,
+              backgroundColor: AppColors.surfaceMuted,
+              child: Icon(Icons.notifications_none_rounded, size: 18),
             ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _PatternListCard extends StatelessWidget {
-  const _PatternListCard({required this.patterns});
-
-  final List<Pattern> patterns;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.borderSoft),
-      ),
-      child: ExpansionTile(
-        tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        collapsedShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          ],
         ),
-        title: Text(
-          '패턴 ${patterns.length}개',
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        subtitle: Text(
-          '해당 상황에서 자주 쓰는 패턴',
-          style: Theme.of(
-            context,
-          ).textTheme.bodySmall?.copyWith(color: AppColors.subText),
-        ),
-        children: [
-          if (patterns.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                '해당 상황의 패턴을 찾지 못했어요.',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            )
-          else
-            for (final pattern in patterns)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Text(
-                  '- ${pattern.title}',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ),
-        ],
       ),
     );
   }

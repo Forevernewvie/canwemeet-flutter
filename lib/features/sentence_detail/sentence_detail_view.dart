@@ -46,10 +46,15 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
+              Text(
+                '문장 상세 · 실전 전송 모드',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 10),
               AppCard(
                 title: sentence.english,
                 subtitle: sentence.korean,
-                badges: [sentence.usageLabel, '톤: ${sentence.tone}'],
+                badges: [sentence.usageLabel],
                 trailing: Column(
                   children: [
                     IconButton(
@@ -77,20 +82,33 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
                 FeatureTexts.sendModeSectionTitle,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
                 children: SentenceToneVariant.values
-                    .map((variant) {
-                      return ChoiceChip(
+                    .map(
+                      (variant) => ChoiceChip(
                         selected: _selectedTone == variant,
                         label: Text(variant.label),
-                        onSelected: (_) {
-                          setState(() => _selectedTone = variant);
-                        },
-                      );
-                    })
+                        onSelected: (_) =>
+                            setState(() => _selectedTone = variant),
+                        showCheckmark: false,
+                        labelStyle: TextStyle(
+                          color: _selectedTone == variant
+                              ? AppColors.onAccent
+                              : AppColors.chipText,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                        ),
+                        backgroundColor: AppColors.chip,
+                        selectedColor: AppColors.accent,
+                        side: BorderSide.none,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                      ),
+                    )
                     .toList(growable: false),
               ),
               const SizedBox(height: 10),
@@ -103,38 +121,24 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton.icon(
+                    child: OutlinedButton(
                       onPressed: () => _copyText(context, sendText),
-                      icon: const Icon(Icons.copy_rounded),
-                      label: const Text(FeatureTexts.sendModeCopyButton),
+                      child: const Text(FeatureTexts.sendModeCopyButton),
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: FilledButton.icon(
+                    child: FilledButton(
                       onPressed: () => _shareText(context, sendText),
-                      icon: const Icon(Icons.share_rounded),
-                      label: const Text(FeatureTexts.sendModeShareButton),
+                      child: const Text(FeatureTexts.sendModeShareButton),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
-              DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColors.accentSoft,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.borderSoft),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Text(
-                    'AI 대화 기능은 서버 연동 후 제공될 예정입니다.',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodySmall?.copyWith(color: AppColors.text),
-                  ),
-                ),
+              const SizedBox(height: 10),
+              Text(
+                '학습/전송/저장 기능은 MVP에서 모두 무료입니다.',
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           );

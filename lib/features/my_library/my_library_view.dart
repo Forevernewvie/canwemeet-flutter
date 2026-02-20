@@ -44,6 +44,10 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
 
             return Column(
               children: [
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(16, 10, 16, 0),
+                  child: _TopBarCard(title: 'My Library'),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
                   child: Row(
@@ -74,25 +78,26 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '저장 · 복습 · 통계를 한 곳에서',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                   child: AppCard(
                     title: '연속 학습',
                     subtitle: prefs.hasStudiedToday()
-                        ? '오늘 학습 완료'
+                        ? '오늘 학습 완료 · 이번 달 ${prefs.studiedDayCountInMonth()}일'
                         : '오늘 🔊 발음 1번이면 학습으로 기록돼요.',
-                    badges: ['이번 달 ${prefs.studiedDayCountInMonth()}일'],
-                    trailing: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${prefs.currentStreak()}일',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        Text(
-                          '자세히',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
+                    trailing: Text(
+                      '${prefs.currentStreak()}일',
+                      style: Theme.of(context).textTheme.headlineMedium
+                          ?.copyWith(color: AppColors.accent),
                     ),
                   ),
                 ),
@@ -104,7 +109,7 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
                     onChanged: (v) => setState(() => _segment = v),
                   ),
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -116,10 +121,48 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
                           controller: _queryController,
                           decoration: const InputDecoration(
                             hintText: '검색 (영문/한글)',
+                            prefixIcon: Icon(Icons.search),
                           ),
                           onChanged: (_) => setState(() {}),
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 12),
+                        if (prefs.reviewQueueCount() > 0)
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors.accentSoft,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: const Color(0xFFBFE2CF),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '오늘 복습 ${prefs.reviewQueueCount()}개',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                          color: const Color(0xFF1D5C40),
+                                        ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Text(
+                                    '지금 1분만 연습해도 스트릭이 이어집니다.',
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: const Color(0xFF2F6B4E),
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        if (prefs.reviewQueueCount() > 0)
+                          const SizedBox(height: 12),
                         if (_segment == _MySegment.favorites)
                           _FavoritesPane(
                             sentences: _applyQuery(favorites),
@@ -195,6 +238,37 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
   }
 }
 
+class _TopBarCard extends StatelessWidget {
+  const _TopBarCard({required this.title});
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.borderSoft),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Row(
+          children: [
+            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            const Spacer(),
+            const CircleAvatar(
+              radius: 17,
+              backgroundColor: AppColors.surfaceMuted,
+              child: Icon(Icons.notifications_none_rounded, size: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _Segmented extends StatelessWidget {
   const _Segmented({required this.value, required this.onChanged});
 
@@ -220,9 +294,9 @@ class _Segmented extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: 15,
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-                color: selected ? AppColors.accent : AppColors.subText,
+                fontSize: 13,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                color: selected ? AppColors.text : AppColors.subText,
               ),
             ),
           ),
@@ -232,8 +306,8 @@ class _Segmented extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.surfaceMuted,
-        borderRadius: BorderRadius.circular(999),
+        color: AppColors.chip,
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
@@ -266,56 +340,36 @@ class _FavoritesPane extends StatelessWidget {
       );
     }
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.borderSoft),
-      ),
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: sentences.length,
-        separatorBuilder: (context, _) => const Divider(height: 1),
-        itemBuilder: (context, index) {
-          final sentence = sentences[index];
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text('저장 문장', style: Theme.of(context).textTheme.titleSmall),
+        ),
+        const SizedBox(height: 8),
+        for (final sentence in sentences) ...[
+          AppCard(
+            title: sentence.english,
+            subtitle: sentence.korean,
+            badges: [sentence.usageLabel, '톤: ${sentence.tone}'],
+            trailing: Column(
               children: [
-                Text(
-                  sentence.english,
-                  style: Theme.of(context).textTheme.titleSmall,
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => onSpeak(sentence),
+                  icon: const Icon(Icons.volume_up_outlined),
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  sentence.korean,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: AppColors.subText),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    TextButton.icon(
-                      onPressed: () => onSpeak(sentence),
-                      icon: const Icon(Icons.volume_up_outlined),
-                      label: const Text('발음'),
-                    ),
-                    const SizedBox(width: 8),
-                    TextButton.icon(
-                      onPressed: () => onRemove(sentence),
-                      icon: const Icon(Icons.delete_outline),
-                      label: const Text('삭제'),
-                    ),
-                  ],
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () => onRemove(sentence),
+                  icon: const Icon(Icons.favorite),
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+          const SizedBox(height: 10),
+        ],
+      ],
     );
   }
 }
@@ -336,80 +390,96 @@ class _ReviewPane extends ConsumerWidget {
 
     final sentence = sentences.first;
 
-    return AppCard(
-      title: sentence.english,
-      subtitle: sentence.korean,
-      badges: [sentence.usageLabel, '톤: ${sentence.tone}'],
-      trailing: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: () =>
-                ref.read(preferencesStoreProvider).recordStudyEvent(),
-            icon: const Icon(Icons.volume_up_outlined),
-          ),
-          IconButton(
-            onPressed: () => ref
-                .read(preferencesStoreProvider)
-                .refreshReviewNow(sentence.id),
-            icon: const Icon(Icons.refresh_rounded),
-          ),
-        ],
-      ),
-      onTap: () {
-        showModalBottomSheet<void>(
-          context: context,
-          backgroundColor: AppColors.card,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
-          ),
-          builder: (context) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    '난이도 선택',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 12),
-                  FilledButton(
-                    onPressed: () {
-                      ref
-                          .read(preferencesStoreProvider)
-                          .submitReviewResult(sentence.id, ReviewResult.easy);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('쉬움'),
-                  ),
-                  const SizedBox(height: 8),
-                  OutlinedButton(
-                    onPressed: () {
-                      ref
-                          .read(preferencesStoreProvider)
-                          .submitReviewResult(sentence.id, ReviewResult.hard);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('어려움'),
-                  ),
-                  const SizedBox(height: 8),
-                  OutlinedButton(
-                    onPressed: () {
-                      ref
-                          .read(preferencesStoreProvider)
-                          .submitReviewResult(sentence.id, ReviewResult.again);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('다시'),
-                  ),
-                ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('오늘 복습', style: Theme.of(context).textTheme.titleSmall),
+        const SizedBox(height: 8),
+        AppCard(
+          title: sentence.english,
+          subtitle: sentence.korean,
+          badges: [sentence.usageLabel, '톤: ${sentence.tone}'],
+          trailing: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                onPressed: () =>
+                    ref.read(preferencesStoreProvider).recordStudyEvent(),
+                icon: const Icon(Icons.volume_up_outlined),
               ),
+              IconButton(
+                onPressed: () => ref
+                    .read(preferencesStoreProvider)
+                    .refreshReviewNow(sentence.id),
+                icon: const Icon(Icons.refresh_rounded),
+              ),
+            ],
+          ),
+          onTap: () {
+            showModalBottomSheet<void>(
+              context: context,
+              backgroundColor: AppColors.card,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+              ),
+              builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 18, 16, 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        '난이도 선택',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 12),
+                      FilledButton(
+                        onPressed: () {
+                          ref
+                              .read(preferencesStoreProvider)
+                              .submitReviewResult(
+                                sentence.id,
+                                ReviewResult.easy,
+                              );
+                          Navigator.pop(context);
+                        },
+                        child: const Text('쉬움'),
+                      ),
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          ref
+                              .read(preferencesStoreProvider)
+                              .submitReviewResult(
+                                sentence.id,
+                                ReviewResult.hard,
+                              );
+                          Navigator.pop(context);
+                        },
+                        child: const Text('어려움'),
+                      ),
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          ref
+                              .read(preferencesStoreProvider)
+                              .submitReviewResult(
+                                sentence.id,
+                                ReviewResult.again,
+                              );
+                          Navigator.pop(context);
+                        },
+                        child: const Text('다시'),
+                      ),
+                    ],
+                  ),
+                );
+              },
             );
           },
-        );
-      },
+        ),
+      ],
     );
   }
 }
@@ -451,7 +521,7 @@ class _StatsPane extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.card,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.borderSoft),
       ),
       child: Padding(

@@ -19,7 +19,7 @@ class AppBadge extends StatelessWidget {
         child: Text(
           text,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w600,
             color: AppColors.badgeAccentText,
           ),
         ),
@@ -71,7 +71,7 @@ class AppCard extends StatelessWidget {
                     subtitle!,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      height: 1.3,
+                      height: 1.35,
                     ),
                   ),
                 ],
@@ -94,15 +94,16 @@ class AppCard extends StatelessWidget {
     final card = DecoratedBox(
       decoration: BoxDecoration(
         color: cardTheme.color ?? AppColors.card,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
         border: Border.all(color: AppColors.borderSoft),
+        boxShadow: AppShadows.l1,
       ),
       child: child,
     );
 
     if (onTap == null) return card;
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(16),
       onTap: onTap,
       child: card,
     );
@@ -122,8 +123,8 @@ class CircleToolbarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Ink(
-      width: 52,
-      height: 52,
+      width: 48,
+      height: 48,
       decoration: const ShapeDecoration(
         color: AppColors.surfaceMuted,
         shape: CircleBorder(),
