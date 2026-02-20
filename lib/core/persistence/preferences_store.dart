@@ -25,6 +25,8 @@ final preferencesStoreProvider =
       return PreferencesStore(prefs, isarEngine: isarEngine);
     });
 
+enum AppearanceMode { system, light, dark }
+
 class PreferencesStore extends ChangeNotifier {
   /// Loads persisted user preferences and hydrates optional Isar snapshot.
   PreferencesStore(this._prefs, {IsarPersistenceEngine? isarEngine})
@@ -48,6 +50,7 @@ class PreferencesStore extends ChangeNotifier {
         (_prefs.getInt(_kReviewReminderMinute) ?? reviewReminderDefaultMinute)
             .clamp(0, 59)
             .toInt();
+    _appearanceMode = _decodeAppearanceMode(_prefs.getString(_kAppearanceMode));
 
     unawaited(_hydrateFromIsar());
     _persistMeta();
@@ -61,6 +64,7 @@ class PreferencesStore extends ChangeNotifier {
   static const _kReviewReminderEnabled = 'review_reminder_enabled';
   static const _kReviewReminderHour = 'review_reminder_hour';
   static const _kReviewReminderMinute = 'review_reminder_minute';
+  static const _kAppearanceMode = 'appearance_mode';
 
   final SharedPreferences _prefs;
   final IsarPersistenceEngine _isarEngine;
@@ -73,6 +77,7 @@ class PreferencesStore extends ChangeNotifier {
   bool _reviewReminderEnabled = false;
   int _reviewReminderHour = reviewReminderDefaultHour;
   int _reviewReminderMinute = reviewReminderDefaultMinute;
+  AppearanceMode _appearanceMode = AppearanceMode.system;
 
   bool get onboardingCompleted => _onboardingCompleted;
 
@@ -84,6 +89,8 @@ class PreferencesStore extends ChangeNotifier {
   int get reviewReminderHour => _reviewReminderHour;
 
   int get reviewReminderMinute => _reviewReminderMinute;
+
+  AppearanceMode get appearanceMode => _appearanceMode;
 
   /// Returns install date used for trial and day-index calculations.
   DateTime get installDate {
@@ -121,6 +128,14 @@ class PreferencesStore extends ChangeNotifier {
     _reviewReminderMinute = nextMinute;
     _prefs.setInt(_kReviewReminderHour, _reviewReminderHour);
     _prefs.setInt(_kReviewReminderMinute, _reviewReminderMinute);
+    notifyListeners();
+  }
+
+  /// Persists explicit app appearance mode selection.
+  void setAppearanceMode(AppearanceMode mode) {
+    if (_appearanceMode == mode) return;
+    _appearanceMode = mode;
+    _prefs.setString(_kAppearanceMode, mode.name);
     notifyListeners();
   }
 
@@ -404,6 +419,15 @@ class PreferencesStore extends ChangeNotifier {
     final m = date.month.toString().padLeft(2, '0');
     final d = date.day.toString().padLeft(2, '0');
     return '$y-$m-$d';
+  }
+
+  /// Decodes persisted appearance mode with safe fallback.
+  AppearanceMode _decodeAppearanceMode(String? raw) {
+    return switch (raw) {
+      'light' => AppearanceMode.light,
+      'dark' => AppearanceMode.dark,
+      _ => AppearanceMode.system,
+    };
   }
 }
 

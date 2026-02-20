@@ -17,6 +17,7 @@ class SettingsView extends ConsumerWidget {
   @override
   /// Builds all settings sections and interaction handlers.
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.appPalette;
     final consent = ref.watch(consentControllerProvider);
     final prefs = ref.watch(preferencesStoreProvider);
     final reminder = ref.read(reviewReminderControllerProvider);
@@ -53,6 +54,36 @@ class SettingsView extends ConsumerWidget {
                 },
                 child: const Text('이용 안내'),
               ),
+            ),
+            const SizedBox(height: 16),
+            AppCard(
+              title: 'Appearance',
+              subtitle: 'Choose how the app looks on this device.',
+              badges: const ['System', 'Light', 'Dark'],
+            ),
+            const SizedBox(height: 8),
+            SegmentedButton<AppearanceMode>(
+              showSelectedIcon: false,
+              segments: const <ButtonSegment<AppearanceMode>>[
+                ButtonSegment<AppearanceMode>(
+                  value: AppearanceMode.system,
+                  label: Text('System'),
+                ),
+                ButtonSegment<AppearanceMode>(
+                  value: AppearanceMode.light,
+                  label: Text('Light'),
+                ),
+                ButtonSegment<AppearanceMode>(
+                  value: AppearanceMode.dark,
+                  label: Text('Dark'),
+                ),
+              ],
+              selected: <AppearanceMode>{prefs.appearanceMode},
+              onSelectionChanged: (selection) {
+                if (selection.isEmpty) return;
+                final selected = selection.first;
+                ref.read(preferencesStoreProvider).setAppearanceMode(selected);
+              },
             ),
             const SizedBox(height: 16),
             AppCard(
@@ -137,7 +168,7 @@ class SettingsView extends ConsumerWidget {
                 '동의 오류: ${consent.lastError}',
                 style: Theme.of(
                   context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.accent),
+                ).textTheme.bodySmall?.copyWith(color: palette.accent),
               ),
             ],
             if (kDebugMode) ...[
@@ -201,7 +232,7 @@ class SettingsView extends ConsumerWidget {
               '개인정보처리방침: https://github.com/Forevernewvie/canwemeet-flutter/blob/main/docs/PRIVACY_POLICY_KO.md\n고객지원: dlfjs351@gmail.com',
               style: Theme.of(
                 context,
-              ).textTheme.bodySmall?.copyWith(color: AppColors.subText),
+              ).textTheme.bodySmall?.copyWith(color: palette.subText),
             ),
           ],
         ),
