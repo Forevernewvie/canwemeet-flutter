@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,152 +10,50 @@ import '../../domain/usecases/today_pack_usecase.dart';
 import '../../ui_components/app_surfaces.dart';
 import 'today_controller.dart';
 
-class TodayView extends ConsumerStatefulWidget {
+class TodayView extends ConsumerWidget {
   const TodayView({super.key});
 
   @override
-  ConsumerState<TodayView> createState() => _TodayViewState();
-}
-
-class _TodayViewState extends ConsumerState<TodayView> {
-  bool _showGreeting = true;
-  Timer? _toastTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    _toastTimer = Timer(const Duration(milliseconds: 1800), () {
-      if (!mounted) return;
-      setState(() => _showGreeting = false);
-    });
-  }
-
-  @override
-  void dispose() {
-    _toastTimer?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.appPalette;
     final focus = ref.watch(todayFocusProvider);
     final packAsync = ref.watch(todayPackProvider);
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 18),
           children: [
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 220),
-              child: !_showGreeting
-                  ? const SizedBox.shrink()
-                  : Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 2),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.card.withValues(alpha: 0.92),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 10,
-                          ),
-                          child: Text(
-                            '오늘도 연인과 즐겁게 대화할 준비가 되었나요? 🙂',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
+            const AppTopBarCard(title: '우리 제법 잘 어울려'),
+            const SizedBox(height: 12),
+            Text(
+              '오늘 바로 써먹는 문장과 패턴으로\n영작 없이 ‘바로 튀어나오게’ 만들기',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(16, 6, 16, 18),
-                children: [
-                  const _TopBarCard(title: 'Today'),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      const Spacer(),
-                      CircleToolbarButton(
-                        icon: Icons.refresh,
-                        onPressed: () => ref.invalidate(todayPackProvider),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    '우리 제법 잘 어울려',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    '오늘 바로 써먹는 문장과 패턴으로\n영작 없이 ‘바로 튀어나오게’ 만들기',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '상황을 선택하면 그 대화에 더 가까운 문장을 추천해요.',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: AppColors.subText),
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    '오늘의 포커스',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 10),
-                  _FocusChips(
-                    selected: focus,
-                    onSelected: (tag) =>
-                        ref.read(todayFocusProvider.notifier).state = tag,
-                  ),
-                  const SizedBox(height: 16),
-                  packAsync.when(
-                    loading: () => const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 28),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                    error: (error, _) => _ErrorState(
-                      error: error.toString(),
-                      onRetry: () => ref.invalidate(todayPackProvider),
-                    ),
-                    data: (pack) => _TodayContent(pack: pack),
-                  ),
-                ],
+            const SizedBox(height: 4),
+            Text(
+              '상황을 선택하면 그 대화에 더 가까운 문장을 추천해요.',
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: palette.subText),
+            ),
+            const SizedBox(height: 18),
+            Text('오늘의 포커스', style: Theme.of(context).textTheme.titleSmall),
+            const SizedBox(height: 10),
+            _FocusChips(
+              selected: focus,
+              onSelected: (tag) =>
+                  ref.read(todayFocusProvider.notifier).state = tag,
+            ),
+            const SizedBox(height: 16),
+            packAsync.when(
+              loading: () =>
+                  const AppLoadingStateCard(message: '문장과 패턴을 불러오고 있어요...'),
+              error: (error, _) => _ErrorState(
+                error: error.toString(),
+                onRetry: () => ref.invalidate(todayPackProvider),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TopBarCard extends StatelessWidget {
-  const _TopBarCard({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.borderSoft),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Row(
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
-            const Spacer(),
-            const CircleAvatar(
-              radius: 17,
-              backgroundColor: AppColors.surfaceMuted,
-              child: Icon(Icons.notifications_none_rounded, size: 18),
+              data: (pack) => _TodayContent(pack: pack),
             ),
           ],
         ),
@@ -174,21 +70,7 @@ class _ErrorState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '데이터 로딩 실패',
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
-        ),
-        const SizedBox(height: 8),
-        Text(error, style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 12),
-        FilledButton(onPressed: onRetry, child: const Text('다시 시도')),
-      ],
-    );
+    return AppErrorStateCard(title: '오류가 발생했어요', body: error, onRetry: onRetry);
   }
 }
 
@@ -217,9 +99,9 @@ class _TodayContent extends ConsumerWidget {
             ],
           )
         else
-          const AppCard(
+          const AppEmptyStateCard(
             title: '큐레이션 문장을 준비 중이에요.',
-            subtitle: '지금은 추가 추천 문장으로 학습을 이어갈 수 있어요.',
+            body: '지금은 추가 추천 문장으로 학습을 이어갈 수 있어요.',
           ),
         const SizedBox(height: 18),
         Text(
@@ -237,16 +119,24 @@ class _TodayContent extends ConsumerWidget {
         const SizedBox(height: 8),
         Text('오늘의 패턴 3개', style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 10),
-        for (final pattern in pack.patterns) ...[
-          AppCard(
-            title: pattern.title,
-            subtitle:
-                '${pattern.exampleEnglish}\n${pattern.exampleKorean}\n\n팁: ${pattern.tip}',
-            badges: pattern.tags.map((tag) => '#$tag').toList(growable: false),
-            onTap: () => context.push('/pattern'),
-          ),
-          const SizedBox(height: 10),
-        ],
+        if (pack.patterns.isEmpty)
+          const AppEmptyStateCard(
+            title: '추천 패턴이 없어요.',
+            body: '상황 포커스를 바꿔 다시 확인해 보세요.',
+          )
+        else
+          for (final pattern in pack.patterns) ...[
+            AppCard(
+              title: pattern.title,
+              subtitle:
+                  '${pattern.exampleEnglish}\n${pattern.exampleKorean}\n\n팁: ${pattern.tip}',
+              badges: pattern.tags
+                  .map((tag) => '#$tag')
+                  .toList(growable: false),
+              onTap: () => context.push('/pattern'),
+            ),
+            const SizedBox(height: 10),
+          ],
         const SizedBox(height: 8),
         Text('빠른 실행', style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 8),
@@ -258,16 +148,13 @@ class _TodayContent extends ConsumerWidget {
             _QuickChip(label: '⭐ 오늘팩 저장'),
           ],
         ),
-        if (prefs.hasStudiedToday())
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text(
-              '오늘 학습이 기록되었어요.',
-              style: Theme.of(
-                context,
-              ).textTheme.bodySmall?.copyWith(color: AppColors.accent),
-            ),
-          ),
+        const SizedBox(height: 10),
+        AppStatusBanner(
+          title: '오늘 추천 저장 ${prefs.favoriteIds.isEmpty ? 0 : 1}개',
+          body: prefs.hasStudiedToday()
+              ? '좋았던 문장을 저장하면 복습 큐가 자동 생성돼요.'
+              : '지금 문장 1개를 저장하면 복습 루프가 시작돼요.',
+        ),
       ],
     );
   }
@@ -280,9 +167,10 @@ class _QuickChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.chip,
+        color: palette.chip,
         borderRadius: BorderRadius.circular(999),
       ),
       child: Padding(
@@ -341,6 +229,7 @@ class _FocusChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     return SizedBox(
       height: 44,
       child: ListView.separated(
@@ -353,12 +242,12 @@ class _FocusChips extends StatelessWidget {
             onSelected: (_) => onSelected(tag.key),
             label: Text('${tag.emoji} ${tag.titleKr}'),
             labelStyle: TextStyle(
-              color: isSelected ? AppColors.onAccent : AppColors.chipText,
+              color: isSelected ? palette.onAccent : palette.chipText,
               fontWeight: FontWeight.w600,
               fontSize: 12,
             ),
-            backgroundColor: AppColors.chip,
-            selectedColor: AppColors.accent,
+            backgroundColor: palette.chip,
+            selectedColor: palette.accent,
             side: BorderSide.none,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(999),

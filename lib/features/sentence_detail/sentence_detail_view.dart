@@ -26,6 +26,7 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
   @override
   /// Builds sentence details, tone variants, and send actions.
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     final sentenceAsync = ref.watch(sentenceByIdProvider(widget.sentenceId));
     final prefs = ref.watch(preferencesStoreProvider);
     final sendMode = ref.watch(sentenceSendModeUseCaseProvider);
@@ -33,11 +34,27 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
     return Scaffold(
       appBar: AppBar(title: const Text('문장')),
       body: sentenceAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, _) => Center(child: Text('문장을 불러오지 못했어요: $error')),
+        loading: () => const Padding(
+          padding: EdgeInsets.all(16),
+          child: AppLoadingStateCard(message: '문장을 불러오고 있어요...'),
+        ),
+        error: (error, _) => Padding(
+          padding: const EdgeInsets.all(16),
+          child: AppErrorStateCard(
+            title: '오류가 발생했어요',
+            body: '문장을 불러오지 못했어요: $error',
+            onRetry: null,
+          ),
+        ),
         data: (sentence) {
           if (sentence == null) {
-            return const Center(child: Text('문장을 찾지 못했어요.'));
+            return const Padding(
+              padding: EdgeInsets.all(16),
+              child: AppEmptyStateCard(
+                title: '문장을 찾지 못했어요.',
+                body: '문장 목록으로 돌아가 다시 선택해 주세요.',
+              ),
+            );
           }
 
           final isFavorite = prefs.isFavorite(sentence.id);
@@ -96,13 +113,13 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
                         showCheckmark: false,
                         labelStyle: TextStyle(
                           color: _selectedTone == variant
-                              ? AppColors.onAccent
-                              : AppColors.chipText,
+                              ? palette.onAccent
+                              : palette.chipText,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
-                        backgroundColor: AppColors.chip,
-                        selectedColor: AppColors.accent,
+                        backgroundColor: palette.chip,
+                        selectedColor: palette.accent,
                         side: BorderSide.none,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(999),
@@ -136,9 +153,30 @@ class _SentenceDetailViewState extends ConsumerState<SentenceDetailView> {
                 ],
               ),
               const SizedBox(height: 10),
+              AppStatusBanner(
+                title: '오늘 추천 저장 ${isFavorite ? 1 : 0}개',
+                body: '좋았던 문장을 저장하면 복습 큐가 자동 생성돼요.',
+              ),
+              const SizedBox(height: 10),
+              FilledButton(
+                onPressed: () {
+                  ref
+                      .read(preferencesStoreProvider)
+                      .toggleFavorite(sentence.id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(isFavorite ? '저장에서 제거했어요.' : '학습에 추가했어요.'),
+                    ),
+                  );
+                },
+                child: const Text('학습에 추가하기'),
+              ),
+              const SizedBox(height: 10),
               Text(
-                '학습/전송/저장 기능은 MVP에서 모두 무료입니다.',
-                style: Theme.of(context).textTheme.bodySmall,
+                '기본 학습/저장은 무료로 유지됩니다.',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: palette.subText),
               ),
             ],
           );

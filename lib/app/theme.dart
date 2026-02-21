@@ -1,26 +1,166 @@
 import 'package:flutter/material.dart';
 
+@immutable
+class AppPalette extends ThemeExtension<AppPalette> {
+  const AppPalette({
+    required this.bg,
+    required this.card,
+    required this.elevatedSurface,
+    required this.onAccent,
+    required this.chip,
+    required this.chipText,
+    required this.surfaceMuted,
+    required this.text,
+    required this.subText,
+    required this.textTertiary,
+    required this.divider,
+    required this.borderSoft,
+    required this.accent,
+    required this.accentWarm,
+    required this.accentSoft,
+    required this.badgeAccentBg,
+    required this.badgeAccentText,
+  });
+
+  final Color bg;
+  final Color card;
+  final Color elevatedSurface;
+  final Color onAccent;
+  final Color chip;
+  final Color chipText;
+  final Color surfaceMuted;
+  final Color text;
+  final Color subText;
+  final Color textTertiary;
+  final Color divider;
+  final Color borderSoft;
+  final Color accent;
+  final Color accentWarm;
+  final Color accentSoft;
+  final Color badgeAccentBg;
+  final Color badgeAccentText;
+
+  @override
+  AppPalette copyWith({
+    Color? bg,
+    Color? card,
+    Color? elevatedSurface,
+    Color? onAccent,
+    Color? chip,
+    Color? chipText,
+    Color? surfaceMuted,
+    Color? text,
+    Color? subText,
+    Color? textTertiary,
+    Color? divider,
+    Color? borderSoft,
+    Color? accent,
+    Color? accentWarm,
+    Color? accentSoft,
+    Color? badgeAccentBg,
+    Color? badgeAccentText,
+  }) {
+    return AppPalette(
+      bg: bg ?? this.bg,
+      card: card ?? this.card,
+      elevatedSurface: elevatedSurface ?? this.elevatedSurface,
+      onAccent: onAccent ?? this.onAccent,
+      chip: chip ?? this.chip,
+      chipText: chipText ?? this.chipText,
+      surfaceMuted: surfaceMuted ?? this.surfaceMuted,
+      text: text ?? this.text,
+      subText: subText ?? this.subText,
+      textTertiary: textTertiary ?? this.textTertiary,
+      divider: divider ?? this.divider,
+      borderSoft: borderSoft ?? this.borderSoft,
+      accent: accent ?? this.accent,
+      accentWarm: accentWarm ?? this.accentWarm,
+      accentSoft: accentSoft ?? this.accentSoft,
+      badgeAccentBg: badgeAccentBg ?? this.badgeAccentBg,
+      badgeAccentText: badgeAccentText ?? this.badgeAccentText,
+    );
+  }
+
+  @override
+  AppPalette lerp(ThemeExtension<AppPalette>? other, double t) {
+    if (other is! AppPalette) return this;
+    return AppPalette(
+      bg: Color.lerp(bg, other.bg, t) ?? bg,
+      card: Color.lerp(card, other.card, t) ?? card,
+      elevatedSurface:
+          Color.lerp(elevatedSurface, other.elevatedSurface, t) ??
+          elevatedSurface,
+      onAccent: Color.lerp(onAccent, other.onAccent, t) ?? onAccent,
+      chip: Color.lerp(chip, other.chip, t) ?? chip,
+      chipText: Color.lerp(chipText, other.chipText, t) ?? chipText,
+      surfaceMuted:
+          Color.lerp(surfaceMuted, other.surfaceMuted, t) ?? surfaceMuted,
+      text: Color.lerp(text, other.text, t) ?? text,
+      subText: Color.lerp(subText, other.subText, t) ?? subText,
+      textTertiary:
+          Color.lerp(textTertiary, other.textTertiary, t) ?? textTertiary,
+      divider: Color.lerp(divider, other.divider, t) ?? divider,
+      borderSoft: Color.lerp(borderSoft, other.borderSoft, t) ?? borderSoft,
+      accent: Color.lerp(accent, other.accent, t) ?? accent,
+      accentWarm: Color.lerp(accentWarm, other.accentWarm, t) ?? accentWarm,
+      accentSoft: Color.lerp(accentSoft, other.accentSoft, t) ?? accentSoft,
+      badgeAccentBg:
+          Color.lerp(badgeAccentBg, other.badgeAccentBg, t) ?? badgeAccentBg,
+      badgeAccentText:
+          Color.lerp(badgeAccentText, other.badgeAccentText, t) ??
+          badgeAccentText,
+    );
+  }
+}
+
 class AppColors {
   const AppColors._();
 
-  // Pencil MCP MVP palette
-  static const Color bg = Color(0xFFF4F0E9);
-  static const Color card = Color(0xFFFFFDF9);
-  static const Color elevatedSurface = Color(0xFFEEE7DC);
-  static const Color onAccent = Color(0xFFFFFFFF);
-  static const Color chip = Color(0xFFE7E0D2);
-  static const Color chipText = Color(0xFF6D6C6A);
-  static const Color surfaceMuted = elevatedSurface;
-  static const Color text = Color(0xFF1A1918);
-  static const Color subText = Color(0xFF6D6C6A);
-  static const Color textTertiary = Color(0xFF8A857D);
-  static const Color divider = Color(0xFFE6DDCE);
-  static const Color borderSoft = divider;
-  static const Color accent = Color(0xFF2F8E63);
-  static const Color accentWarm = Color(0xFFD88B66);
-  static const Color accentSoft = Color(0xFFE3F0EC);
-  static const Color badgeAccentBg = chip;
-  static const Color badgeAccentText = chipText;
+  static const AppPalette light = AppPalette(
+    bg: Color(0xFFF4F0E9),
+    card: Color(0xFFFFFDF9),
+    elevatedSurface: Color(0xFFEEE7DC),
+    onAccent: Color(0xFFFFFFFF),
+    chip: Color(0xFFE7E0D2),
+    chipText: Color(0xFF6D6C6A),
+    surfaceMuted: Color(0xFFEEE7DC),
+    text: Color(0xFF1A1918),
+    subText: Color(0xFF6D6C6A),
+    textTertiary: Color(0xFF8A857D),
+    divider: Color(0xFFE6DDCE),
+    borderSoft: Color(0xFFE6DDCE),
+    accent: Color(0xFF2F8E63),
+    accentWarm: Color(0xFFD88B66),
+    accentSoft: Color(0xFFE3F0EC),
+    badgeAccentBg: Color(0xFFE7E0D2),
+    badgeAccentText: Color(0xFF6D6C6A),
+  );
+
+  static const AppPalette dark = AppPalette(
+    bg: Color(0xFF141311),
+    card: Color(0xFF1A1815),
+    elevatedSurface: Color(0xFF25211B),
+    onAccent: Color(0xFFFFFFFF),
+    chip: Color(0xFF312B24),
+    chipText: Color(0xFFA8A298),
+    surfaceMuted: Color(0xFF29241F),
+    text: Color(0xFFF2EDE6),
+    subText: Color(0xFFB0AAA2),
+    textTertiary: Color(0xFF9F978D),
+    divider: Color(0xFF3A362F),
+    borderSoft: Color(0xFF3A362F),
+    accent: Color(0xFF49A97C),
+    accentWarm: Color(0xFFE3A17F),
+    accentSoft: Color(0xFF22342C),
+    badgeAccentBg: Color(0xFF312B24),
+    badgeAccentText: Color(0xFFA8A298),
+  );
+}
+
+extension AppThemeContextX on BuildContext {
+  AppPalette get appPalette {
+    return Theme.of(this).extension<AppPalette>() ?? AppColors.light;
+  }
 }
 
 class AppSpacing {
@@ -56,51 +196,71 @@ class AppShadows {
 }
 
 ThemeData buildAppTheme() {
+  return _buildTheme(palette: AppColors.light, brightness: Brightness.light);
+}
+
+ThemeData buildAppDarkTheme() {
+  return _buildTheme(palette: AppColors.dark, brightness: Brightness.dark);
+}
+
+ThemeData _buildTheme({
+  required AppPalette palette,
+  required Brightness brightness,
+}) {
   final base = ThemeData(
     useMaterial3: true,
-    colorScheme: const ColorScheme.light(
-      primary: AppColors.accent,
-      onPrimary: AppColors.onAccent,
-      secondary: AppColors.accentWarm,
-      surface: AppColors.card,
-      onSurface: AppColors.text,
-      onSurfaceVariant: AppColors.subText,
-      outlineVariant: AppColors.divider,
-    ),
-    scaffoldBackgroundColor: AppColors.bg,
-    dividerColor: AppColors.divider,
+    brightness: brightness,
+    colorScheme:
+        (brightness == Brightness.dark
+                ? const ColorScheme.dark()
+                : const ColorScheme.light())
+            .copyWith(
+              primary: palette.accent,
+              onPrimary: palette.onAccent,
+              secondary: palette.accentWarm,
+              onSecondary: palette.text,
+              surface: palette.card,
+              onSurface: palette.text,
+              onSurfaceVariant: palette.subText,
+              outline: palette.borderSoft,
+              outlineVariant: palette.divider,
+              surfaceTint: Colors.transparent,
+            ),
+    scaffoldBackgroundColor: palette.bg,
+    dividerColor: palette.divider,
+    extensions: <ThemeExtension<dynamic>>[palette],
   );
 
   return base.copyWith(
-    appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.bg,
-      foregroundColor: AppColors.text,
+    appBarTheme: AppBarTheme(
+      backgroundColor: palette.bg,
+      foregroundColor: palette.text,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
       surfaceTintColor: Colors.transparent,
     ),
     cardTheme: CardThemeData(
-      color: AppColors.card,
+      color: palette.card,
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.lg),
-        side: const BorderSide(color: AppColors.borderSoft),
+        side: BorderSide(color: palette.borderSoft),
       ),
       margin: EdgeInsets.zero,
     ),
     chipTheme: base.chipTheme.copyWith(
-      selectedColor: AppColors.accent,
-      backgroundColor: AppColors.chip,
+      selectedColor: palette.accent,
+      backgroundColor: palette.chip,
       side: BorderSide.none,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
-      labelStyle: const TextStyle(
-        color: AppColors.chipText,
+      labelStyle: TextStyle(
+        color: palette.chipText,
         fontWeight: FontWeight.w600,
         fontSize: 12,
       ),
-      secondaryLabelStyle: const TextStyle(
-        color: AppColors.onAccent,
+      secondaryLabelStyle: TextStyle(
+        color: palette.onAccent,
         fontWeight: FontWeight.w600,
         fontSize: 12,
       ),
@@ -110,8 +270,8 @@ ThemeData buildAppTheme() {
         vertical: 4,
       ),
     ),
-    dividerTheme: const DividerThemeData(
-      color: AppColors.divider,
+    dividerTheme: DividerThemeData(
+      color: palette.divider,
       thickness: 1,
       space: 1,
     ),
@@ -121,12 +281,12 @@ ThemeData buildAppTheme() {
       minLeadingWidth: 20,
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: AppColors.card,
-      indicatorColor: AppColors.accentSoft,
+      backgroundColor: palette.card,
+      indicatorColor: palette.accentSoft,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         final selected = states.contains(WidgetState.selected);
         return TextStyle(
-          color: selected ? AppColors.accent : AppColors.subText,
+          color: selected ? palette.accent : palette.subText,
           fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
           fontSize: 12,
         );
@@ -134,7 +294,7 @@ ThemeData buildAppTheme() {
       iconTheme: WidgetStateProperty.resolveWith((states) {
         final selected = states.contains(WidgetState.selected);
         return IconThemeData(
-          color: selected ? AppColors.accent : AppColors.subText,
+          color: selected ? palette.accent : palette.subText,
           size: selected ? 23 : 21,
         );
       }),
@@ -143,63 +303,51 @@ ThemeData buildAppTheme() {
       shadowColor: Colors.transparent,
     ),
     textTheme: base.textTheme.copyWith(
-      displaySmall: const TextStyle(
+      displaySmall: TextStyle(
         fontSize: 34,
         fontWeight: FontWeight.w600,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      headlineLarge: const TextStyle(
+      headlineLarge: TextStyle(
         fontSize: 26,
         fontWeight: FontWeight.w600,
         height: 1.2,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      headlineMedium: const TextStyle(
+      headlineMedium: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
         height: 1.25,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      titleLarge: const TextStyle(
+      titleLarge: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.w600,
         height: 1.25,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      titleMedium: const TextStyle(
+      titleMedium: TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
         height: 1.25,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      titleSmall: const TextStyle(
+      titleSmall: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w600,
         height: 1.25,
-        color: AppColors.text,
+        color: palette.text,
       ),
-      bodyLarge: const TextStyle(
-        fontSize: 14,
-        height: 1.4,
-        color: AppColors.text,
-      ),
-      bodyMedium: const TextStyle(
-        fontSize: 14,
-        height: 1.4,
-        color: AppColors.text,
-      ),
-      bodySmall: const TextStyle(
-        fontSize: 12,
-        height: 1.35,
-        color: AppColors.subText,
-      ),
+      bodyLarge: TextStyle(fontSize: 14, height: 1.4, color: palette.text),
+      bodyMedium: TextStyle(fontSize: 14, height: 1.4, color: palette.text),
+      bodySmall: TextStyle(fontSize: 12, height: 1.35, color: palette.subText),
       labelLarge: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       labelMedium: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: AppColors.accent,
-        foregroundColor: AppColors.onAccent,
+        backgroundColor: palette.accent,
+        foregroundColor: palette.onAccent,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
         ),
@@ -208,8 +356,8 @@ ThemeData buildAppTheme() {
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
-        foregroundColor: AppColors.text,
-        side: const BorderSide(color: AppColors.divider),
+        foregroundColor: palette.text,
+        side: BorderSide(color: palette.divider),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
         ),
@@ -217,9 +365,9 @@ ThemeData buildAppTheme() {
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      hintStyle: const TextStyle(color: AppColors.subText, fontSize: 14),
+      hintStyle: TextStyle(color: palette.subText, fontSize: 14),
       filled: true,
-      fillColor: AppColors.surfaceMuted,
+      fillColor: palette.surfaceMuted,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppRadius.md),
         borderSide: BorderSide.none,
@@ -230,7 +378,7 @@ ThemeData buildAppTheme() {
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppRadius.md),
-        borderSide: const BorderSide(color: AppColors.accent, width: 1.2),
+        borderSide: BorderSide(color: palette.accent, width: 1.2),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     ),

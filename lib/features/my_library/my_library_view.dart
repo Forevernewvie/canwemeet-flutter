@@ -29,14 +29,25 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     final prefs = ref.watch(preferencesStoreProvider);
     final contentSnapshot = ref.watch(contentSnapshotProvider);
 
     return Scaffold(
       body: SafeArea(
         child: contentSnapshot.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('데이터 로딩 실패: $error')),
+          loading: () => const Padding(
+            padding: EdgeInsets.fromLTRB(16, 10, 16, 16),
+            child: AppLoadingStateCard(message: '문장과 패턴을 불러오고 있어요...'),
+          ),
+          error: (error, _) => Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+            child: AppErrorStateCard(
+              title: '오류가 발생했어요',
+              body: '데이터 로딩 실패: $error',
+              onRetry: () => ref.invalidate(contentSnapshotProvider),
+            ),
+          ),
           data: (snapshot) {
             final allSentences = snapshot.sentences;
             final favorites = _favoriteSentences(allSentences, prefs);
@@ -46,7 +57,7 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
               children: [
                 const Padding(
                   padding: EdgeInsets.fromLTRB(16, 10, 16, 0),
-                  child: _TopBarCard(title: 'My Library'),
+                  child: AppTopBarCard(title: 'My Library'),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
@@ -97,7 +108,7 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
                     trailing: Text(
                       '${prefs.currentStreak()}일',
                       style: Theme.of(context).textTheme.headlineMedium
-                          ?.copyWith(color: AppColors.accent),
+                          ?.copyWith(color: palette.accent),
                     ),
                   ),
                 ),
@@ -113,26 +124,22 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
                 Expanded(
                   child: Container(
                     width: double.infinity,
-                    decoration: const BoxDecoration(color: AppColors.bg),
+                    decoration: BoxDecoration(color: palette.bg),
                     child: ListView(
                       padding: const EdgeInsets.fromLTRB(16, 6, 16, 16),
                       children: [
-                        TextField(
+                        AppSearchField(
                           controller: _queryController,
-                          decoration: const InputDecoration(
-                            hintText: '검색 (영문/한글)',
-                            prefixIcon: Icon(Icons.search),
-                          ),
                           onChanged: (_) => setState(() {}),
                         ),
                         const SizedBox(height: 12),
                         if (prefs.reviewQueueCount() > 0)
                           DecoratedBox(
                             decoration: BoxDecoration(
-                              color: AppColors.accentSoft,
+                              color: palette.accentSoft,
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(
-                                color: const Color(0xFFBFE2CF),
+                                color: palette.accent.withValues(alpha: 0.45),
                               ),
                             ),
                             child: Padding(
@@ -145,17 +152,13 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleSmall
-                                        ?.copyWith(
-                                          color: const Color(0xFF1D5C40),
-                                        ),
+                                        ?.copyWith(color: palette.accent),
                                   ),
                                   const SizedBox(height: 2),
                                   Text(
                                     '지금 1분만 연습해도 스트릭이 이어집니다.',
                                     style: Theme.of(context).textTheme.bodySmall
-                                        ?.copyWith(
-                                          color: const Color(0xFF2F6B4E),
-                                        ),
+                                        ?.copyWith(color: palette.subText),
                                   ),
                                 ],
                               ),
@@ -238,37 +241,6 @@ class _MyLibraryViewState extends ConsumerState<MyLibraryView> {
   }
 }
 
-class _TopBarCard extends StatelessWidget {
-  const _TopBarCard({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.borderSoft),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Row(
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
-            const Spacer(),
-            const CircleAvatar(
-              radius: 17,
-              backgroundColor: AppColors.surfaceMuted,
-              child: Icon(Icons.notifications_none_rounded, size: 18),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _Segmented extends StatelessWidget {
   const _Segmented({required this.value, required this.onChanged});
 
@@ -277,6 +249,7 @@ class _Segmented extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     Widget item(_MySegment segment, String label) {
       final selected = segment == value;
       return Expanded(
@@ -287,7 +260,7 @@ class _Segmented extends StatelessWidget {
             duration: const Duration(milliseconds: 160),
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: selected ? AppColors.card : Colors.transparent,
+              color: selected ? palette.card : Colors.transparent,
               borderRadius: BorderRadius.circular(999),
             ),
             alignment: Alignment.center,
@@ -296,7 +269,7 @@ class _Segmented extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-                color: selected ? AppColors.text : AppColors.subText,
+                color: selected ? palette.text : palette.subText,
               ),
             ),
           ),
@@ -306,7 +279,7 @@ class _Segmented extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.chip,
+        color: palette.chip,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -381,6 +354,8 @@ class _ReviewPane extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final palette = context.appPalette;
+
     if (sentences.isEmpty) {
       return const AppCard(
         title: '복습할 문장이 없어요.',
@@ -418,7 +393,7 @@ class _ReviewPane extends ConsumerWidget {
           onTap: () {
             showModalBottomSheet<void>(
               context: context,
-              backgroundColor: AppColors.card,
+              backgroundColor: palette.card,
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
               ),
@@ -501,6 +476,8 @@ class _StatsPane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
+
     Widget row(String title, String value) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -511,7 +488,7 @@ class _StatsPane extends StatelessWidget {
               value,
               style: Theme.of(
                 context,
-              ).textTheme.bodyMedium?.copyWith(color: AppColors.subText),
+              ).textTheme.bodyMedium?.copyWith(color: palette.subText),
             ),
           ],
         ),
@@ -520,9 +497,9 @@ class _StatsPane extends StatelessWidget {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.card,
+        color: palette.card,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.borderSoft),
+        border: Border.all(color: palette.borderSoft),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
@@ -535,7 +512,7 @@ class _StatsPane extends StatelessWidget {
               '사용 패턴이 쌓이면 더 상세한 지표를 제공합니다.',
               style: Theme.of(
                 context,
-              ).textTheme.bodySmall?.copyWith(color: AppColors.subText),
+              ).textTheme.bodySmall?.copyWith(color: palette.subText),
             ),
             const SizedBox(height: 10),
             row('연속 학습', '$streak일'),

@@ -28,16 +28,13 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     final pages = <_OnboardingPageData>[
       const _OnboardingPageData(
         emoji: '💬',
         title: '우리 제법 잘 어울려',
         subtitle: '연인과의 영어 대화를\n매일 3문장 + 3패턴으로\n자연스럽게 이어가요.',
-        bullets: [
-          '• 오늘 바로 쓰는 문장 추천',
-          '• 발음/저장/복습 루프',
-          '• 스트릭으로 습관 만들기',
-        ],
+        bullets: ['• 오늘 바로 쓰는 문장 추천', '• 발음/저장/복습 루프', '• 스트릭으로 습관 만들기'],
       ),
       const _OnboardingPageData(
         emoji: '🗓️',
@@ -104,9 +101,9 @@ class _OnboardingViewState extends ConsumerState<OnboardingView> {
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               child: Text(
                 '시작 후에도 설정에서 알림 시간을 바꿀 수 있어요.',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.textTertiary,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: palette.textTertiary),
               ),
             ),
           ],
@@ -137,6 +134,8 @@ class _OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
@@ -148,32 +147,38 @@ class _OnboardingPage extends StatelessWidget {
               children: [
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: AppColors.elevatedSurface,
+                    color: palette.elevatedSurface,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: SizedBox(
                     width: double.infinity,
                     height: 170,
                     child: Center(
-                      child: Text(page.emoji, style: const TextStyle(fontSize: 48)),
+                      child: Text(
+                        page.emoji,
+                        style: const TextStyle(fontSize: 48),
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 12),
-                Text(page.title, style: Theme.of(context).textTheme.headlineLarge),
+                Text(
+                  page.title,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
                 const SizedBox(height: 8),
                 Text(
                   page.subtitle,
                   style: Theme.of(
                     context,
-                  ).textTheme.bodyLarge?.copyWith(color: AppColors.chipText),
+                  ).textTheme.bodyLarge?.copyWith(color: palette.chipText),
                 ),
                 const SizedBox(height: 12),
                 DecoratedBox(
                   decoration: BoxDecoration(
-                    color: AppColors.card,
+                    color: palette.card,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppColors.borderSoft),
+                    border: Border.all(color: palette.borderSoft),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
@@ -185,9 +190,8 @@ class _OnboardingPage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 3),
                             child: Text(
                               bullet,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppColors.chipText,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: palette.chipText),
                             ),
                           ),
                       ],
@@ -223,7 +227,7 @@ class _Dots extends StatelessWidget {
           width: i == index ? 20 : 8,
           height: 8,
           decoration: BoxDecoration(
-            color: i == index ? on : const Color(0xFFD6C8B3),
+            color: i == index ? on : context.appPalette.textTertiary,
             borderRadius: BorderRadius.circular(99),
           ),
         ),

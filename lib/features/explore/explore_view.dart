@@ -28,13 +28,24 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
 
   @override
   Widget build(BuildContext context) {
+    final palette = context.appPalette;
     final snapshotAsync = ref.watch(contentSnapshotProvider);
 
     return Scaffold(
       body: SafeArea(
         child: snapshotAsync.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('데이터 로딩 실패: $error')),
+          loading: () => const Padding(
+            padding: EdgeInsets.fromLTRB(16, 10, 16, 16),
+            child: AppLoadingStateCard(message: '문장과 패턴을 불러오고 있어요...'),
+          ),
+          error: (error, _) => Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+            child: AppErrorStateCard(
+              title: '오류가 발생했어요',
+              body: '데이터 로딩 실패: $error',
+              onRetry: () => ref.invalidate(contentSnapshotProvider),
+            ),
+          ),
           data: (snapshot) {
             final sentences = _filterSentences(snapshot.sentences);
             final patterns = _filterPatterns(snapshot.patterns);
@@ -42,7 +53,7 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
             return ListView(
               padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
               children: [
-                _TopBarCard(title: 'Explore'),
+                const AppTopBarCard(title: 'Explore'),
                 const SizedBox(height: 12),
                 Text('상황 탐색', style: Theme.of(context).textTheme.headlineLarge),
                 const SizedBox(height: 6),
@@ -53,13 +64,9 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
                   ).textTheme.titleMedium?.copyWith(fontSize: 16),
                 ),
                 const SizedBox(height: 12),
-                TextField(
+                AppSearchField(
                   controller: _queryController,
                   onChanged: (_) => setState(() {}),
-                  decoration: const InputDecoration(
-                    hintText: '검색 (영문/한글)',
-                    prefixIcon: Icon(Icons.search),
-                  ),
                 ),
                 const SizedBox(height: 12),
                 Text('상황 필터', style: Theme.of(context).textTheme.titleSmall),
@@ -76,14 +83,12 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
                         onSelected: (_) => setState(() => _selectedTag = tag),
                         label: Text('${tag.emoji} ${tag.titleKr}'),
                         labelStyle: TextStyle(
-                          color: selected
-                              ? AppColors.onAccent
-                              : AppColors.chipText,
+                          color: selected ? palette.onAccent : palette.chipText,
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
-                        backgroundColor: AppColors.chip,
-                        selectedColor: AppColors.accent,
+                        backgroundColor: palette.chip,
+                        selectedColor: palette.accent,
                         side: BorderSide.none,
                         showCheckmark: false,
                         shape: RoundedRectangleBorder(
@@ -99,9 +104,9 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
                 Text('추천 문장', style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 10),
                 if (sentences.isEmpty)
-                  const AppCard(
+                  const AppEmptyStateCard(
                     title: '해당 상황의 문장을 찾지 못했어요.',
-                    subtitle: '태그나 검색어를 바꿔 다시 확인해 보세요.',
+                    body: '태그나 검색어를 바꿔 다시 확인해 보세요.',
                   )
                 else
                   for (final sentence in sentences.take(8)) ...[
@@ -117,9 +122,9 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
                 Text('추천 패턴', style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 10),
                 if (patterns.isEmpty)
-                  const AppCard(
+                  const AppEmptyStateCard(
                     title: '해당 상황의 패턴을 찾지 못했어요.',
-                    subtitle: '다른 상황 태그를 선택해 보세요.',
+                    body: '다른 상황 태그를 선택해 보세요.',
                   )
                 else
                   for (final pattern in patterns.take(4)) ...[
@@ -162,36 +167,5 @@ class _ExploreViewState extends ConsumerState<ExploreView> {
         .where((pattern) => pattern.tags.contains(_selectedTag.key))
         .take(30)
         .toList(growable: false);
-  }
-}
-
-class _TopBarCard extends StatelessWidget {
-  const _TopBarCard({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.borderSoft),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Row(
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
-            const Spacer(),
-            const CircleAvatar(
-              radius: 17,
-              backgroundColor: AppColors.surfaceMuted,
-              child: Icon(Icons.notifications_none_rounded, size: 18),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
