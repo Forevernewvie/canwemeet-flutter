@@ -6489,10 +6489,10 @@
                   "name": "dtBanner",
                   "descendants": {
                     "BCnYD": {
-                      "content": "Premium Preview"
+                      "content": "오늘 추천 저장 1개"
                     },
                     "gjUkq": {
-                      "content": "프리미엄에서 상대 반응 예시와 대화 이어쓰기 제안을 볼 수 있어요."
+                      "content": "좋았던 문장을 저장하면 복습 큐가 자동 생성돼요."
                     }
                   }
                 },
@@ -6503,7 +6503,7 @@
                   "name": "dtCta",
                   "descendants": {
                     "W0Q1U": {
-                      "content": "프리미엄으로 이어보기"
+                      "content": "학습에 추가하기"
                     }
                   }
                 },
@@ -6716,7 +6716,7 @@
                 {
                   "type": "frame",
                   "id": "9SjPm",
-                  "name": "setPremium",
+                  "name": "setMvpInfo",
                   "width": "fill_container",
                   "fill": "#FFFFFF",
                   "cornerRadius": 16,
@@ -6732,9 +6732,9 @@
                     {
                       "type": "text",
                       "id": "Ng9S9",
-                      "name": "setPremiumTitle",
+                      "name": "setMvpTitle",
                       "fill": "#1A1918",
-                      "content": "프리미엄 상태",
+                      "content": "MVP 안내",
                       "fontFamily": "Inter",
                       "fontSize": 13,
                       "fontWeight": "600"
@@ -6742,9 +6742,9 @@
                     {
                       "type": "text",
                       "id": "nSEvv",
-                      "name": "setPremiumBody",
+                      "name": "setMvpBody",
                       "fill": "#6D6C6A",
-                      "content": "Free · AI 응답 시뮬레이션은 Premium에서 사용 가능",
+                      "content": "결제/구독 없이 모든 핵심 기능을 무료로 사용할 수 있어요.",
                       "fontFamily": "Inter",
                       "fontSize": 12,
                       "fontWeight": "normal"
@@ -6753,10 +6753,10 @@
                       "id": "avURR",
                       "type": "ref",
                       "ref": "fToR7",
-                      "name": "setPremiumBtn",
+                      "name": "setMvpBtn",
                       "descendants": {
                         "W0Q1U": {
-                          "content": "프리미엄 보기"
+                          "content": "이용 안내"
                         }
                       }
                     }
@@ -7593,7 +7593,7 @@
               "id": "Ilqsy",
               "name": "stateDesc",
               "fill": "#6D6C6A",
-              "content": "Loading, Empty, Error, Premium-gated states\nfor implementation handoff.",
+              "content": "Loading, Empty, and Error states\nfor implementation handoff.",
               "fontFamily": "Inter",
               "fontSize": 13,
               "fontWeight": "normal"
@@ -7798,7 +7798,7 @@
             {
               "type": "frame",
               "id": "ZTHPK",
-              "name": "Premium-gated State",
+              "name": "Reminder Permission State",
               "width": "fill_container",
               "fill": "#FFF8EF",
               "cornerRadius": 16,
@@ -7816,7 +7816,7 @@
                   "id": "cOTq9",
                   "name": "gateTitle",
                   "fill": "#1A1918",
-                  "content": "Premium 기능 잠금",
+                  "content": "알림 권한 설정 필요",
                   "fontFamily": "Inter",
                   "fontSize": 13,
                   "fontWeight": "600"
@@ -7826,7 +7826,7 @@
                   "id": "CAmTg",
                   "name": "gateBody",
                   "fill": "#6D6C6A",
-                  "content": "대화 이어쓰기 예시와 고급 연습 피드백은 Premium에서 제공됩니다.",
+                  "content": "알림 권한이 꺼져 있어요. 설정에서 권한을 켜면 매일 복습 알림을 받을 수 있어요.",
                   "fontFamily": "Inter",
                   "fontSize": 12,
                   "fontWeight": "normal"
@@ -7838,7 +7838,7 @@
                   "name": "gateBtn",
                   "descendants": {
                     "W0Q1U": {
-                      "content": "프리미엄 보기"
+                      "content": "설정 열기"
                     }
                   }
                 }
@@ -7964,7 +7964,7 @@
           "id": "jmxKJ",
           "name": "qaBody",
           "fill": "#4F4C46",
-          "content": "Keep text/background contrast readable (body text on light surface).\nMinimum tap target 44x44 for actionable controls.\nCritical actions (study/favorite/reminder/premium entry) must stay discoverable without hidden gestures.\nNo hardcoded magic values outside token system.",
+          "content": "Keep text/background contrast readable (body text on light surface).\nMinimum tap target 44x44 for actionable controls.\nCritical actions (study/favorite/reminder/tone/copy/share) must stay discoverable without hidden gestures.\nNo hardcoded magic values outside token system.",
           "lineHeight": 1.5,
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -8045,7 +8045,7 @@
           "id": "vJhFm",
           "name": "routeBody",
           "fill": "#4F4C46",
-          "content": "OnboardingRoute -> OnboardingScreen -> Hero, benefit bullets, pager dots, skip/start\nTodayRoute -> TodayScreen -> TopBar, focus chips, daily sentence cards, pattern card, quick actions, status banner\nExploreRoute -> ExploreScreen -> TopBar, SearchField, tag row, sentence list, pattern card\nSentenceDetailRoute -> SentenceDetailScreen -> SentenceCard, study/favorite actions, premium gate CTA\nMyLibraryRoute -> MyLibraryScreen -> TopBar, streak summary, segmented tabs, favorites/review/stats area, status banner\nSettingsRoute -> SettingsScreen -> premium area, content/preferences, reminder block, help/privacy, account block",
+          "content": "OnboardingRoute -> OnboardingScreen -> Hero, benefit bullets, pager dots, skip/start\nTodayRoute -> TodayScreen -> TopBar, focus chips, daily sentence cards, pattern card, quick actions, status banner\nExploreRoute -> ExploreScreen -> TopBar, SearchField, tag row, sentence list, pattern card\nSentenceDetailRoute -> SentenceDetailScreen -> SentenceCard, study/favorite actions, send mode actions (tone/copy/share)\nMyLibraryRoute -> MyLibraryScreen -> TopBar, streak summary, segmented tabs, favorites/review/stats area, status banner\nSettingsRoute -> SettingsScreen -> MVP info area, content/preferences, reminder block, help/privacy, account block",
           "lineHeight": 1.5,
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -8087,7 +8087,7 @@
           "id": "pa18Y",
           "name": "stateBody",
           "fill": "#4F4C46",
-          "content": "Loading -> show LoadingState card/skeleton, keep app bar visible\nEmpty -> show EmptyState guidance + next action\nError -> show ErrorState with retry action\nPremium-gated -> show locked message + premium CTA\nPreserve existing business logic for gating/review/streak; update visuals only.",
+          "content": "Loading -> show LoadingState card/skeleton, keep app bar visible\nEmpty -> show EmptyState guidance + next action\nError -> show ErrorState with retry action\nReminder-permission -> show non-blocking guidance + settings action\nPreserve existing business logic for reminder/review/streak; update visuals only.",
           "lineHeight": 1.5,
           "fontFamily": "Inter",
           "fontSize": 12,
@@ -8108,7 +8108,7 @@
           "id": "rA2kf",
           "name": "integrationBody",
           "fill": "#4F4C46",
-          "content": "Do not rename existing routes, analytics events, or premium flags.\nKeep current callbacks and data contracts; swap only widget styling/composition.\nTokenize colors/spacing/radius/typography before screen migration.\nMigrate screen-by-screen and verify parity with existing tests after each screen.",
+          "content": "Do not rename existing routes, analytics events, or reminder flags.\nKeep current callbacks and data contracts; swap only widget styling/composition.\nTokenize colors/spacing/radius/typography before screen migration.\nMigrate screen-by-screen and verify parity with existing tests after each screen.",
           "lineHeight": 1.5,
           "fontFamily": "Inter",
           "fontSize": 12,

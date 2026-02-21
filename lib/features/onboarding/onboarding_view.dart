@@ -174,27 +174,33 @@ class _OnboardingPage extends StatelessWidget {
                   ).textTheme.bodyLarge?.copyWith(color: palette.chipText),
                 ),
                 const SizedBox(height: 12),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: palette.card,
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: palette.borderSoft),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        for (final bullet in page.bullets)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 3),
-                            child: Text(
-                              bullet,
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(color: palette.chipText),
+                SizedBox(
+                  width: double.infinity,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: palette.card,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: palette.borderSoft),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final bullet in page.bullets)
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 3),
+                              child: Text(
+                                bullet,
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(color: palette.chipText),
+                              ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
